@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
 import techStackImages from '../techStackImages/TechStackImages';
-import { PostCard } from '@/types/post';
-import { toYYYYMMDD } from '@/util/toYYYYMMDD';
+import { PostCard } from '@/types';
+import { toYYYYMMDD } from '@/util';
 
 type ProjectCardProps = {
   project: PostCard;

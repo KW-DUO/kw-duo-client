@@ -1,5 +1,5 @@
 import ProjectCard from './ProjectCard';
-import { PostCard } from '@/types/post';
+import { PostCard } from '@/types';
 
 type ProjectListProps = {
   posts: PostCard[];
