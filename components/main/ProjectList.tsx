@@ -1,33 +1,16 @@
-import ProjectCard from "./ProjectCard";
+import ProjectCard from './ProjectCard';
+import { PostCard } from '@/types/post';
 
-const projects = [
-  {
-    id: 1,
-    type: "🏫 수업 프로젝트",
-    date: "2024.01.01",
-    title: "[딥러닝 실습 팀원 구합니다!]",
-    department: "소프트웨어학부",
-    course: "딥러닝 실습",
-    position: ["상관 없음"],
-    techStack: ["spring"],
-    nickname: "닉네임",
-  },
-];
+type ProjectListProps = {
+  posts: PostCard[];
+};
 
-const ProjectList = () => {
-  const test = Array.from({ length: 20 }, (_, index) =>
-    projects.map((project) => ({
-      ...project,
-      id: project.id + index * projects.length,
-    }))
-  ).flat();
+const ProjectList = ({ posts }: ProjectListProps) => {
   return (
     <ul className="max-w-maxWidth grid grid-cols-4 gap-7">
-      {/* {projects.map((project) => (
-        <ProjectCard key={project.id} {...project} />
-      ))} */}
-      {test.map((project) => (
-        <ProjectCard key={project.id} {...project} />
+      {posts.map((post, idx) => (
+        // 실제 데이터에선 id가 제대로 올테니 key값을 id로 설정해주면 됨
+        <ProjectCard key={idx} project={post} />
       ))}
     </ul>
   );
