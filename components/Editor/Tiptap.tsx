@@ -4,6 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
+import Placeholder from '@tiptap/extension-placeholder';
 
 const Tiptap = ({ onChange, content }: any) => {
   const handleChange = (newContent: string) => {
@@ -11,7 +12,22 @@ const Tiptap = ({ onChange, content }: any) => {
   };
 
   const editor = useEditor({
-    extensions: [StarterKit, Underline],
+    extensions: [
+      StarterKit,
+      Underline,
+      Placeholder.configure({
+          placeholder: `
+          [개발 프로젝트 모집 내용 예시]
+          프로젝트 주제:
+          프로젝트 목표:
+          프로젝트 소개:
+          프로젝트 관련 주의사항:
+          프로젝트 포지션별 모집인원:
+          기술 스택:
+        `,
+        // placeholder: 'Write something …',
+      }),
+    ],
     editorProps: {
       attributes: {
         class:
