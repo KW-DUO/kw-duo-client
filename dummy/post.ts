@@ -49,11 +49,12 @@ export const DUMMY_PROJECTS: PostCard[] = [
     id: 5,
     type: '🏫 사이드 프로젝트',
     date: new Date('2024-01-01'),
-    title: '같이 프로덕트를 만들어가실 분을 구합니다 열심히 하시는 분이면 됩니다 환영합니다라가라다라라라',
+    title:
+      '같이 프로덕트를 만들어가실 분을 구합니다 열심히 하시는 분이면 됩니다 환영합니다라가라다라라라',
     department: '소프트웨어학부',
     course: '웹 프로그래밍',
-    position: ['프론트엔드 개발자', '백엔드 개발자'],
-    techStack: ['spring'],
+    position: ['프론트엔드 개발자', '백엔드 개발자', '앱 개발자', '게임 개발자'],
+    techStack: ['spring', 'spring', 'spring', 'spring', 'spring', 'spring'],
     nickname: 'Octoping',
   },
 ];
