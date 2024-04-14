@@ -18,7 +18,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <Image src="/icons/red-heart-icon.svg" alt="interested-project" width={25} height={25} />
       </div>
       <div className="text-sm text-silver mb-2">작성일 · {toYYYYMMDD(project.date)}</div>
-      <div className="mb-4 font-bold h-10">{project.title}</div>
+      <div className="mb-4 font-bold h-10 truncate">{project.title}</div>
       <div className="mb-2">
         <div className="mb-2">
           학과:{' '}
@@ -34,12 +34,17 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
         <div className="mb-2 h-12">
           포지션:{' '}
-          <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
-            {project.position}
-          </span>
+          {project.position.map((pos, index) => (
+            <span
+              className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px]"
+              key={index}
+            >
+              {pos}
+            </span>
+          ))}
         </div>
       </div>
-      <div className="h-8 flex items-center mt-3 mb-3 gap-2">
+      <div className="h-8 flex items-center mt-5 mb-3 gap-2">
         {project.techStack?.map((stack, index) => (
           <Image key={stack} src={techStackImages[stack]} alt="user-image" width={35} height={35} />
         ))}
