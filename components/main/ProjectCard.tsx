@@ -45,7 +45,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
       </div>
       <div className="h-8 flex items-center mb-4 gap-2">
-        {project.techStack?.map((stack, index) => (
+        {project.techStack?.slice(0,6).map((stack, index) => (
           <Image key={stack} src={techStackImages[stack]} alt="user-image" width={35} height={35} />
         ))}
       </div>

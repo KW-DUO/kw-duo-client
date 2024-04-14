@@ -54,7 +54,7 @@ export const DUMMY_PROJECTS: PostCard[] = [
     department: '소프트웨어학부',
     course: '웹 프로그래밍',
     position: ['프론트엔드 개발자', '백엔드 개발자', '앱 개발자', '게임 개발자'],
-    techStack: ['spring', 'spring', 'spring', 'spring', 'spring', 'spring'],
+    techStack: ['spring', 'spring', 'spring', 'spring', 'spring', 'spring', 'spring'],
     nickname: 'Octoping',
   },
 ];
