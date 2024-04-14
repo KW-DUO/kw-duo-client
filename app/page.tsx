@@ -31,6 +31,7 @@ export default function Main() {
           <div className="mt-8 mb-8 flex justify-center">페이지 네이션</div>
         </section>
       </main>
+      
       <Footer />
     </>
   );
