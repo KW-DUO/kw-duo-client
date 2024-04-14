@@ -25,7 +25,6 @@ const Tiptap = ({ onChange, content }: any) => {
           프로젝트 포지션별 모집인원:
           기술 스택:
         `,
-        // placeholder: 'Write something …',
       }),
     ],
     editorProps: {
