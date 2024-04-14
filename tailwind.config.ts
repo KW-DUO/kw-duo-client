@@ -31,7 +31,7 @@ const config: Config = {
         cardWidth: "300px",
       },
       height: {
-        cardHeight: "340px",
+        cardHeight: "380px",
       },
       borderColor: {
         grayBorder: "#D1D1D1",
