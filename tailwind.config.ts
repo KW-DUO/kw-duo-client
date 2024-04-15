@@ -31,13 +31,13 @@ const config: Config = {
         cardWidth: "300px",
       },
       height: {
-        cardHeight: "340px",
+        cardHeight: "400px",
       },
       borderColor: {
         grayBorder: "#D1D1D1",
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };
 export default config;

@@ -1,10 +1,9 @@
-import Footer from "@/components/footer/Footer";
-import Image from "next/image";
+import Footer from '@/components/footer/Footer';
 import FiltersBar from './../components/main/FilterBar';
-import ProjectList from "@/components/main/ProjectList";
+import ProjectList from '@/components/main/ProjectList';
+import { DUMMY_PROJECTS } from '@/dummy/post';
 
 export default function Main() {
-  
   return (
     <>
       <main className="pt-10">
@@ -22,18 +21,18 @@ export default function Main() {
             <span>사이드 프로젝트</span>
           </div>
           {/* 필터링 */}
-          <FiltersBar/>
+          <FiltersBar />
           {/* 프로젝트 소개 카드 */}
           {/* 🏫 수업 프로젝트 */}
           {/* 🎓 졸업 프로젝트 */}
           {/* 💻 사이드 프로젝트 */}
-          <ProjectList />
+          <ProjectList posts={DUMMY_PROJECTS} />
           {/*페이지 네이션 */}
           <div className="mt-8 mb-8 flex justify-center">페이지 네이션</div>
         </section>
       </main>
+      
       <Footer />
     </>
   );
 }
-
