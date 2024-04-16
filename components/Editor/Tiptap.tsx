@@ -5,8 +5,14 @@ import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
+import { FC } from 'react';
 
-const Tiptap = ({ onChange, content }: any) => {
+type TiptapProps = {
+  onChange: (newContent: string) => void;
+};
+
+// onCH
+const Tiptap: FC<TiptapProps> = ({ onChange }) => {
   const handleChange = (newContent: string) => {
     onChange(newContent);
   };
@@ -16,7 +22,7 @@ const Tiptap = ({ onChange, content }: any) => {
       StarterKit,
       Underline,
       Placeholder.configure({
-          placeholder: `
+        placeholder: `
           [개발 프로젝트 모집 내용 예시]
           프로젝트 주제:
           프로젝트 목표:
@@ -40,7 +46,7 @@ const Tiptap = ({ onChange, content }: any) => {
 
   return (
     <div className="w-full">
-      <Toolbar editor={editor} content={content} />
+      <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
   );

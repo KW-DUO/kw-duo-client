@@ -9,12 +9,12 @@ const ProjectTypeFilter = () => {
   const [selectedProjectType, setSelectedProjectType] = useState('전체');
 
   // 클릭 이벤트 핸들러
-  const handleProjectTypeChange = (type:string) => {
+  const handleProjectTypeChange = (type: string) => {
     setSelectedProjectType(type);
   };
 
   // 스타일 동적 적용 함수
-  const clickedTextStyle = (type:string) => {
+  const clickedTextStyle = (type: string) => {
     return selectedProjectType === type
       ? 'text-black cursor-pointer'
       : 'text-gray-500 cursor-pointer';
@@ -23,7 +23,11 @@ const ProjectTypeFilter = () => {
   return (
     <div className="flex text-2xl font-bold gap-6 mb-8 ml-3">
       {projectTypes.map((type) => (
-        <span key={type} className={clickedTextStyle(type)} onClick={() => handleProjectTypeChange(type)}>
+        <span
+          key={type}
+          className={clickedTextStyle(type)}
+          onClick={() => handleProjectTypeChange(type)}
+        >
           {type}
         </span>
       ))}
