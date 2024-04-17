@@ -2,19 +2,21 @@
 
 import React, { useState } from 'react';
 
-const projectTypes = ['전체', '수업 프로젝트', '졸업 프로젝트', '사이드 프로젝트'];
+type ProjectType = '전체' | '수업 프로젝트' | '졸업 프로젝트' | '사이드 프로젝트';
+
+const projectTypes: ProjectType[] = ['전체', '수업 프로젝트', '졸업 프로젝트', '사이드 프로젝트'];
 
 const ProjectTypeFilter = () => {
   // 프로젝트 타입 상태 설정
-  const [selectedProjectType, setSelectedProjectType] = useState('전체');
+  const [selectedProjectType, setSelectedProjectType] = useState<ProjectType>('전체');
 
   // 클릭 이벤트 핸들러
-  const handleProjectTypeChange = (type: string) => {
+  const handleProjectTypeChange = (type: ProjectType) => {
     setSelectedProjectType(type);
   };
 
   // 스타일 동적 적용 함수
-  const clickedTextStyle = (type: string) => {
+  const clickedTextStyle = (type: ProjectType) => {
     return selectedProjectType === type
       ? 'text-black cursor-pointer'
       : 'text-gray-500 cursor-pointer';
