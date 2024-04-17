@@ -5,7 +5,6 @@ import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
-import { FC } from 'react';
 
 type TiptapProps = {
   onChange: (newContent: string) => void;
