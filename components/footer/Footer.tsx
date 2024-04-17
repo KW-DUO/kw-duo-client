@@ -1,3 +1,4 @@
+export * from './Footer';
 
 const Footer = () => {
   return (
@@ -16,6 +17,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-}
+};
 
-export default Footer
+export default Footer;
