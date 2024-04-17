@@ -4,7 +4,7 @@ import ApplicantList from '@/components/postDetail/ApplicantList';
 import { DUMMY_PROJECTS } from '@/dummy/post';
 import ProjectDetails from '@/components/postDetail/ProjectDetails';
 import { toYYYYMMDD } from '@/util';
-import techStackImages from '@/components/techStackImages/TechStackImages';
+import RecruitmentInfo from '@/components/postDetail/RecruitmentInfo';
 
 const position = DUMMY_PROJECTS[0].position;
 const department: string = DUMMY_PROJECTS[0].department;
@@ -54,7 +54,7 @@ const PostDetail = () => {
           </div>
           <div className="border"></div>
           {/* 모집 요약 */}
-          <RecruitmentInfo />
+          <RecruitmentInfo infoItems={infoItems} techStack={techStack} />
         </section>
 
         {/* 프로젝트 정보 */}
@@ -69,38 +69,3 @@ const PostDetail = () => {
 };
 
 export default PostDetail;
-
-const RecruitmentInfo = () => {
-  return (
-    <>
-      {/* 기본정보 */}
-      <div className="mx-auto w-[800px] mt-14 pl-16 mb-14">
-        <ul className="grid grid-cols-2 text-xl gap-y-8">
-          {infoItems.map((item, index) => (
-            <li key={index} className="flex font-bold items-center">
-              <div className="mr-2  text-gray-500" style={{ width: item.width }}>
-                {item.label}
-              </div>
-              <div>{item.value}</div>
-            </li>
-          ))}
-          <li className="flex font-bold items-center ">
-            <div className="w-[120px] mr-2 text-gray-500">기술 스택</div>
-            <div className="flex items-center gap-2">
-              {techStack.map((stack, index) => (
-                <Image
-                  key={stack}
-                  src={techStackImages[stack]}
-                  alt="user-image"
-                  width={35}
-                  height={35}
-                />
-              ))}
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div className="border mb-36"></div>
-    </>
-  );
-};
