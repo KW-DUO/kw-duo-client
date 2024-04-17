@@ -19,10 +19,9 @@ import {
 
 type Props = {
   editor: Editor | null;
-  content: string;
 };
 
-const Toolbar = ({ editor, content }: Props) => {
+const Toolbar = ({ editor }: Props) => {
   if (!editor) {
     return null;
   }

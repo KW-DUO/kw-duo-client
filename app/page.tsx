@@ -2,8 +2,11 @@ import Footer from '@/components/footer/Footer';
 import FiltersBar from './../components/main/FilterBar';
 import ProjectList from '@/components/main/ProjectList';
 import { DUMMY_PROJECTS } from '@/dummy/post';
+import ProjectTypeFilter from '@/components/main/ProjectTypeFilter';
 
 export default function Main() {
+
+
   return (
     <>
       <main className="pt-10">
@@ -13,13 +16,9 @@ export default function Main() {
         </section>
         {/* 내용 */}
         <section className="max-w-maxWidth mx-auto">
+          
           {/* 프로젝트 선택 */}
-          <div className="flex text-2xl font-bold gap-6 mb-8 ml-3">
-            <span>전체</span>
-            <span>수업 프로젝트</span>
-            <span>졸업 프로젝트</span>
-            <span>사이드 프로젝트</span>
-          </div>
+          <ProjectTypeFilter/>
           {/* 필터링 */}
           <FiltersBar />
           {/* 프로젝트 소개 카드 */}

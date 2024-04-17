@@ -1,16 +1,12 @@
 import Link from 'next/link';
 
 const links = [
-  // {
-  //   title: "KW DUO",
-  //   path: "/"
-  // },
   {
-    title: '프로젝트 찾기',
+    title: '프로젝트 보기',
     path: '/',
   },
   {
-    title: '팀원 찾기',
+    title: '팀원 보기',
     path: '/team-members',
   },
   {
