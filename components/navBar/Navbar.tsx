@@ -11,7 +11,9 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center">
           <Links />
-          <Image src={'/icons/user_icon.svg'} alt="user-image" width={30} height={30} />
+          <Link href={'/mypage'}>
+            <Image src={'/icons/user_icon.svg'} alt="user-image" width={30} height={30} />
+          </Link>
         </div>
       </div>
     </nav>
