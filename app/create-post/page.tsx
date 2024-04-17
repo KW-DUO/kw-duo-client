@@ -1,6 +1,6 @@
 'use client';
 
-import Edictor from '@/components/Editor/Editor';
+import Editor from '@/components/Editor/Editor';
 
 const CreatePost = () => {
   return (
@@ -116,7 +116,7 @@ const CreatePost = () => {
               type="text"
               className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
             />
-            <Edictor />
+            <Editor />
           </section>
 
           {/* 제출 버튼 */}
