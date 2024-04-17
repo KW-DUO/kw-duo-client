@@ -11,8 +11,7 @@ type TiptapProps = {
   onChange: (newContent: string) => void;
 };
 
-// onCH
-const Tiptap: FC<TiptapProps> = ({ onChange }) => {
+const Tiptap = ({ onChange }: TiptapProps) => {
   const handleChange = (newContent: string) => {
     onChange(newContent);
   };
