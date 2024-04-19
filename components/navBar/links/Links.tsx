@@ -21,13 +21,13 @@ const links = [
 
 const Links = () => {
   return (
-    <div>
+    <>
       {links.map((link) => (
         <Link href={link.path} key={link.title} className="mr-3">
           {link.title}
         </Link>
       ))}
-    </div>
+    </>
   );
 };
 
