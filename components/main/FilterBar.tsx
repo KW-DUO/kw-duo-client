@@ -5,6 +5,7 @@ import { Select } from '@/components/navBar/Select';
 import { useState } from 'react';
 import { departments } from '@/constant/department';
 import { SearchBar } from '@/components/navBar/SearchBar';
+import { positions } from '@/constant/position';
 
 const FiltersBar = () => {
   // todo: 후에 react-hook-form 사용해보기
@@ -29,9 +30,11 @@ const FiltersBar = () => {
           <Select.Option value="WEB_PROGRAMMING">웹프</Select.Option>
         </Select>
         <Select title="포지션">
-          <Select.Option value="FRONTEND">프론트엔드</Select.Option>
-          <Select.Option value="BACKEND">백엔드</Select.Option>
-          <Select.Option value="ANDROID">안드로이드</Select.Option>
+          {positions.map(({ label, value }) => (
+            <Select.Option key={value} value={value}>
+              {label}
+            </Select.Option>
+          ))}
         </Select>
         <Select title="관심분야">
           <Select.Option value="AI">인공지능</Select.Option>
