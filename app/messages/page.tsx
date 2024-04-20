@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from './../../components/footer/Footer';
+import Footer from '../../components/footer/Footer';
 
 import { Search } from 'lucide-react';
 import Image from 'next/image';
@@ -10,7 +10,7 @@ const Chatting = () => {
   return (
     <>
       <main className="max-w-[1300px] py-10 mx-auto">
-        <section className="border border-gray flex flex-1 h-lvh bg-[#fffbfb]">
+        <section className="border border-gray flex flex-1 h-[80vh] bg-[#fffbfb]">
           {/* 왼쪽 채팅방 */}
           <div className="w-[280px] border ">
             <label className="flex items-center border h-14 py-4 px-5 bg-white">
