@@ -16,22 +16,19 @@ const ProjectTypeFilter = () => {
   };
 
   // 스타일 동적 적용 함수
-  const clickedTextStyle = (type: ProjectType) => {
-    return selectedProjectType === type
-      ? 'text-black cursor-pointer'
-      : 'text-gray-500 cursor-pointer';
-  };
+  const clickedTextStyle = (type: ProjectType) =>
+    selectedProjectType === type ? 'text-black cursor-pointer' : 'text-gray-500 cursor-pointer';
 
   return (
     <div className="flex text-2xl font-bold gap-6 mb-8 ml-3">
       {projectTypes.map((type) => (
-        <span
+        <a
           key={type}
           className={clickedTextStyle(type)}
           onClick={() => handleProjectTypeChange(type)}
         >
           {type}
-        </span>
+        </a>
       ))}
     </div>
   );
