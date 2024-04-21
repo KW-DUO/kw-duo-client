@@ -12,6 +12,11 @@ import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
 import { memberOptions } from '@/constant/memberOptions';
 
+// todo:
+// - false로 된 값들에 모든 값을 넣었는지 + 제목과 내용을 입력을 했는지 판단하기
+// - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
+// - 학과에 따른 수업 정보 받아오기
+
 const CreatePost = () => {
   const id = Date.now().toString();
   const [isMounted, setIsMounted] = useState(false);
@@ -28,9 +33,6 @@ const CreatePost = () => {
     positions: false,
     techStack: false,
   });
-
-  // false로 된 값들에 모든 값을 넣었는지 + 제목과 내용을 입력을 했는지 판단하기
-  // 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
 
   useEffect(() => {
     switch (selectedProjectType) {
@@ -131,56 +133,59 @@ const CreatePost = () => {
 
               {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
               <li className="w-full">
-              <label className=" w-full ">
-                <div className="mb-2.5">수업</div>
-                <Select
-                  options={projectType}
-                  isDisabled={inputsDisabled.class}
-                  placeholder={'수업 선택'}
-                />
-              </label>
-            </li>
-            <li className="w-full">
-              <label className=" w-full ">
-                <div className="mb-2.5">관심 분야</div>
-                <Select
-                  options={fields}
-                  isDisabled={inputsDisabled.fields}
-                  placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
-                  isMulti
-                />
-              </label>
-            </li>
-            <li className="w-full">
-              <label className=" w-full">
-                <div className="mb-2.5"> {isTeamMemberSearch ? '모집 포지션' : '지원 포지션'}</div>
-                <Select
-                  options={positions}
-                  isDisabled={inputsDisabled.positions}
-                  placeholder={'프론트엔드 / 백엔드 / 안드로이드 / IOS / 게임...'}
-                  isMulti
-                />
-              </label>
-            </li>
-            <li className="w-full">
-              <label className=" w-full">
-                <div className="mb-2.5">기술 스택</div>
-                <Select
-                  options={techStack}
-                  isDisabled={inputsDisabled.techStack}
-                  placeholder={'기술 스택'}
-                  isMulti
-                />
-              </label>
-            </li>
-            {isTeamMemberSearch && (
-              <li className="w-full">
-                <label className=" w-full">
-                  <div className="mb-2.5">모집 인원</div>
-                  <Select options={memberOptions} isDisabled={false} placeholder={'인원 설정'} />
+                <label className=" w-full ">
+                  <div className="mb-2.5">수업</div>
+                  <Select
+                    options={projectType}
+                    isDisabled={inputsDisabled.class}
+                    placeholder={'수업 선택'}
+                  />
                 </label>
               </li>
-            )}
+              <li className="w-full">
+                <label className=" w-full ">
+                  <div className="mb-2.5">관심 분야</div>
+                  <Select
+                    options={fields}
+                    isDisabled={inputsDisabled.fields}
+                    placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
+                    isMulti
+                  />
+                </label>
+              </li>
+              <li className="w-full">
+                <label className=" w-full">
+                  <div className="mb-2.5">
+                    {' '}
+                    {isTeamMemberSearch ? '모집 포지션' : '지원 포지션'}
+                  </div>
+                  <Select
+                    options={positions}
+                    isDisabled={inputsDisabled.positions}
+                    placeholder={'프론트엔드 / 백엔드 / 안드로이드 / IOS / 게임...'}
+                    isMulti
+                  />
+                </label>
+              </li>
+              <li className="w-full">
+                <label className=" w-full">
+                  <div className="mb-2.5">기술 스택</div>
+                  <Select
+                    options={techStack}
+                    isDisabled={inputsDisabled.techStack}
+                    placeholder={'기술 스택'}
+                    isMulti
+                  />
+                </label>
+              </li>
+              {isTeamMemberSearch && (
+                <li className="w-full">
+                  <label className=" w-full">
+                    <div className="mb-2.5">모집 인원</div>
+                    <Select options={memberOptions} isDisabled={false} placeholder={'인원 설정'} />
+                  </label>
+                </li>
+              )}
             </ul>
           </section>
           {/* 프로젝트 소개 */}
