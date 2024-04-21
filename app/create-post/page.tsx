@@ -13,6 +13,10 @@ import { techStack } from '@/constant/techStack';
 import { memberOptions } from '@/constant/memberOptions';
 
 const CreatePost = () => {
+  const id = Date.now().toString();
+  const [isMounted, setIsMounted] = useState(false);
+  // https://github.com/JedWatson/react-select/issues/5459 에러 해결
+
   // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
   const [isTeamMemberSearch, setIsTeamMemberSearch] = useState<boolean>(true);
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
@@ -72,6 +76,8 @@ const CreatePost = () => {
     setSelectedProjectType(option);
   };
 
+  useEffect(() => setIsMounted(true), []);
+
   return (
     <main className="w-[1024px] mx-auto pt-24 pb-16">
       {/* 토글 버튼 */}
@@ -91,40 +97,40 @@ const CreatePost = () => {
       </section>
 
       {/* 기본정보 입력 */}
-      <form action="">
-        <section className="text-black mb-14">
-          <h1 className="py-4 text-2xl font-bold">기본정보를 입력해주세요</h1>
-          <div className="border-t-2"></div>
-          <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
-            <li className="w-full">
-              <label className=" w-full ">
-                <div className="mb-2.5">프로젝트 구분</div>
-
-                <Select
-                  options={projectType}
-                  isDisabled={false}
-                  placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
-                  onChange={(e) => {
-                    handleProjectTypeChange(e?.value);
-                  }}
-                  className="mt-2.5"
-                />
-              </label>
-            </li>
-            <li className="w-full">
+      {isMounted ? (
+        <form action="">
+          <section className="text-black mb-14">
+            <h1 className="py-4 text-2xl font-bold">기본정보를 입력해주세요</h1>
+            <div className="border-t-2"></div>
+            <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
+              <li className="w-full">
+                <label className=" w-full ">
+                  <div className="mb-2.5">프로젝트 구분</div>
+                  <Select
+                    options={projectType}
+                    isDisabled={false}
+                    placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
+                    onChange={(e) => {
+                      handleProjectTypeChange(e?.value);
+                    }}
+                    className="mt-2.5"
+                  />
+                </label>
+              </li>
               {/* label 로 감싸보기 */}
-              <label className=" w-full ">
-                <div className="mb-2.5">학과 선택</div>
-                <Select
-                  options={departments}
-                  isDisabled={inputsDisabled.department}
-                  placeholder={'컴정공/소프트/정융'}
-                />
-              </label>
-            </li>
+              <li className="w-full">
+                <label className=" w-full ">
+                  <div className="mb-2.5">학과 선택</div>
+                  <Select
+                    options={departments}
+                    isDisabled={inputsDisabled.department}
+                    placeholder={'컴정공/소프트/정융'}
+                  />
+                </label>
+              </li>
 
-            <li className="w-full">
               {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
+              <li className="w-full">
               <label className=" w-full ">
                 <div className="mb-2.5">수업</div>
                 <Select
@@ -175,31 +181,32 @@ const CreatePost = () => {
                 </label>
               </li>
             )}
-          </ul>
-        </section>
-        {/* 프로젝트 소개 */}
-        <section className="text-black">
-          <h1 className="text-2xl font-bold mb-4">
-            {isTeamMemberSearch
-              ? '프로젝트에 대해 소개해주세요'
-              : '어떤 팀을 원하는지 작성해주세요'}
-          </h1>
-          <div className="border-t-2"></div>
-          <section className="mt-5 mb-2">
-            <input
-              placeholder="글 제목을 입력해주세요!"
-              type="text"
-              className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
-            />
-            <Editor />
+            </ul>
           </section>
+          {/* 프로젝트 소개 */}
+          <section className="text-black">
+            <h1 className="text-2xl font-bold mb-4">
+              {isTeamMemberSearch
+                ? '프로젝트에 대해 소개해주세요'
+                : '어떤 팀을 원하는지 작성해주세요'}
+            </h1>
+            <div className="border-t-2"></div>
+            <section className="mt-5 mb-2">
+              <input
+                placeholder="글 제목을 입력해주세요!"
+                type="text"
+                className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
+              />
+              <Editor />
+            </section>
 
-          {/* 제출 버튼 */}
-          <button className="bg-secondary text-white w-full h-16 font-bold rounded">
-            등록하기
-          </button>
-        </section>
-      </form>
+            {/* 제출 버튼 */}
+            <button className="bg-secondary text-white w-full h-16 font-bold rounded">
+              등록하기
+            </button>
+          </section>
+        </form>
+      ) : null}
     </main>
   );
 };
