@@ -25,7 +25,10 @@ export const Select = ({
     <select
       value={value}
       onChange={(e) => onValueChange?.(e.target.value)}
-      className="flex justify-between items-center border rounded-3xl px-2 w-[120px] pl-4 pr-3"
+      className={
+        `flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3` +
+        (title === '학과' ? 'w-[200px]' : 'w-[120px]')
+      }
     >
       <option value="" disabled={titleDisabled}>
         {title}
