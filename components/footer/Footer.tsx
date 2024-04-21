@@ -1,5 +1,3 @@
-export * from './Footer';
-
 const Footer = () => {
   return (
     <footer className="bg-lightGray flex justify-center items-center h-[180px]">

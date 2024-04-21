@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 const links = [
   {
-    title: '프로젝트 보기',
+    title: '팀 찾기',
     path: '/',
   },
   {
-    title: '팀원 보기',
+    title: '팀원 찾기',
     path: '/team-members',
   },
   {

@@ -21,6 +21,7 @@ const config: Config = {
         secondary: '#CC2E34',
         silver: '#646464',
         'dark-gray': '#3E4042',
+        'custom-red': '#ea726f',
       },
 
       maxWidth: {
