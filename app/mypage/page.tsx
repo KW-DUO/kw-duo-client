@@ -74,7 +74,7 @@ const Mypage = () => {
         {/* 자기소개 */}
         <label className="w-full">
           <div className="text-sm font-bold">
-            포지션<span className="text-custom-red">*</span>
+            자기소개<span className="text-custom-red">*</span>
           </div>
           <textarea
             name=""
