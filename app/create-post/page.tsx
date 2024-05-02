@@ -1,21 +1,50 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Editor from '@/components/Editor/Editor';
-import Select from 'react-select';
+import { Controller, useForm } from 'react-hook-form';
 
-// CONSTANT
-import { positions } from '@/constant/position';
-import { fields } from '@/constant/field/index';
+// COMPONENTS
+import Editor from '@/components/Editor/Editor';
+import SelectField from './../../components/createPost/SelectField';
+
+// CONSTANTS
+import { wantedPosition } from '@/constant/wantedPosition';
+import { interestingField } from '@/constant/interestingField/index';
 import { projectType } from '@/constant/projectType';
 import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
-import { memberOptions } from '@/constant/memberOptions';
+import { recruitNumber } from '@/constant/recruitNumber';
+import { departmentClasses } from '@/constant/class';
 
 // todo:
 // - false로 된 값들에 모든 값을 넣었는지 + 제목과 내용을 입력을 했는지 판단하기
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
-// - 학과에 따른 수업 정보 받아오기
+
+type FormFields = {
+  postType: string;
+  projectType: string;
+  department?: string | null;
+  class?: string | null;
+  interestingField?: string[] | [];
+  wantedPosition: string[];
+  techStack: string[];
+  recruitNumber?: number | null;
+  title: string;
+  content: string;
+};
+
+const DEFAULT_VALUES = {
+  postType: 'FIND_TEAMMATE',
+  projectType: 'CLASS_PROJECT',
+  department: null,
+  class: null,
+  interestingField: [],
+  wantedPosition: [],
+  techStack: [],
+  recruitNumber: null,
+  title: '',
+  content: '',
+};
 
 const CreatePost = () => {
   const id = Date.now().toString();
@@ -26,165 +55,203 @@ const CreatePost = () => {
   const [isTeamMemberSearch, setIsTeamMemberSearch] = useState<boolean>(true);
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
 
-  const [inputsDisabled, setInputsDisabled] = useState({
-    department: false,
-    class: false,
-    fields: false,
-    positions: false,
-    techStack: false,
+  // input 활성화 관리
+  const [FormFieldsDisabled, setFormFieldsDisabled] = useState({
+    department: true,
+    class: true,
+    interestingField: true,
+    wantedPosition: true,
+    techStack: true,
+    recruitNumber: true,
   });
 
+  // 프로젝트 구분 선택에 따른 input 활성화 처리
   useEffect(() => {
     switch (selectedProjectType) {
       case 'CLASS_PROJECT':
-        setInputsDisabled({
+        setFormFieldsDisabled({
           department: false,
           class: false,
-          fields: true,
-          positions: false,
+          interestingField: true,
+          wantedPosition: false,
           techStack: false,
+          recruitNumber: false,
         });
         break;
       case 'GRADUATION_PROJECT':
-        setInputsDisabled({
+        setFormFieldsDisabled({
           department: false,
           class: true,
-          fields: false,
-          positions: false,
+          interestingField: false,
+          wantedPosition: false,
           techStack: false,
+          recruitNumber: false,
         });
         break;
       case 'SIDE_PROJECT':
-        setInputsDisabled({
+        setFormFieldsDisabled({
           department: true,
           class: true,
-          fields: false,
-          positions: false,
+          interestingField: false,
+          wantedPosition: false,
           techStack: false,
+          recruitNumber: false,
         });
         break;
       default:
-        setInputsDisabled({
-          department: false,
-          class: false,
-          fields: false,
-          positions: false,
-          techStack: false,
+        setFormFieldsDisabled({
+          department: true,
+          class: true,
+          interestingField: true,
+          wantedPosition: true,
+          techStack: true,
+          recruitNumber: true,
         });
     }
   }, [selectedProjectType]);
 
+  // 프로젝트 타입 변경 처리 함수
   const handleProjectTypeChange = (option: string | undefined) => {
     setSelectedProjectType(option);
+
+    reset({
+      ...DEFAULT_VALUES, // 현재 폼의 모든 값들을 유지
+      projectType: option, // `projectType`만 변경
+    });
   };
 
+  // react-select 버그 수정
   useEffect(() => setIsMounted(true), []);
+
+  // react-hook-form
+  const { control, handleSubmit, watch, reset, register, setValue } = useForm<FormFields>({
+    defaultValues: DEFAULT_VALUES,
+  });
+
+  // 학과 선택에 따른 수업 정보 처리
+  const selectedDepartment = watch('department');
+  const classesOptions = departmentClasses({ departmnet: selectedDepartment });
+
+  // POST 요청
+  const onSubmit = async (data: FormFields) => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          // 'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      const responsData = await response.json();
+      if (response.ok) {
+        console.log('Post created:', responsData);
+      } else {
+        throw new Error(responsData.message || 'Failed to create the post');
+      }
+    } catch (error: any) {
+      console.error('Error creating post:', error.message);
+    }
+  };
 
   return (
     <main className="w-[1024px] mx-auto pt-24 pb-16">
       {/* 토글 버튼 */}
-      <section className="flex gap-5 font-bold text-white mb-8">
-        <button
-          className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-          onClick={() => setIsTeamMemberSearch(true)}
-        >
-          팀원 구하기
-        </button>
-        <button
-          className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-          onClick={() => setIsTeamMemberSearch(false)}
-        >
-          팀 구하기
-        </button>
-      </section>
-
-      {/* 기본정보 입력 */}
       {isMounted ? (
-        <form action="">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <section className="flex gap-5 font-bold text-white mb-8 ">
+            <button
+              className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+              onClick={() => {
+                setIsTeamMemberSearch(true);
+                handleProjectTypeChange('default');
+                setValue('postType', 'FIND_TEAMMATE');
+              }}
+            >
+              팀원 구하기
+            </button>
+            <button
+              className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+              onClick={() => {
+                setIsTeamMemberSearch(false);
+                handleProjectTypeChange('reset');
+                setValue('postType', 'FIND_TEAM');
+              }}
+            >
+              팀 구하기
+            </button>
+          </section>
+
+          {/* 기본정보 입력 */}
+
           <section className="text-black mb-14">
             <h1 className="py-4 text-2xl font-bold">기본정보를 입력해주세요</h1>
             <div className="border-t-2"></div>
             <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
-              <li className="w-full">
-                <label className=" w-full ">
-                  <div className="mb-2.5">프로젝트 구분</div>
-                  <Select
-                    options={projectType}
-                    isDisabled={false}
-                    placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
-                    onChange={(e) => {
-                      handleProjectTypeChange(e?.value);
-                    }}
-                    className="mt-2.5"
-                  />
-                </label>
-              </li>
+              <SelectField
+                control={control}
+                label="1. 프로젝트 구분"
+                name="projectType"
+                options={projectType}
+                isDisabled={false}
+                placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
+                handleProjectTypeChange={handleProjectTypeChange}
+              />
               {/* label 로 감싸보기 */}
-              <li className="w-full">
-                <label className=" w-full ">
-                  <div className="mb-2.5">학과 선택</div>
-                  <Select
-                    options={departments}
-                    isDisabled={inputsDisabled.department}
-                    placeholder={'컴정공/소프트/정융'}
-                  />
-                </label>
-              </li>
-
+              <SelectField
+                control={control}
+                label="2. 학과 선택"
+                name="department"
+                options={departments}
+                isDisabled={FormFieldsDisabled.department}
+                placeholder={'컴정공/소프트/정융'}
+              />
               {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
-              <li className="w-full">
-                <label className=" w-full ">
-                  <div className="mb-2.5">수업</div>
-                  <Select
-                    options={projectType}
-                    isDisabled={inputsDisabled.class}
-                    placeholder={'수업 선택'}
-                  />
-                </label>
-              </li>
-              <li className="w-full">
-                <label className=" w-full ">
-                  <div className="mb-2.5">관심 분야</div>
-                  <Select
-                    options={fields}
-                    isDisabled={inputsDisabled.fields}
-                    placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
-                    isMulti
-                  />
-                </label>
-              </li>
-              <li className="w-full">
-                <label className=" w-full">
-                  <div className="mb-2.5">
-                    {' '}
-                    {isTeamMemberSearch ? '모집 포지션' : '지원 포지션'}
-                  </div>
-                  <Select
-                    options={positions}
-                    isDisabled={inputsDisabled.positions}
-                    placeholder={'프론트엔드 / 백엔드 / 안드로이드 / IOS / 게임...'}
-                    isMulti
-                  />
-                </label>
-              </li>
-              <li className="w-full">
-                <label className=" w-full">
-                  <div className="mb-2.5">기술 스택</div>
-                  <Select
-                    options={techStack}
-                    isDisabled={inputsDisabled.techStack}
-                    placeholder={'기술 스택'}
-                    isMulti
-                  />
-                </label>
-              </li>
+              <SelectField
+                control={control}
+                label="3. 수업"
+                name="class"
+                options={classesOptions}
+                isDisabled={FormFieldsDisabled.class}
+                placeholder={'수업 선택'}
+              />
+              <SelectField
+                control={control}
+                label="4. 관심 분야"
+                name="interestingField"
+                options={interestingField}
+                isDisabled={FormFieldsDisabled.interestingField}
+                placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
+                isMulti={true}
+              />
+              <SelectField
+                control={control}
+                label={isTeamMemberSearch ? '5. 모집 포지션' : '5. 지원 포지션'}
+                name="wantedPosition"
+                options={wantedPosition}
+                isDisabled={FormFieldsDisabled.wantedPosition}
+                placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
+                isMulti={true}
+              />
+              <SelectField
+                control={control}
+                label={'6. 기술 스택'}
+                name="techStack"
+                options={techStack}
+                isDisabled={FormFieldsDisabled.techStack}
+                placeholder="기술 스택"
+                isMulti={true}
+              />
               {isTeamMemberSearch && (
-                <li className="w-full">
-                  <label className=" w-full">
-                    <div className="mb-2.5">모집 인원</div>
-                    <Select options={memberOptions} isDisabled={false} placeholder={'인원 설정'} />
-                  </label>
-                </li>
+                <SelectField
+                  control={control}
+                  label={'7. 모집 인원'}
+                  name="recruitNumber"
+                  options={recruitNumber}
+                  isDisabled={FormFieldsDisabled.recruitNumber}
+                  placeholder="인원 설정"
+                />
               )}
             </ul>
           </section>
@@ -198,15 +265,22 @@ const CreatePost = () => {
             <div className="border-t-2"></div>
             <section className="mt-5 mb-2">
               <input
+                {...register('title')}
                 placeholder="글 제목을 입력해주세요!"
                 type="text"
                 className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
               />
-              <Editor />
+              <Controller
+                control={control}
+                name="content"
+                render={({ field }) => (
+                  <Editor {...field} onChange={(newContent) => field.onChange(newContent)} />
+                )}
+              />
             </section>
 
             {/* 제출 버튼 */}
-            <button className="bg-secondary text-white w-full h-16 font-bold rounded">
+            <button type="submit" className="bg-secondary text-white w-full h-16 font-bold rounded">
               등록하기
             </button>
           </section>
