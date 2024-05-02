@@ -1,4 +1,4 @@
-export const positions = [
+export const wantedPosition = [
   { label: '상관없음', value: 'ANY' },
   { label: '프론트엔드', value: 'FRONTEND' },
   { label: '백엔드', value: 'BACKEND' },
@@ -12,3 +12,8 @@ export const positions = [
   { label: '임베디드', value: 'GAME' },
   { label: '기타', value: 'OTHER' },
 ] as const;
+
+export function getPositionLabel(value: string): string {
+  const position = wantedPosition.find((pos) => pos.value === value);
+  return position ? position.label : 'Unknown';
+}

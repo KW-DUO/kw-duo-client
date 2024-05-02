@@ -1,9 +1,9 @@
 type classNameProps = {
-  course: string;
+  departmnet: string | null | undefined;
 };
 
-export const className = ({ course }: classNameProps) => {
-  switch (course) {
+export const departmentClasses = ({ departmnet }: classNameProps) => {
+  switch (departmnet) {
     case 'COMPUTER_INFORMATION_ENGINEERING':
       return [{ value: 'algo', label: '소프트웨어공학' }];
     case 'SOFTWARE':
@@ -24,6 +24,6 @@ export const className = ({ course }: classNameProps) => {
         { value: 'data_visualization', label: '데이터시각화(조재희)' },
       ];
     default:
-      return [{ value: 'undefined', label: '정의되지 않음' }];
+      return [{ value: 'undefined', label: '기타 및 없음' }];
   }
 };

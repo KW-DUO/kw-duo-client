@@ -1,4 +1,4 @@
-export const fields = [
+export const interestingField = [
   { label: '웹', value: 'WEB' },
   { label: '앱', value: 'APP' },
   { label: '인공지능', value: 'AI' },
