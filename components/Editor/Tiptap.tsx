@@ -5,12 +5,14 @@ import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
+import { useEffect } from 'react';
 
 type TiptapProps = {
   onChange: (newContent: string) => void;
+  toggleState: boolean;
 };
 
-const Tiptap = ({ onChange }: TiptapProps) => {
+const Tiptap = ({ onChange, toggleState }: TiptapProps) => {
   const handleChange = (newContent: string) => {
     onChange(newContent);
   };
@@ -31,16 +33,23 @@ const Tiptap = ({ onChange }: TiptapProps) => {
         `,
       }),
     ],
+    content: '',
     editorProps: {
       attributes: {
         class:
-          'flex flex-col px-4 py-3 justify-start border-b border-r border-l border-gray-400 items-start w-full gap-3 font-medium text-[16px] pt-4 rounded-bl-md rounded-br-md outline-none',
+          'flex flex-col px-4 py-3 justify-start border-b border-r border-l border-gray-400 items-start w-full font-medium text-[16px] pt-4 rounded-bl-md rounded-br-md outline-none',
       },
     },
     onUpdate: ({ editor }) => {
       handleChange(editor.getHTML());
     },
   });
+  
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(''); // toggleState가 변경될 때마다 에디터 내용을 초기화합니다.
+    }
+  }, [toggleState, editor]);
 
   return (
     <div className="w-full">
