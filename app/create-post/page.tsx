@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 // COMPONENTS
@@ -15,13 +15,13 @@ import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
 import { recruitNumber } from '@/constant/recruitNumber';
 import { departmentClasses } from '@/constant/class';
+import { apiUrl } from '@/constant/api';
 
 // todo:
 // - false로 된 값들에 모든 값을 넣었는지 + 제목과 내용을 입력을 했는지 판단하기
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
 
 type FormFields = {
-  postType: string;
   projectType: string;
   department?: string | null;
   class?: string | null;
@@ -33,9 +33,12 @@ type FormFields = {
   content: string;
 };
 
+interface EditorMethods {
+  resetContent: () => void;
+}
+
 const DEFAULT_VALUES = {
-  postType: 'FIND_TEAMMATE',
-  projectType: 'CLASS_PROJECT',
+  projectType: '',
   department: null,
   class: null,
   interestingField: [],
@@ -50,6 +53,8 @@ const CreatePost = () => {
   const id = Date.now().toString();
   const [isMounted, setIsMounted] = useState(false);
   // https://github.com/JedWatson/react-select/issues/5459 에러 해결
+
+  const [editorKey, setEditorKey] = useState(0); // Editor 컴포넌트를 재마운트하기 위한 key 상태
 
   // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
   const [isTeamMemberSearch, setIsTeamMemberSearch] = useState<boolean>(true);
@@ -113,7 +118,6 @@ const CreatePost = () => {
   // 프로젝트 타입 변경 처리 함수
   const handleProjectTypeChange = (option: string | undefined) => {
     setSelectedProjectType(option);
-
     reset({
       ...DEFAULT_VALUES, // 현재 폼의 모든 값들을 유지
       projectType: option, // `projectType`만 변경
@@ -124,9 +128,11 @@ const CreatePost = () => {
   useEffect(() => setIsMounted(true), []);
 
   // react-hook-form
-  const { control, handleSubmit, watch, reset, register, setValue } = useForm<FormFields>({
+  const { control, handleSubmit, watch, reset, register } = useForm<FormFields>({
     defaultValues: DEFAULT_VALUES,
   });
+
+  const selectedprojectType = watch('projectType');
 
   // 학과 선택에 따른 수업 정보 처리
   const selectedDepartment = watch('department');
@@ -134,7 +140,43 @@ const CreatePost = () => {
 
   // POST 요청
   const onSubmit = async (data: FormFields) => {
+    let postURL;
+    if (isTeamMemberSearch) postURL = apiUrl + `/posts/find-teammate`;
+    else postURL = apiUrl + '/posts/find-team';
+    console.log('F', FormFieldsDisabled);
+
+    // 필수 필드가 비어 있는지 확인
+    let errorMessage = '';
+    if (selectedprojectType === '') {
+      errorMessage += '프로젝트 구분을 선택해주세요.\n';
+    }
+    if (!data.department && !FormFieldsDisabled.department) {
+      errorMessage += '학과를 선택해주세요.\n';
+    }
+    if (!data.class && !FormFieldsDisabled.class) {
+      errorMessage += '수업을 선택해주세요.\n';
+    }
+    if (data.interestingField?.length === 0 && !FormFieldsDisabled.interestingField) {
+      errorMessage += '관심 분야를 선택해주세요.\n';
+    }
+    if (data.wantedPosition.length === 0 && !FormFieldsDisabled.wantedPosition) {
+      errorMessage += '원하는 포지션을 선택해주세요.\n';
+    }
+    if (data.techStack.length === 0 && !FormFieldsDisabled.techStack) {
+      errorMessage += '기술 스택을 선택해주세요.\n';
+    }
+    if (!data.recruitNumber && !FormFieldsDisabled.recruitNumber) {
+      errorMessage += '모집 인원을 선택해주세요.\n';
+    }
+    if()
+
+    if (errorMessage) {
+      alert(errorMessage);
+      return;
+    }
+
     try {
+      // const response = await fetch(postURL, {
       const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'POST',
         headers: {
@@ -162,21 +204,21 @@ const CreatePost = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <section className="flex gap-5 font-bold text-white mb-8 ">
             <button
+              type="button"
               className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
               onClick={() => {
                 setIsTeamMemberSearch(true);
-                handleProjectTypeChange('default');
-                setValue('postType', 'FIND_TEAMMATE');
+                handleProjectTypeChange('');
               }}
             >
               팀원 구하기
             </button>
             <button
+              type="button"
               className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
               onClick={() => {
                 setIsTeamMemberSearch(false);
-                handleProjectTypeChange('reset');
-                setValue('postType', 'FIND_TEAM');
+                handleProjectTypeChange('');
               }}
             >
               팀 구하기
@@ -274,7 +316,11 @@ const CreatePost = () => {
                 control={control}
                 name="content"
                 render={({ field }) => (
-                  <Editor {...field} onChange={(newContent) => field.onChange(newContent)} />
+                  <Editor
+                    {...field}
+                    toggleState={isTeamMemberSearch}
+                    onChange={(newContent) => field.onChange(newContent)}
+                  />
                 )}
               />
             </section>
