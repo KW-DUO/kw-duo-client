@@ -51,7 +51,7 @@ const ScrollToTop = () => {
           onClick={scrollToTop}
           disabled={isScrolling} // 스크롤 중 버튼 비활성화
           className={`text-lg px-5 py-2.5 bg-rose-600 text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50 rounded-full h-20 w-20
-          flex flex-col justify-center items-center ${isScrolling ? 'opacity-80' : 'opacity-100'}`}
+          flex flex-col justify-center items-center ${isScrolling ? 'opacity-60' : 'opacity-100'}`}
         >
           <ChevronUp scale={100} />
           Top
