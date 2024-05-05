@@ -18,7 +18,6 @@ import { departmentClasses } from '@/constant/class';
 import { apiUrl } from '@/constant/api';
 
 // todo:
-// - false로 된 값들에 모든 값을 넣었는지 + 제목과 내용을 입력을 했는지 판단하기
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
 
 type FormFields = {
@@ -80,7 +79,7 @@ const CreatePost = () => {
           interestingField: true,
           wantedPosition: false,
           techStack: false,
-          recruitNumber: false,
+          recruitNumber: isTeamMemberSearch ? false : true,
         });
         break;
       case 'GRADUATION_PROJECT':
@@ -90,7 +89,7 @@ const CreatePost = () => {
           interestingField: false,
           wantedPosition: false,
           techStack: false,
-          recruitNumber: false,
+          recruitNumber: isTeamMemberSearch ? false : true,
         });
         break;
       case 'SIDE_PROJECT':
@@ -100,7 +99,7 @@ const CreatePost = () => {
           interestingField: false,
           wantedPosition: false,
           techStack: false,
-          recruitNumber: false,
+          recruitNumber: isTeamMemberSearch ? false : true,
         });
         break;
       default:
@@ -113,7 +112,7 @@ const CreatePost = () => {
           recruitNumber: true,
         });
     }
-  }, [selectedProjectType]);
+  }, [selectedProjectType, isTeamMemberSearch]);
 
   // 프로젝트 타입 변경 처리 함수
   const handleProjectTypeChange = (option: string | undefined) => {
@@ -133,6 +132,8 @@ const CreatePost = () => {
   });
 
   const selectedprojectType = watch('projectType');
+  const title = watch('title');
+  const content = watch('content');
 
   // 학과 선택에 따른 수업 정보 처리
   const selectedDepartment = watch('department');
@@ -140,44 +141,36 @@ const CreatePost = () => {
 
   // POST 요청
   const onSubmit = async (data: FormFields) => {
-    let postURL;
-    if (isTeamMemberSearch) postURL = apiUrl + `/posts/find-teammate`;
-    else postURL = apiUrl + '/posts/find-team';
-    console.log('F', FormFieldsDisabled);
-
     // 필수 필드가 비어 있는지 확인
     let errorMessage = '';
-    if (selectedprojectType === '') {
-      errorMessage += '프로젝트 구분을 선택해주세요.\n';
-    }
-    if (!data.department && !FormFieldsDisabled.department) {
+    if (selectedprojectType === '') errorMessage += '프로젝트 구분을 선택해주세요.\n';
+    if (!data.department && !FormFieldsDisabled.department)
       errorMessage += '학과를 선택해주세요.\n';
-    }
-    if (!data.class && !FormFieldsDisabled.class) {
-      errorMessage += '수업을 선택해주세요.\n';
-    }
-    if (data.interestingField?.length === 0 && !FormFieldsDisabled.interestingField) {
+    if (!data.class && !FormFieldsDisabled.class) errorMessage += '수업을 선택해주세요.\n';
+    if (data.interestingField?.length === 0 && !FormFieldsDisabled.interestingField)
       errorMessage += '관심 분야를 선택해주세요.\n';
-    }
-    if (data.wantedPosition.length === 0 && !FormFieldsDisabled.wantedPosition) {
+    if (data.wantedPosition.length === 0 && !FormFieldsDisabled.wantedPosition)
       errorMessage += '원하는 포지션을 선택해주세요.\n';
-    }
-    if (data.techStack.length === 0 && !FormFieldsDisabled.techStack) {
+    if (data.techStack.length === 0 && !FormFieldsDisabled.techStack)
       errorMessage += '기술 스택을 선택해주세요.\n';
-    }
-    if (!data.recruitNumber && !FormFieldsDisabled.recruitNumber) {
+    if (!data.recruitNumber && !FormFieldsDisabled.recruitNumber)
       errorMessage += '모집 인원을 선택해주세요.\n';
+    if (selectedprojectType !== '') {
+      if (title === '') errorMessage += '제목을 입력해주세요.\n';
+      if (content === '') errorMessage += '내용을 입력해주세요.\n';
     }
-    if()
 
     if (errorMessage) {
       alert(errorMessage);
       return;
     }
 
+    let postURL;
+    if (isTeamMemberSearch) postURL = apiUrl + `/posts/find-teammate`;
+    else postURL = apiUrl + '/posts/find-team';
     try {
-      // const response = await fetch(postURL, {
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      // const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      const response = await fetch(postURL, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
