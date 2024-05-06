@@ -5,8 +5,6 @@ import { DUMMY_PROJECTS } from '@/dummy/post';
 import ProjectTypeFilter from '@/components/main/ProjectTypeFilter';
 
 export default function Main() {
-
-
   return (
     <>
       <main className="pt-10">
@@ -16,9 +14,8 @@ export default function Main() {
         </section>
         {/* 내용 */}
         <section className="max-w-maxWidth mx-auto">
-          
           {/* 프로젝트 선택 */}
-          <ProjectTypeFilter/>
+          <ProjectTypeFilter />
           {/* 필터링 */}
           <FiltersBar />
           {/* 프로젝트 소개 카드 */}
@@ -30,7 +27,7 @@ export default function Main() {
           <div className="mt-8 mb-8 flex justify-center">페이지 네이션</div>
         </section>
       </main>
-      
+
       <Footer />
     </>
   );

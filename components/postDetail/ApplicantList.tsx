@@ -1,6 +1,6 @@
 import ApplicationCard from './ApplicationCard';
 
-const ApplicantList = ({}) => {
+export const ApplicantList = () => {
   return (
     <section>
       <div className="text-2xl font-bold mb-5">지원자 목록</div>
@@ -10,5 +10,3 @@ const ApplicantList = ({}) => {
     </section>
   );
 };
-
-export default ApplicantList;
