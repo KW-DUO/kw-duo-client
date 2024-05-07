@@ -11,9 +11,11 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center">
           <Links />
-          <button>
-            <UserIcon size={30} />
-          </button>
+          <Link href="/mypage">
+            <button>
+              <UserIcon size={30} />
+            </button>
+          </Link>
         </div>
       </div>
     </nav>

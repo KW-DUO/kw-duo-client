@@ -14,8 +14,16 @@ const links = [
     path: '/messages',
   },
   {
+    title: '알림',
+    path: '/',
+  },
+  {
     title: '새 글 쓰기',
     path: '/create-post',
+  },
+  {
+    title: '자료',
+    path: '/',
   },
 ];
 
