@@ -11,7 +11,7 @@ export const ProjectDetails = () => {
   return (
     <>
       <h2 className="font-bold text-2xl mb-10">프로젝트 소개</h2>
-      <div className="border" />
+      <hr className="border" />
       <div className="mt-10 mb-10">{post.content}</div>
     </>
   );
