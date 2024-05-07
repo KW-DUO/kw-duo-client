@@ -1,18 +1,27 @@
-import Image from 'next/image';
+'use client';
 import { toYYYYMMDD } from '@/util';
+import { useContext } from 'react';
+import { PostDetailContext } from '@/components/postDetail/store';
+
+const DEFAULT_PROFILE_IMG = '/icons/user_card_icon.svg';
 
 export const AuthorInfo = () => {
-  // TODO: useContext로 user 정보 가져오기
-  const userImageURL = '/icons/user_card_icon.svg';
-  const nickname = 'kw-duo';
-  const date = new Date('2024-05-07');
+  const post = useContext(PostDetailContext);
+
+  if (!post) return <>Loading...</>;
 
   return (
     <div className="flex items-center gap-2">
-      <Image src={userImageURL} alt="user-image" width={48} height={48} />
-      <div className="font-bold">{nickname}</div>
+      {/* TODO: next/image로 변경 */}
+      <img
+        src={post.author.profileImgUrl ?? DEFAULT_PROFILE_IMG}
+        alt="프로필 이미지"
+        width={48}
+        height={48}
+      />
+      <div className="font-bold">{post.author.nickname}</div>
       <div className="w-0.5 h-5 bg-slate-400" />
-      <div className="text-gray-400">{toYYYYMMDD(date)}</div>
+      <div className="text-gray-400">{toYYYYMMDD(post.createdAt)}</div>
     </div>
   );
 };
