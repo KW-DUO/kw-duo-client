@@ -6,4 +6,3 @@ export * from './PostCloseButton';
 export * from './ApplicationButton';
 export * from './ProjectDetails';
 export * from './RecruitmentInfo';
-export * from './ApplicantList';

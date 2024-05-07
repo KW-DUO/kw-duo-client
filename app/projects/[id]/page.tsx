@@ -1,6 +1,7 @@
 import Footer from './../../../components/footer/Footer';
 import * as PostDetail from '@/components/postDetail';
 import { DUMMY_POST_DETAIL } from '@/dummy/post';
+import { ApplicantList } from '@/components/postDetail/ApplicantList';
 
 const PostDetailPage = () => {
   // TODO: api fetch로 받아와야 함
@@ -22,8 +23,8 @@ const PostDetailPage = () => {
         <PostDetail.ProjectDetails />
         {isMyPost && <PostDetail.PostCloseButton />}
         {!isMyPost && <PostDetail.ApplicationButton />}
-        <PostDetail.ApplicantList />
       </PostDetail.Root>
+      <ApplicantList />
       <Footer />
     </>
   );
