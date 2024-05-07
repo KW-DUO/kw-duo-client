@@ -1,13 +1,18 @@
+'use client';
+
+import { useContext } from 'react';
+import { PostDetailContext } from '@/components/postDetail/store';
+
 export const ProjectDetails = () => {
-  // TODO: useContext로 content 가져오기
-  const content =
-    '프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,프로젝트에 대한 내용,';
+  const post = useContext(PostDetailContext);
+
+  if (!post) return <>Loading...</>;
 
   return (
     <>
       <h2 className="font-bold text-2xl mb-10">프로젝트 소개</h2>
       <div className="border" />
-      <div className="mt-10 mb-10">{content}</div>
+      <div className="mt-10 mb-10">{post.content}</div>
     </>
   );
 };
