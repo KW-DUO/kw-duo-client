@@ -1,7 +1,4 @@
 import { createContext } from 'react';
+import { PostDetail } from '@/types';
 
-export const PostDetailContext = createContext(null);
-
-export function usePostDetailContext() {
-  // TODO: 로직 구현
-}
+export const PostDetailContext = createContext<PostDetail | null>(null);
