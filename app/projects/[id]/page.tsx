@@ -12,19 +12,21 @@ const PostDetailPage = () => {
 
   return (
     <>
-      <PostDetail.Root postData={postDetail}>
-        <PostDetail.Title />
-        <div className="flex justify-between items-center mb-14">
-          <PostDetail.AuthorInfo />
-          {isMyPost && <PostDetail.EditToolbar />}
-        </div>
-        <hr className="border" />
-        <PostDetail.RecruitmentInfo />
-        <PostDetail.ProjectDetails />
-        {isMyPost && <PostDetail.PostCloseButton />}
-        {!isMyPost && <PostDetail.ApplicationButton />}
-      </PostDetail.Root>
-      <ApplicantList />
+      <main className="max-w-[900px] mx-auto py-36">
+        <PostDetail.Root postData={postDetail}>
+          <PostDetail.Title />
+          <div className="flex justify-between items-center mb-14">
+            <PostDetail.AuthorInfo />
+            {isMyPost && <PostDetail.EditToolbar />}
+          </div>
+          <hr className="border" />
+          <PostDetail.RecruitmentInfo />
+          <PostDetail.ProjectDetails />
+          {isMyPost && <PostDetail.PostCloseButton />}
+          {!isMyPost && <PostDetail.ApplicationButton />}
+        </PostDetail.Root>
+        <ApplicantList />
+      </main>
       <Footer />
     </>
   );

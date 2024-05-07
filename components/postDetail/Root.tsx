@@ -9,9 +9,5 @@ type Props = {
 };
 
 export const Root = ({ children, postData }: Props) => {
-  return (
-    <PostDetailContext.Provider value={postData}>
-      <div className="max-w-[900px] mx-auto py-36">{children}</div>
-    </PostDetailContext.Provider>
-  );
+  return <PostDetailContext.Provider value={postData}>{children}</PostDetailContext.Provider>;
 };
