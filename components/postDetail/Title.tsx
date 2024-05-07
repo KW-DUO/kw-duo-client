@@ -1,8 +1,11 @@
-import { DUMMY_PROJECTS } from '@/dummy/post';
+'use client';
+import { useContext } from 'react';
+import { PostDetailContext } from '@/components/postDetail/store';
 
 export const Title = () => {
-  // TODO: useContext로 post 정보 가져오기
-  const title = DUMMY_PROJECTS[0].title;
+  const postDetail = useContext(PostDetailContext);
 
-  return <h1 className="text-center font-bold text-3xl mb-20">{title}</h1>;
+  if (!postDetail) return <>Loading...</>;
+
+  return <h1 className="text-center font-bold text-3xl mb-20">{postDetail.title}</h1>;
 };
