@@ -1,15 +1,20 @@
+'use client';
 import Image from 'next/image';
 import techStackImages from '../techStackImages/TechStackImages';
-import { DUMMY_PROJECTS } from '@/dummy/post';
+import { PostDetailContext } from '@/components/postDetail/store';
+import { useContext } from 'react';
+import { departments } from '@/constant/department';
+import { projectType } from '@/constant/projectType';
+import { positions } from '@/constant/position';
+import { fields } from '@/constant/field';
 
 export const RecruitmentInfo = () => {
-  // TODO: useContext로 대체
-  const projectType = DUMMY_PROJECTS[0].type;
-  const position = DUMMY_PROJECTS[0].position;
-  const department = DUMMY_PROJECTS[0].department;
-  const techStack = DUMMY_PROJECTS[1].techStack;
-  const interestField = ['웹', '인공지능'];
-  const recruitNumber = '2명';
+  const post = useContext(PostDetailContext);
+
+  if (!post) return <>Loading...</>;
+
+  // TODO: 어울리는 어딘가로 옮겨야 함
+  const MAXIMUM_RECRUIT_NUMBER = 7;
 
   return (
     <>
@@ -20,36 +25,44 @@ export const RecruitmentInfo = () => {
             <div className="mr-2 text-gray-500" style={{ width: '140px' }}>
               프로젝트 구분
             </div>
-            <div>{projectType}</div>
+            <div>{projectType.find((t) => t.value === post.type)?.label}</div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '120px' }}>
               모집 포지션
             </div>
-            <div>{position}</div>
+            <div>
+              {post.wantedPosition
+                .map((p) => positions.find((pos) => pos.value === p)?.label)
+                .join(', ')}
+            </div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '140px' }}>
               모집 학과
             </div>
-            <div>{department}</div>
+            <div>{departments.find((d) => d.value === post.department)?.label}</div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '120px' }}>
               모집 인원
             </div>
-            <div>{recruitNumber}</div>
+            <div>
+              {post.recruitNumber}명 {post.recruitNumber === MAXIMUM_RECRUIT_NUMBER ? '이상' : ''}
+            </div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '140px' }}>
               관심 분야/수업
             </div>
-            <div>{interestField.join(', ')}</div>
+            <div>
+              {post.interestField.map((p) => fields.find((f) => f.value === p)?.label).join(', ')}
+            </div>
           </li>
           <li className="flex font-bold items-center ">
             <div className="w-[120px] mr-2 text-gray-500">기술 스택</div>
             <div className="flex items-center gap-2">
-              {techStack.map((stack) => (
+              {post.techStack.map((stack) => (
                 <Image
                   key={stack}
                   src={techStackImages[stack]}
