@@ -1,11 +1,15 @@
-type classNameProps = {
-  departmnet: string | null | undefined;
+type DepartmentClassesProps = {
+  department: string | null | undefined;
 };
 
-export const departmentClasses = ({ departmnet }: classNameProps) => {
-  switch (departmnet) {
+export const departmentClasses = ({ department }: DepartmentClassesProps) => {
+  switch (department) {
     case 'COMPUTER_INFORMATION_ENGINEERING':
-      return [{ value: '소프트웨어공학', label: '소프트웨어공학' }];
+      return [
+        { value: '소프트웨어공학', label: '소프트웨어공학' },
+        { value: '컴퓨터공학기초실험1', label: '컴퓨터공학기초실험1' },
+        { value: '데이터베이스', label: '데이터베이스' },
+      ];
     case 'SOFTWARE':
       return [
         { value: '공학설계입문', label: '공학설계입문' },
@@ -16,7 +20,7 @@ export const departmentClasses = ({ departmnet }: classNameProps) => {
       ];
     case 'INFORMATION_CONVERGENCE':
       return [
-        { value: '빅데이터프로그래밍(임동혁)', label: '빅데이터프로그래밍(임동혁)' },
+        { value: '빅데이터프로그래밍', label: '빅데이터프로그래밍' },
         { value: '텍스트마이닝(조민수)', label: '텍스트마이닝(조민수)' },
         { value: 'IoT시스템설계및실습(박재성)', label: 'IoT시스템설계및실습(박재성)' },
         { value: 'UX/UI디자인(김현경)', label: 'UX/UI디자인(김현경)' },
