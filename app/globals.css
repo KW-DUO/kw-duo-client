@@ -2,21 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  src: url('//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css');
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --fontfamily:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --fontfamily: 'Pretendard-Regular';
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
-
 body {
   color: rgb(var(--foreground-rgb));
 }
@@ -36,10 +42,6 @@ body {
   min-height: 480px;
 }
 
-.ProseMirror > * + * {
-  margin-top: 0.75em;
-}
-
 .ProseMirror ul {
   padding: 0 1rem;
   list-style: disc !important;
@@ -50,17 +52,17 @@ body {
 }
 
 .ProseMirror h1 {
-  font-size: 2.125rem; 
-  line-height: 1.2;  
+  font-size: 2.125rem;
+  line-height: 1.2;
 }
 
 .ProseMirror h2 {
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   line-height: 1.1;
 }
 
 .ProseMirror h3 {
-  font-size: 1.25rem; 
+  font-size: 1.25rem;
   line-height: 1.1;
 }
 
@@ -100,4 +102,17 @@ body {
   color: #adb5bd;
   pointer-events: none;
   height: 0;
+}
+
+.post-content h1 {
+  /* 예시: Tailwind 클래스를 사용해 h1 태그 스타일 지정 */
+  @apply text-2xl font-bold;
+}
+.post-content li {
+  /* 예시: Tailwind 클래스를 사용해 li 태그 스타일 지정 */
+  @apply list-decimal ml-4;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
 }

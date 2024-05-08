@@ -7,6 +7,10 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    fontFamily: {
+      Pretendard: ['Pretendard-Regular'],
+      Spoqa: ['Spoqa Han Sans Neo'],
+    },
     extend: {
       backgroundColor: {
         gray: '#F5F5F5',
