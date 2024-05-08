@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
 import { SearchIcon, XIcon } from 'lucide-react';
-import useDebounce from '@/hooks/useDebounce';
 
 type Props = {
   value: string;
