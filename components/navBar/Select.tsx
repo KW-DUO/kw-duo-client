@@ -14,9 +14,20 @@ type OptionProps = {
   children?: React.ReactNode;
 };
 
+const getTitleClass = (title: string) => {
+  switch (title) {
+    case '학과':
+      return 'w-[180px]';
+    case '수업':
+      return 'w-[220px]';
+    default:
+      return 'w-[140px]';
+  }
+};
+
 export const Select = ({
   title,
-  titleDisabled = false,
+  titleDisabled = true,
   value = '',
   onValueChange,
   children,
@@ -25,10 +36,7 @@ export const Select = ({
     <select
       value={value}
       onChange={(e) => onValueChange?.(e.target.value)}
-      className={
-        `flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3` +
-        (title === '학과' ? 'w-[200px]' : 'w-[120px]')
-      }
+      className={`flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3 ${title} ${getTitleClass(title)}`}
     >
       <option value="" disabled={titleDisabled}>
         {title}
