@@ -21,11 +21,11 @@ export const departmentClasses = ({ department }: DepartmentClassesProps) => {
     case 'INFORMATION_CONVERGENCE':
       return [
         { value: '빅데이터프로그래밍', label: '빅데이터프로그래밍' },
-        { value: '텍스트마이닝(조민수)', label: '텍스트마이닝(조민수)' },
-        { value: 'IoT시스템설계및실습(박재성)', label: 'IoT시스템설계및실습(박재성)' },
-        { value: 'UX/UI디자인(김현경)', label: 'UX/UI디자인(김현경)' },
-        { value: '기계학습(이상민)', label: '기계학습(이상민)' },
-        { value: '데이터시각화(조재희)', label: '데이터시각화(조재희)' },
+        { value: '텍스트마이닝', label: '텍스트마이닝' },
+        { value: 'IoT시스템설계및실습', label: 'IoT시스템설계및실습' },
+        { value: 'UX/UI디자인', label: 'UX/UI디자인' },
+        { value: '기계학습', label: '기계학습' },
+        { value: '데이터시각화', label: '데이터시각화' },
       ];
     default:
       return [{ value: '기타 및 없음', label: '기타 및 없음' }];
