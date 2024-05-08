@@ -32,7 +32,6 @@ export const Select = ({
   onValueChange,
   children,
 }: SelectProps) => {
-  console.log(value);
   return (
     <select
       value={value}
