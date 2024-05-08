@@ -1,5 +1,5 @@
 import Footer from '@/components/footer/Footer';
-import FiltersBar from './../components/main/FilterBar';
+import FiltersBar from '../components/main/FilterBar';
 import ProjectList from '@/components/main/ProjectList';
 import ProjectTypeFilter from '@/components/main/ProjectTypeFilter';
 import { Pagination } from '@mui/material';

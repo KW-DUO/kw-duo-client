@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { apiUrl } from '@/constant/api';
-import ProjectCard from './ProjectCard';
+import ProjectCard from '../Card/ProjectCard';
 import { PostCard } from '@/types';
 import { Pagination } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
