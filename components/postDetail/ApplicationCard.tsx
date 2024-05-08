@@ -1,13 +1,14 @@
 import Image from 'next/image';
 
+const userImageURL = '/icons/user_card_icon.svg';
+const nickname = 'kw-duo';
+const position = '프론트엔드';
+const techStack = ['TypeScript', 'JavaScript', 'React', 'React', 'React'];
+
 const ApplicationCard = () => {
-  const userImageURL = '/icons/user_card_icon.svg';
-  const nickname = 'kw-duo';
-  const position: string = '프론트엔드';
-  const techStack: string[] = ['TypeScript', 'JavaScript', 'React', 'React', 'React'];
   return (
     <li className="w-[250px] h-[340px] flex flex-col  items-center p-5  border border-neutral-500 rounded-xl">
-      <Image src={userImageURL} alt={'유저 이미지'} width={75} height={75} className="mb-3" />
+      <Image src={userImageURL} alt="유저 이미지" width={75} height={75} className="mb-3" />
       <div className="font-bold ">{nickname}</div>
       <div className="font-bold mb-5">{position}</div>
       <ul className="flex flex-wrap text-sm gap-1 overflow-hidden h-[75px]">
