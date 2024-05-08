@@ -137,7 +137,7 @@ const CreatePost = () => {
 
   // 학과 선택에 따른 수업 정보 처리
   const selectedDepartment = watch('department');
-  const classesOptions = departmentClasses({ departmnet: selectedDepartment });
+  const classesOptions = departmentClasses({ department: selectedDepartment });
 
   // POST 요청
   const onSubmit = async (data: FormFields) => {
