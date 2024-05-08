@@ -45,35 +45,43 @@ type SelectedOptionsProps = {
 const ProfileSetupModal = () => {
   const { register, handleSubmit, setValue } = useForm<UserProfileSetupInfo>();
 
-  const onSubmit = (data: any) => {
-    console.log(data); // Submit form data to your backend or state management
+  // const onSubmit = (data: any) => {
+  //   console.log(data);
+
+  // };
+
+  const handleModalClose = () => {
+    document.querySelector('dialog')?.close();
   };
 
   // POST 요청
-  // const onSubmit = async (data: any) => {
-  //   try {
-  //     const response = await fetch('https://kw-duo-server.onrender.com/members/join', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-type': 'application/json',
-  //         // 'Authorization': `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify(data),
-  //     });
+  const onSubmit = async (data: any) => {
+    try {
+      // const response = await fetch('https://kw-duo-server.onrender.com/members/join', {
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          // 'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
 
-  //     const responsData = await response.json();
-  //     if (response.ok) {
-  //       console.log('User created:', responsData);
-  //     } else {
-  //       throw new Error(responsData.message || 'Failed to create the post');
-  //     }
-  //   } catch (error: any) {
-  //     console.error('Error creating post:', error.message);
-  //   }
-  // };
+      const responsData = await response.json();
+      if (response.ok) {
+        console.log('User created:', responsData);
+        alert('가입을 축하드립니다!');
+        handleModalClose();
+      } else {
+        throw new Error(responsData.message || 'Failed to create the post');
+      }
+    } catch (error: any) {
+      console.error('Error creating post:', error.message);
+    }
+  };
 
   return (
-    <LoginModal>
+    <LoginModal onClose={handleModalClose}>
       <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-16">
         <FormField
           label="닉네임"

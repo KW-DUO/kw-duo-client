@@ -1,10 +1,11 @@
+import { LoginStepProps } from '@/app/loginStep/page';
 import LoginModal from './LoginModal';
 
 // todo
 // post 요청 처리
 // 인증번호 숫자만 입력할 수 있도록 하기
 
-const EmailVerificationModal = () => {
+const EmailVerificationModal = ({ onNext }: LoginStepProps) => {
   return (
     <LoginModal>
       <section className="font-bold px-10 py-16 text-2xl">
@@ -25,7 +26,12 @@ const EmailVerificationModal = () => {
           </label>
           <button className="bg-[#D9D9D9] px-3 py-2 rounded w-[140px] h-[50px]">확인</button>
         </div>
-        <button className="bg-[#D9D9D9] h-14 w-full text-white rounded-lg text-2xl">다음</button>
+        <button
+          onClick={onNext}
+          className="bg-[#D9D9D9] h-14 w-full text-white rounded-lg text-2xl"
+        >
+          다음
+        </button>
       </section>
     </LoginModal>
   );
