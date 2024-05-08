@@ -21,7 +21,6 @@ export default function RootLayout({
       <body className={'font-Pretendard'}>
         <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );
