@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SearchIcon, XIcon } from 'lucide-react';
+import useDebounce from '@/hooks/useDebounce';
 
 type Props = {
   value: string;
   onValueChange: (e: string) => void;
 };
 
+// todo: 검색 디바운스 적용
 export const SearchBar = ({ value, onValueChange }: Props) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onValueChange(e.target.value);
+  };
+
   const deleteValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     onValueChange('');
@@ -18,7 +24,7 @@ export const SearchBar = ({ value, onValueChange }: Props) => {
       <input
         type="text"
         value={value}
-        onChange={(e) => onValueChange(e.target.value)}
+        onChange={handleChange}
         placeholder="제목을 검색해보세요."
         className="w-[200px] border-none ml-3 outline-none bg-transparent h-10"
       />
