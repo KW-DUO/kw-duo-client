@@ -32,22 +32,32 @@ export const Select = ({
   onValueChange,
   children,
 }: SelectProps) => {
+  console.log(value);
   return (
     <select
       value={value}
-      onChange={(e) => onValueChange?.(e.target.value)}
-      className={`flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3 ${title} ${getTitleClass(title)}`}
+      onChange={(e) => {
+        onValueChange?.(e.target.value);
+      }}
+      className={`flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3 outline-none ${title} ${getTitleClass(title)} ${value !== 'ALL' && 'border-orange-400 text-orange-400'}`}
     >
-      <option value="" disabled={titleDisabled}>
-        {title}
-      </option>
+      {/* 선택 안한 값이 ALL */}
+      {value === 'ALL' && (
+        <option value="ALL" disabled={titleDisabled} hidden>
+          {title}
+        </option>
+      )}
       {children}
     </select>
   );
 };
 
 const Option = ({ label, value, children }: OptionProps) => {
-  return <option value={value}>{label ?? children}</option>;
+  return (
+    <option value={value} className="text-black">
+      {label ?? children}
+    </option>
+  );
 };
 
 Select.Option = Option;
