@@ -1,0 +1,25 @@
+export interface ProjectState {
+  projectType: string;
+  department: string;
+  course: string;
+  position: string;
+  wantedField: string;
+  bookmarkOnly: boolean;
+  notClosedOnly: boolean;
+  page: number;
+  size: number;
+  q?: string;
+}
+
+export interface ProjectContextType extends ProjectState {
+  setProjectType: (projectType: string) => void;
+  setDepartment: (department: string) => void;
+  setCourse: (className: string) => void;
+  setPosition: (position: string) => void;
+  setWantedField: (wantedField: string) => void;
+  setBookmarkOnly: (bookmarkOnly: boolean) => void;
+  setNotClosedOnly: (notClosedOnly: boolean) => void;
+  setPage: (page: number) => void;
+  setSize: (size: number) => void;
+  setQuery: (query: string) => void;
+}
