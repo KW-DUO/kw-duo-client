@@ -14,7 +14,6 @@ export type PostCard = {
   projectType: string;
   title: string;
   department: string | null;
-
   class: string | null;
   interestingField: string | null;
   wantedPosition: string[];

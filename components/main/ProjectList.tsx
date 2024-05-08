@@ -5,7 +5,7 @@ import { apiUrl } from '@/constant/api';
 import ProjectCard from './ProjectCard';
 import { PostCard } from '@/types';
 import { Pagination } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useProject } from '@/context/ProjectContext';
 
 const ProjectList = () => {
@@ -21,13 +21,21 @@ const ProjectList = () => {
   // /posts/find-team?q=front&projectType=0&department=ALL&class=ALL&position=ALL&wantedField=ALL&bookmarkOnly=false&notClosedOnly=true&page=0&size=20
   const { projectType, department, course, position, wantedField, q } = useProject();
 
+  const path = usePathname();
+  console.log(path);
+
+  let findType: string = '';
+  if (path === '/') findType = 'find-team';
+  if (path === '/team-members') findType = 'find-teammate';
+
   useEffect(() => {
     const fetchPosts = async () => {
       setIsLoading(true);
+
       try {
         const res = await fetch(
           apiUrl +
-            `/posts/find-team?${q && `q=${q}&`}projectType=${projectType}&department=${department}&class=${course}&position=${position}&wantedField=${wantedField}&bookmarkOnly=${isBookmarked}&notClosedOnly=${notClosedPosts}&page=${currentPage}`
+            `/posts/${findType}?${q && `q=${q}&`}projectType=${projectType}&department=${department}&class=${course}&position=${position}&wantedField=${wantedField}&bookmarkOnly=${isBookmarked}&notClosedOnly=${notClosedPosts}&page=${currentPage}`
         );
         const data = await res.json();
         // setPosts(data.posts);
@@ -51,6 +59,7 @@ const ProjectList = () => {
     position,
     wantedField,
     q,
+    findType,
   ]);
 
   // posts의 전체 길이에 대한 값도 주나?
