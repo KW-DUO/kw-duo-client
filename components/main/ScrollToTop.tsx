@@ -1,4 +1,6 @@
-import { ArrowUp, ArrowUp10Icon, ArrowUpCircleIcon, ChevronUp } from 'lucide-react';
+'use client';
+
+import { ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const ScrollToTop = () => {
