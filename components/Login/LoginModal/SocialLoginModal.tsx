@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginModal from './LoginModal';
 import { KakaoLoginButton, NaverLoginButton } from '../LoginButton/LoginButton';
-import { LoginStepProps } from '@/app/loginStep/page';
+import { LoginStepProps } from '../LoginStep/LoginStep';
 
 const SocialLoginModal = ({ onNext }: LoginStepProps) => {
   return (
