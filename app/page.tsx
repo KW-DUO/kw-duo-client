@@ -37,7 +37,6 @@ export default function Main() {
         </ProjectProvider>
         <ScrollToTop />
       </main>
-
       <Footer />
     </>
   );
