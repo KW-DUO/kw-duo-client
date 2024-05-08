@@ -1,4 +1,4 @@
-import { LoginStepProps } from '@/app/loginStep/page';
+import { LoginStepProps } from '../LoginStep/LoginStep';
 import LoginModal from './LoginModal';
 
 // todo

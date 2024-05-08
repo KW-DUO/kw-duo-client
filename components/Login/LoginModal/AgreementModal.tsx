@@ -1,7 +1,7 @@
 import LoginModal from './LoginModal';
 import Image from 'next/image';
 import { CircleCheck, ChevronRight } from 'lucide-react';
-import { LoginStepProps } from '@/app/loginStep/page';
+import { LoginStepProps } from '../LoginStep/LoginStep';
 
 // todo
 // 클릭시, 이벤트 추가하기
