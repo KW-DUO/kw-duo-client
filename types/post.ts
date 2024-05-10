@@ -1,13 +1,26 @@
+type Author = {
+  id: number;
+  nickname: string;
+  profileImgUrl: string | null;
+};
+
+type Bookmark = {
+  isBookmarked: boolean;
+};
+
 export type PostCard = {
   id: number;
-  type: string;
-  date: Date;
+  postType: string;
+  projectType: string;
   title: string;
-  department: '컴퓨터정보공학부' | '소프트웨어학부' | '정보융합학부';
-  course: string;
-  position: string[];
+  department: string | null;
+  class: string | null;
+  interestingField: string | null;
+  wantedPosition: string[];
+  author: Author;
+  bookmark: Bookmark;
   techStack: string[];
-  nickname: string;
+  createdAt: string;
 };
 
 export type PostDetail = {

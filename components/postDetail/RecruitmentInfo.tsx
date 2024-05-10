@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { departments } from '@/constant/department';
 import { projectType } from '@/constant/projectType';
 import { positions } from '@/constant/position';
-import { fields } from '@/constant/field';
+import { interestingField as fields } from '@/constant/interestingField';
 
 export const RecruitmentInfo = () => {
   const post = useContext(PostDetailContext);

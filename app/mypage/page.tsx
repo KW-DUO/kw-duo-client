@@ -1,4 +1,7 @@
 'use client';
+import { userImageURL } from '@/constant/images';
+import { positions } from '@/constant/position';
+import { techStack } from '@/constant/techStack';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,18 +9,6 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
-
-const positionOptions = [
-  { value: '프론트엔드', label: '프론트엔드' },
-  { value: '백엔드', label: '백엔드' },
-  { value: '안드로이드', label: '안드로이드' },
-  { value: 'IOS', label: 'IOS' },
-  { value: '게임', label: '게임' },
-  { value: '머신러닝', label: '머신러닝' },
-  { value: '블록체인', label: '블록체인' },
-];
-
-const userImageURL = '/icons/user_card_icon.svg';
 
 const Mypage = () => {
   const {} = useForm();
@@ -65,8 +56,7 @@ const Mypage = () => {
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
-            isMulti
-            options={positionOptions}
+            options={positions}
             className=""
           />
         </label>
@@ -74,7 +64,7 @@ const Mypage = () => {
         {/* 자기소개 */}
         <label className="w-full">
           <div className="text-sm font-bold">
-            포지션<span className="text-custom-red">*</span>
+            자기소개<span className="text-custom-red">*</span>
           </div>
           <textarea
             name=""
@@ -94,7 +84,7 @@ const Mypage = () => {
             closeMenuOnSelect={false}
             components={animatedComponents}
             isMulti
-            options={positionOptions}
+            options={techStack}
           />
         </label>
 
