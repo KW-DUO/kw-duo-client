@@ -8,7 +8,7 @@ type OptionType = {
   label: string;
 };
 
-interface SelectFieldProps {
+type SelectFieldProps = {
   control: Control<any>;
   name: string;
   label: string;
@@ -17,7 +17,7 @@ interface SelectFieldProps {
   placeholder?: string;
   isMulti?: boolean;
   handleProjectTypeChange?: (value: string) => void;
-}
+};
 
 const SelectField = ({
   control,

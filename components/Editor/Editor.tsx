@@ -1,11 +1,11 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import Tiptap from './Tiptap';
 
-interface EditorProps {
+type EditorProps = {
   onChange: (content: string) => void;
   toggleState: boolean;
   value?: string;
-}
+};
 
 const Editor = forwardRef(({ onChange, value, toggleState }: EditorProps, ref) => {
   const [content, setContent] = useState<string>('');
@@ -20,10 +20,7 @@ const Editor = forwardRef(({ onChange, value, toggleState }: EditorProps, ref) =
   };
 
   return (
-    <Tiptap
-      onChange={(newContent: string) => handleContentChange(newContent)}
-      toggleState={toggleState}
-    />
+    <Tiptap onChange={(newContent) => handleContentChange(newContent)} toggleState={toggleState} />
   );
 });
 

@@ -26,7 +26,7 @@ export const MetaData = ({
         </div>
       )}
       <div className="mb-2">
-        {course ? `수업: ` : `관심분야: `}
+        {course ? '수업: ' : '관심분야: '}
         <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
           {course ?? interestingField}
         </span>

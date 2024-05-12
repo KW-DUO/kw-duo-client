@@ -1,4 +1,5 @@
 import { getProjectTypeLabel } from '@/constant/projectType';
+import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -19,23 +20,7 @@ export const InfoHeader = ({ projectType }: InfoHeaderProps) => {
       <div className="bg-gray text-xs h-fit text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
         {getProjectTypeLabel(projectType)}
       </div>
-      <button onClick={handleBookmarkClick}>
-        {isChecked ? (
-          <Image
-            src={'/icons/red-heart-icon.svg'}
-            alt="interested-project"
-            width={25}
-            height={25}
-          />
-        ) : (
-          <Image
-            src={'/icons/Heart_icon_red_hollow.svg'}
-            alt="interested-project"
-            width={24}
-            height={23}
-          />
-        )}
-      </button>
+      <button onClick={handleBookmarkClick}>{isChecked ? <Heart fill="red" /> : <Heart />}</button>
     </div>
   );
 };

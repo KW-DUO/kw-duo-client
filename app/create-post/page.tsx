@@ -32,9 +32,9 @@ type FormFields = {
   content: string;
 };
 
-interface EditorMethods {
+type EditorMethods = {
   resetContent: () => void;
-}
+};
 
 const DEFAULT_VALUES = {
   projectType: '',
