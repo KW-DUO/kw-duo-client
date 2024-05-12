@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { departments } from '@/constant/department';
 import { projectType } from '@/constant/projectType';
 import { positions } from '@/constant/position';
-import { interestingField as fields } from '@/constant/interestingField';
+import { interestingField } from '@/constant/interestingField';
 
 export const RecruitmentInfo = () => {
   const post = useContext(PostDetailContext);
@@ -56,7 +56,9 @@ export const RecruitmentInfo = () => {
               관심 분야/수업
             </div>
             <div>
-              {post.interestField.map((p) => fields.find((f) => f.value === p)?.label).join(', ')}
+              {post.interestField
+                .map((p) => interestingField.find((f) => f.value === p)?.label)
+                .join(', ')}
             </div>
           </li>
           <li className="flex font-bold items-center ">

@@ -48,7 +48,6 @@ const ProjectList = () => {
       }
     };
     fetchPosts();
-    setIsLoading(false);
   }, [
     isBookmarked,
     notClosedPosts,
@@ -75,33 +74,32 @@ const ProjectList = () => {
 
   const router = useRouter();
 
+  if (isLoading) {
+    return <div className="text-center">Loading...</div>;
+  }
+
   return (
     <>
-      {isLoading ? (
-        <div className="text-center">Loading...</div>
-      ) : (
-        <div>
-          <ul className="max-w-maxWidth grid grid-cols-4 gap-7">
-            {currentPosts.map((post, index) => (
-              <Link key={index} href={`/projects/${post.id}`}>
-                <ProjectCard project={post} />
-              </Link>
-            ))}
-          </ul>
-          {/*페이지 네이션 */}
-          <Pagination
-            className="mt-8 mb-8 flex justify-center"
-            count={totalPages}
-            page={currentPage}
-            onClick={(e) => {
-              const eventTarget = e.target as HTMLElement;
-              let page = parseInt(eventTarget.innerText);
-              console.log(page);
-              handleChangePage(Number(page));
-            }}
-          />
-        </div>
-      )}
+      <div>
+        <ul className="max-w-maxWidth grid grid-cols-4 gap-7">
+          {currentPosts.map((post, index) => (
+            <Link key={index} href={`/projects/${post.id}`}>
+              <ProjectCard project={post} />
+            </Link>
+          ))}
+        </ul>
+        {/*페이지 네이션 */}
+        <Pagination
+          className="mt-8 mb-8 flex justify-center"
+          count={totalPages}
+          page={currentPage}
+          onClick={(e) => {
+            const eventTarget = e.target as HTMLElement;
+            let page = parseInt(eventTarget.innerText);
+            handleChangePage(page);
+          }}
+        />
+      </div>
     </>
   );
 };

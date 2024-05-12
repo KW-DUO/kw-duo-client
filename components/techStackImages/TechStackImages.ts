@@ -1,4 +1,4 @@
-const techStackImages: { [key: string]: string } = {
+const techStackImages = {
   SPRING: '/icons/techStackIcons/spring_icon.png',
   KOTLIN: '/icons/techStackIcons/kotlin_icon.png',
   JAVA: '/icons/techStackIcons/java_icon.png',

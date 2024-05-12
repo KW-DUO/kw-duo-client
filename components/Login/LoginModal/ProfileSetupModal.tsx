@@ -45,11 +45,6 @@ type SelectedOptionsProps = {
 const ProfileSetupModal = () => {
   const { register, handleSubmit, setValue } = useForm<UserProfileSetupInfo>();
 
-  // const onSubmit = (data: any) => {
-  //   console.log(data);
-
-  // };
-
   const handleModalClose = () => {
     document.querySelector('dialog')?.close();
   };
@@ -67,13 +62,13 @@ const ProfileSetupModal = () => {
         body: JSON.stringify(data),
       });
 
-      const responsData = await response.json();
+      const responseData = await response.json();
       if (response.ok) {
-        console.log('User created:', responsData);
+        console.log('User created:', responseData);
         alert('가입을 축하드립니다!');
         handleModalClose();
       } else {
-        throw new Error(responsData.message || 'Failed to create the post');
+        throw new Error(responseData.message ?? 'Failed to create the post');
       }
     } catch (error: any) {
       console.error('Error creating post:', error.message);

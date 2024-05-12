@@ -7,10 +7,12 @@ export const ApplyButton = () => {
     e.preventDefault();
     router.push('/messages');
   };
-  return <button
-            onClick={handleApplyButtonClick}
-            className="text-sm px-4 py-2 bg-yellow-400 rounded-3xl "
-          >
-            지원하기
-          </button>;
+  return (
+    <button
+      onClick={handleApplyButtonClick}
+      className="text-sm px-4 py-2 bg-yellow-400 rounded-3xl "
+    >
+      지원하기
+    </button>
+  );
 };

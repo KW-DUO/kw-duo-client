@@ -20,10 +20,7 @@ const Editor = forwardRef(({ onChange, value, toggleState }: EditorProps, ref) =
   };
 
   return (
-    <Tiptap
-      onChange={(newContent: string) => handleContentChange(newContent)}
-      toggleState={toggleState}
-    />
+    <Tiptap onChange={(newContent) => handleContentChange(newContent)} toggleState={toggleState} />
   );
 });
 
