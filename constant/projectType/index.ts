@@ -8,10 +8,12 @@ export const projectType = [
 // projectType의 value에 따라 label을 반환하는 함수
 export function getProjectTypeLabel(projectTypeValue: string): string {
   const type = projectType.find((type) => type.value === projectTypeValue);
-  return type ? type.label : projectTypeValue; // 일치하는 타입이 있으면 label 반환, 없으면 입력값 그대로 반환
+  if (!type) throw Error('프로젝트 타입 값에 매칭되는 것이 없습니다.');
+  return type.label;
 }
 
 export function getProjectTypeValue(projectTypeLabel: string): string {
   const type = projectType.find((type) => type.label === projectTypeLabel);
-  return type ? type.value : projectTypeLabel;
+  if (!type) throw Error('프로젝트 타입 라벨에 매칭되는 것이 없습니다.');
+  return type.value;
 }
