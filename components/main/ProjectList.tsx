@@ -18,7 +18,6 @@ const ProjectList = () => {
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false); // 북마크 상태
   const [notClosedPosts, setNotClosedPosts] = useState<boolean>(true); // 글의 마감이 안된 상태
 
-  // /posts/find-team?q=front&projectType=0&department=ALL&class=ALL&position=ALL&wantedField=ALL&bookmarkOnly=false&notClosedOnly=true&page=0&size=20
   const { projectType, department, course, position, wantedField, q } = useProject();
 
   const path = usePathname();
