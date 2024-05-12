@@ -1,4 +1,4 @@
-export interface ProjectState {
+export type ProjectState = {
   projectType: string;
   department: string;
   course: string;
@@ -9,9 +9,9 @@ export interface ProjectState {
   page: number;
   size: number;
   q?: string;
-}
+};
 
-export interface ProjectContextType extends ProjectState {
+export type ProjectContextType = ProjectState & {
   setProjectType: (projectType: string) => void;
   setDepartment: (department: string) => void;
   setCourse: (className: string) => void;
@@ -22,4 +22,4 @@ export interface ProjectContextType extends ProjectState {
   setPage: (page: number) => void;
   setSize: (size: number) => void;
   setQuery: (query: string) => void;
-}
+};
