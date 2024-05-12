@@ -1,6 +1,4 @@
-import { PostCard, PostDetail } from '@/types';
-
-export const DUMMY_PROJECTS: PostCard[] = [];
+import { PostDetail } from '@/types';
 
 export const DUMMY_POST_DETAIL: PostDetail = {
   id: 1,
