@@ -42,7 +42,9 @@ export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
         setLoading(true);
         const response = await fetch(`${apiUrl}/chats?q=${id}&page=${page}&size=20`);
         const data = await response.json();
-        setChatRoomData((prevRooms) => [...prevRooms, ...data.room]);
+        // setChatRoomData((prevRooms) => [...prevRooms, ...data.room]); //무한 스크롤
+        setChatRoomData(data.room);
+
         setHasMore(data.hasMore);
         setLoading(false);
       } catch (error) {
@@ -88,7 +90,7 @@ export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
                   className="shadow-md rounded-full"
                 /> */}
                 <img
-                  src="https://avatars.githubusercontent.com/u/12345678?v=4"
+                  src={room.member.profileImgUrl ?? userImageURL}
                   alt="user_profile_image"
                   className="shadow-md rounded-full w-[60px] h-[60px] cursor-pointer relative"
                 />
@@ -101,6 +103,10 @@ export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
                     {room.member.nickname}
                     {room.member.baekjoonTier && (
                       <span className="ml-3 w-5 h-5">
+                        {/* <img
+                          src={room.member.baekjoonTier ?? '/icons/Algorithm Tier/platinum_4.png'}
+                          alt="알고리즘 티어"
+                        /> */}
                         <img
                           src={room.member.baekjoonTier ?? '/icons/Algorithm Tier/platinum_4.png'}
                           alt="알고리즘 티어"
