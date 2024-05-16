@@ -6,6 +6,7 @@ import { formatDate } from '@/util';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import algorithmTierImages from '../algorithmTearImages/AlgorithmTearImages';
 
 type SideBarProps = {
   onChangeRoomId: (id: number) => void;
@@ -103,20 +104,12 @@ export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
                     {room.member.nickname}
                     {room.member.baekjoonTier && (
                       <span className="ml-3 w-5 h-5">
-                        {/* <img
-                          src={room.member.baekjoonTier ?? '/icons/Algorithm Tier/platinum_4.png'}
-                          alt="알고리즘 티어"
-                        /> */}
-                        <img
-                          src={room.member.baekjoonTier ?? '/icons/Algorithm Tier/platinum_4.png'}
-                          alt="알고리즘 티어"
+                        <Image
+                          src={algorithmTierImages[room.member.baekjoonTier] ?? null}
+                          alt="algorithm_tearImages"
+                          width={14}
+                          height={14}
                         />
-                        {/* <Image
-                          src={'/icons/Algorithm Tier/platinum_4.png'}
-                          alt="알고리즘 티어"
-                          width={20}
-                          height={20}
-                        /> */}
                       </span>
                     )}
                   </div>
@@ -127,7 +120,6 @@ export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
                 </div>
                 {/* <div className="font-bold">{chatRoomData.</div> */}
                 <h5 className="line-clamp-1">
-                  {/* <span>안녕하세요! 000 팀프로젝트123123123</span> */}
                   <span>{room.lastChat.message}</span>
                 </h5>
               </div>
