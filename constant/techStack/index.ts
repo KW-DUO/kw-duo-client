@@ -11,6 +11,7 @@ export const techStack = [
   { label: 'Flask', value: 'FLASK' },
   { label: 'NestJS', value: 'NESTJS' },
   { label: 'Django', value: 'DJANGO' },
+  { label: 'Java', value: 'JAVA' },
 
   // 데이터베이스 기술 스택
   { label: 'MySQL', value: 'MYSQL' },
@@ -25,7 +26,7 @@ export const techStack = [
   // 머신러닝 기술 스택
   { label: 'Python', value: 'PYTHON' },
   { label: 'TensorFlow', value: 'TENSORFLOW' },
-  { label: 'PyTorch', value: 'PYTORCH' },
+  { label: 'Pytorch', value: 'PYTORCH' },
 
   // 게임 개발 기술 스택
   { label: 'Unity', value: 'UNITY' },
@@ -35,5 +36,4 @@ export const techStack = [
   { label: 'C', value: 'C' },
   { label: 'C++', value: 'CPP' },
   { label: 'C#', value: 'CSHARP' },
-  { label: 'Java', value: 'JAVA' },
 ] as const;
