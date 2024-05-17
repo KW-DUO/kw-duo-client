@@ -1,8 +1,9 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/navBar/Navbar';
-import Footer from '@/components/footer/Footer';
+import TanstackProviders from '@/util/TanstackProviders';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={'font-Pretendard'}>
-        <Navbar />
-        {children}
+        <TanstackProviders>
+          <Navbar />
+          {children}
+        </TanstackProviders>
       </body>
     </html>
   );

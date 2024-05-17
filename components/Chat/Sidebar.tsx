@@ -6,56 +6,55 @@ import { formatDate } from '@/util';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import algorithmTierImages from '../algorithmTearImages/AlgorithmTearImages';
+import algorithmTierImages from '../algorithmTierImages/AlgorithmTierImages';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
+import ChatRoomItem from './ChatRoomItem';
 
 type SideBarProps = {
   onChangeRoomId: (id: number) => void;
 };
 
+type ChatRoomResponse = {
+  room: ChatRoom[];
+  hasMore: boolean;
+};
+
 export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
-  const [chatRoomData, setChatRoomData] = useState<ChatRoom[]>([]);
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
 
-  // 채팅방 무한스크롤
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const observer = useRef<IntersectionObserver>();
-  const lastChatRoomRef = useCallback(
-    (node: any) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore]
-  );
+  const { ref, inView } = useInView(); // ref가 연결된 요소가 뷰포트에 들어오면 inView true값으로 변함 -> 변할때 fetchNextPage 호출
 
-  const id = 1;
+  const fetchChatRooms = async ({ pageParam = 0 }) => {
+    const id = 1;
+    const response = await fetch(`${apiUrl}/chats?q=${id}&page=${pageParam}&size=1`);
+    const data = await response.json();
+    return data;
+  };
+
+  const { data, status, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ['chatRoomList'],
+    queryFn: fetchChatRooms,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPage) => {
+      const nextPage = lastPage.hasMore ? allPage.length + 1 : undefined;
+      return nextPage;
+    },
+  });
 
   useEffect(() => {
-    const fetchChatRooms = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${apiUrl}/chats?q=${id}&page=${page}&size=20`);
-        const data = await response.json();
-        // setChatRoomData((prevRooms) => [...prevRooms, ...data.room]); //무한 스크롤
-        setChatRoomData(data.room);
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
-        setHasMore(data.hasMore);
-        setLoading(false);
-      } catch (error) {
-        console.error('채팅방 조회 요청 실패', error);
-        setLoading(false);
-      }
-    };
+  if (status === 'pending') {
+    return <p>Loading...</p>;
+  }
 
-    fetchChatRooms();
-  }, [page]);
+  if (status === 'error') {
+    return <p>Error: {error.message}</p>;
+  }
 
   // 채팅방 클릭 이벤트
   const handleRoomClick = (room: ChatRoom) => {
@@ -73,60 +72,19 @@ export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
       {/* 채팅방 */}
       <div className="overflow-y-auto">
         <ul>
-          {chatRoomData.map((room, index) => (
-            <li
-              key={room.id}
-              ref={chatRoomData.length === index + 1 ? lastChatRoomRef : null}
-              className={`p-5 h-[100px] flex items-center border  ${selectedRoomId === room.id ? 'bg-gray' : 'hover:bg-gray bg-white'}`}
-              onClick={() => {
-                handleRoomClick(room);
-              }}
-            >
-              <div className="flex-shrink-0 w-[60px]">
-                {/* <Image
-                  src={userImageURL}
-                  alt="user-image"
-                  width={60}
-                  height={60}
-                  className="shadow-md rounded-full"
-                /> */}
-                <img
-                  src={room.member.profileImgUrl ?? userImageURL}
-                  alt="user_profile_image"
-                  className="shadow-md rounded-full w-[60px] h-[60px] cursor-pointer relative"
-                />
-                <div></div>
-                {/* 접속 중인지 확인하는 거 추가하면 좋을듯 */}
-              </div>
-              <div className="pl-3 flex-grow">
-                <div className="font-bold flex gap-2 justify-between items-center">
-                  <div className="flex items-center">
-                    {room.member.nickname}
-                    {room.member.baekjoonTier && (
-                      <span className="ml-3 w-5 h-5">
-                        <Image
-                          src={algorithmTierImages[room.member.baekjoonTier] ?? null}
-                          alt="algorithm_tearImages"
-                          width={14}
-                          height={14}
-                        />
-                      </span>
-                    )}
-                  </div>
-
-                  <span className="text-xs font-normal text-silver">
-                    {formatDate(room.lastChat.createdAt)}
-                  </span>
-                </div>
-                {/* <div className="font-bold">{chatRoomData.</div> */}
-                <h5 className="line-clamp-1">
-                  <span>{room.lastChat.message}</span>
-                </h5>
-              </div>
-            </li>
-          ))}
+          {data?.pages.map((page: ChatRoomResponse) =>
+            page.room.map((room: ChatRoom) => (
+              <ChatRoomItem
+                key={room.id}
+                room={room}
+                onClick={() => handleRoomClick(room)}
+                isSelected={room.id === selectedRoomId}
+              />
+            ))
+          )}
         </ul>
-        {loading && <div className="text-center">데이터 불러오는중..</div>}
+        {isFetchingNextPage && <p className="text-center">데이터 불러오는중..</p>}
+        <div ref={ref}></div>
       </div>
     </div>
   );
