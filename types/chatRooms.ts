@@ -1,7 +1,7 @@
 type Member = {
   id: number;
   nickname: string;
-  profileImgUrl: string;
+  profileImgUrl: string | null;
   baekjoonTier: string | null;
 };
 
