@@ -32,10 +32,22 @@ export const MessageContainer = ({ userId, roomId }: any) => {
     }
   }, [roomId, page]);
 
-  const formatDate = (isoDate: string) => {
+  const getFormattedDate = (isoDate: string) => {
     const date = new Date(isoDate);
-    const formattedDate = `${date.getFullYear().toString().substr(-2)}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
-    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const year = date.getFullYear().toString().substr(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}.${month}.${day}`;
+  };
+
+  const getFormattedTime = (isoDate: string) => {
+    const date = new Date(isoDate);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const renderFormattedDate = (isoDate: string) => {
+    const formattedDate = getFormattedDate(isoDate);
+    const formattedTime = getFormattedTime(isoDate);
     return (
       <>
         <div>{formattedDate}</div>
@@ -44,24 +56,31 @@ export const MessageContainer = ({ userId, roomId }: any) => {
     );
   };
 
-  const renderTimestamp = (index: number) => {
+  const shouldShowTimestamp = (index: number): boolean => {
     const currentChat = messageList[index];
     const nextChat = messageList[index + 1];
-
     if (nextChat && currentChat.member.id === nextChat.member.id) {
       const currentDate = new Date(currentChat.createdAt).toDateString();
       const nextDate = new Date(nextChat.createdAt).toDateString();
       if (currentDate === nextDate) {
-        return null;
+        return false;
       }
     }
-    return (
-      <div
-        className={`text-xs opacity-75 ${currentChat.member.id === userId ? 'mr-2 text-right' : 'ml-2 text-left'}`}
-      >
-        {formatDate(currentChat.createdAt)}
-      </div>
-    );
+    return true;
+  };
+
+  const renderTimestamp = (index: number) => {
+    if (shouldShowTimestamp(index)) {
+      const chat = messageList[index];
+      return (
+        <div
+          className={`text-xs opacity-75 ${chat.member.id === userId ? 'mr-2 text-right' : 'ml-2 text-left'}`}
+        >
+          {renderFormattedDate(chat.createdAt)}
+        </div>
+      );
+    }
+    return null;
   };
 
   if (loading) return <p className="flex-1 flex justify-center items-center">Loading...</p>;
