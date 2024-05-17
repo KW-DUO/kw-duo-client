@@ -11,8 +11,6 @@ type ChatsProps = {
 export const Chats = ({ roomId }: ChatsProps) => {
   const userId = 1; // ##차후 로그인 구현후 수정필요
 
-  console.log('roasd', roomId);
-
   if (!roomId) return;
   return (
     <section className="w-full flex flex-col min-w-[600px]">
