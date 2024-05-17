@@ -83,8 +83,10 @@ export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
             ))
           )}
         </ul>
-        {isFetchingNextPage && <p className="text-center">데이터 불러오는중..</p>}
-        <div ref={ref}></div>
+
+        <div ref={ref}>
+          {isFetchingNextPage && <p className="text-center">데이터 불러오는중..</p>}
+        </div>
       </div>
     </div>
   );
