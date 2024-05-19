@@ -31,7 +31,7 @@ export type PostDetail = {
   department: string;
   wantedPosition: string[];
   techStack: string[];
-  interestField: string[];
+  interestingField: string[];
   recruitNumber: number;
   author: {
     id: number;

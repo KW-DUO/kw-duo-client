@@ -56,7 +56,7 @@ export const RecruitmentInfo = () => {
               관심 분야/수업
             </div>
             <div>
-              {post.interestField
+              {post.interestingField
                 .map((p) => interestingField.find((f) => f.value === p)?.label)
                 .join(', ')}
             </div>

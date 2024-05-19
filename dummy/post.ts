@@ -9,7 +9,7 @@ export const DUMMY_POST_DETAIL: PostDetail = {
   department: 'SOFTWARE',
   wantedPosition: ['BACKEND', 'ANDROID'],
   techStack: ['SPRING', 'PYTHON'],
-  interestField: ['AI', 'BLOCKCHAIN'],
+  interestingField: ['AI', 'BLOCKCHAIN'],
   recruitNumber: 4,
   author: {
     id: 1,
