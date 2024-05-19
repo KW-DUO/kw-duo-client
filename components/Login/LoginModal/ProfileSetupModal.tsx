@@ -1,82 +1,60 @@
-'use client';
-
-import React from 'react';
 import LoginModal from './LoginModal';
-import { useForm, UseFormRegister } from 'react-hook-form';
-import Select from 'react-select';
 import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
 import { positions } from '@/constant/position';
+import { useForm } from 'react-hook-form';
+import { UserProfileSetupInfo } from '@/types';
+import FormField from './FormField';
+import FormFieldSelect from './FormFieldSelect';
 
-type UserProfileSetupInfo = {
-  oAuthId: string;
-  profileImgId: number;
-  nickname: string;
-  department: string;
-  techStack: string[];
-  position: string;
-  githubUrl?: string;
-  baekjoonId?: string;
+type ProfileSetupModalProps = {
+  onClose: () => void;
 };
 
-type FormFieldProps = {
-  label: string;
-  isRequired: boolean;
-  register: UseFormRegister<UserProfileSetupInfo>;
-  name: keyof UserProfileSetupInfo;
-  placeholder: string;
-};
-
-type FormFieldSelectProps = {
-  label: string;
-  isRequired: boolean;
-  options: any;
-  isMulti?: boolean;
-  name: keyof UserProfileSetupInfo;
-  placeholder: string;
-  setValue: (name: keyof UserProfileSetupInfo, value: any) => void;
-};
-
-type SelectedOptionsProps = {
-  name: string;
-  options: string | string[];
-};
-
-const ProfileSetupModal = () => {
-  const { register, handleSubmit, setValue } = useForm<UserProfileSetupInfo>();
-
-  const handleModalClose = () => {
-    document.querySelector('dialog')?.close();
-  };
+const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<UserProfileSetupInfo>();
 
   // POST 요청
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UserProfileSetupInfo) => {
     try {
-      // const response = await fetch('https://kw-duo-server.onrender.com/members/join', {
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      // 임시
+      data.oAuthId = '1';
+      data.profileImgId = 1;
+      data.email = '1';
+
+      data.githubUrl = data.githubUrl === '' ? null : data.githubUrl;
+      data.baekjoonId = data.baekjoonId === '' ? null : data.baekjoonId;
+
+      const response = await fetch('https://kw-duo-server.onrender.com/members/join', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
-          // 'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
 
       const responseData = await response.json();
       if (response.ok) {
-        console.log('User created:', responseData);
+        console.log('유저 생성:', responseData);
         alert('가입을 축하드립니다!');
-        handleModalClose();
+        // handleModalClose();
       } else {
-        throw new Error(responseData.message ?? 'Failed to create the post');
+        throw new Error(responseData.message ?? '회원가입 POST 실패');
+        alert('서버 응답 에러');
       }
     } catch (error: any) {
-      console.error('Error creating post:', error.message);
+      console.error('회원가입 POST 실패 에러 메시지:', error.message);
+      alert('네트워크 실패');
     }
   };
 
   return (
-    <LoginModal onClose={handleModalClose}>
+    <LoginModal onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-16">
         <FormField
           label="닉네임"
@@ -84,6 +62,7 @@ const ProfileSetupModal = () => {
           register={register}
           name="nickname"
           placeholder="닉네임을 작성해주세요"
+          errors={errors}
         />
 
         <FormFieldSelect
@@ -93,6 +72,7 @@ const ProfileSetupModal = () => {
           name="department"
           placeholder="학과 선택"
           setValue={setValue}
+          errors={errors}
         />
 
         <FormFieldSelect
@@ -103,6 +83,7 @@ const ProfileSetupModal = () => {
           name="techStack"
           placeholder="기술스택 선택"
           setValue={setValue}
+          errors={errors}
         />
 
         <FormFieldSelect
@@ -112,20 +93,25 @@ const ProfileSetupModal = () => {
           name="position"
           placeholder="포지션 선택"
           setValue={setValue}
+          errors={errors}
         />
 
         <FormField
           label="깃허브 주소(선택)"
+          isRequired={false}
           register={register}
           name="githubUrl"
           placeholder="깃허브 주소를 입력해주세요"
+          errors={errors}
         />
 
         <FormField
           label="백준 ID (선택)"
+          isRequired={false}
           register={register}
           name="baekjoonId"
           placeholder="백준 ID를 적어주세요"
+          errors={errors}
         />
 
         <button
@@ -136,63 +122,6 @@ const ProfileSetupModal = () => {
         </button>
       </form>
     </LoginModal>
-  );
-};
-
-const FormField = ({ label, isRequired, register, name, placeholder }: any) => (
-  <div className="mb-5">
-    <label>
-      <p>
-        {label}
-        {isRequired && <span className="text-[#0038FF]">(*필수)</span>}
-      </p>
-      <input
-        {...register(name)}
-        type="text"
-        placeholder={placeholder}
-        className="border border-[#CCCCCC] rounded px-2 py-1 mr-5"
-      />
-    </label>
-    {label === '닉네임' && (
-      <button className="bg-[#D9D9D9] px-4 py-1 rounded font-bold">중복 확인</button>
-    )}
-  </div>
-);
-
-const FormFieldSelect = ({
-  label,
-  isRequired,
-  options,
-  isMulti = false,
-  name,
-  placeholder,
-  setValue,
-}: FormFieldSelectProps) => {
-  // 선택 변경 시 호출될 함수
-  const onChange = (selectedOption: any) => {
-    // 선택된 값 설정
-    setValue(
-      name,
-      isMulti ? selectedOption.map((option: any) => option.value) : selectedOption.value
-    );
-  };
-
-  return (
-    <div className="mb-5">
-      <label>
-        <p>
-          {label}
-          {isRequired && <span className="text-[#0038FF]">(*필수)</span>}
-        </p>
-        <Select
-          options={options}
-          isMulti={isMulti}
-          placeholder={placeholder}
-          instanceId={name}
-          onChange={onChange}
-        />
-      </label>
-    </div>
   );
 };
 

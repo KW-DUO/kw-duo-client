@@ -4,9 +4,9 @@ import { LoginStepProps } from '../LoginStep/LoginStep';
 import { NaverLoginButton } from '../LoginButton/NaverLoginButton';
 import { KakaoLoginButton } from '../LoginButton/KakaoLoginButton';
 
-const SocialLoginModal = ({ onNext }: LoginStepProps) => {
+const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
   return (
-    <LoginModal>
+    <LoginModal onClose={onClose}>
       <div className="flex justify-center items-center h-[440px]">
         <div>
           <h1 className="text-center mb-14 text-3xl font-bold">간편 로그인 후 이용 가능합니다!</h1>
