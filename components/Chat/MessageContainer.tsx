@@ -1,5 +1,6 @@
 import { apiUrl } from '@/constant/api';
 import { ChatMessage } from '@/types';
+import { toYYYYMMDD } from '@/util';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export const MessageContainer = ({ userId, roomId }: any) => {
@@ -34,10 +35,7 @@ export const MessageContainer = ({ userId, roomId }: any) => {
 
   const getFormattedDate = (isoDate: string) => {
     const date = new Date(isoDate);
-    const year = date.getFullYear().toString().substr(-2);
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}.${month}.${day}`;
+    return toYYYYMMDD(date);
   };
 
   const getFormattedTime = (isoDate: string) => {
