@@ -13,9 +13,9 @@ export type PostCard = {
   postType: string;
   projectType: string;
   title: string;
-  department: string | null;
-  class: string | null;
-  interestingField: string | null;
+  department?: string | null;
+  class?: string | null;
+  interestingField?: string[] | null;
   wantedPosition: string[];
   author: Author;
   bookmark: Bookmark;
@@ -25,18 +25,20 @@ export type PostCard = {
 
 export type PostDetail = {
   id: number;
-  type: string;
+  postType: string;
+  projectType: string;
   title: string;
   content: string;
-  department: string;
+  department?: string | null;
+  class?: string | null;
   wantedPosition: string[];
-  techStack: string[];
-  interestingField: string[];
+  interestingField: string[] | null;
   recruitNumber: number;
   author: {
     id: number;
     nickname: string;
     profileImgUrl: string | null;
   };
-  createdAt: Date;
+  techStack: string[];
+  createdAt: string;
 };

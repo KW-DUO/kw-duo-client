@@ -2,18 +2,38 @@
 
 import { useContext } from 'react';
 import { PostDetailContext } from '@/components/postDetail/store';
+import { apiUrl } from '@/constant/api';
 
 export const PostCloseButton = () => {
   const post = useContext(PostDetailContext);
 
-  async function onClickClose() {
+  const postClose = async () => {
+    if (!post) {
+      throw new Error('post 데이터 없음');
+    }
+    const url = apiUrl + `/posts/${post.id}/close`;
+    const response = await fetch(url, { method: 'POST' });
+
+    if (!response.ok) {
+      throw new Error('글 모집 마감 요청 실패');
+    }
+
+    return response.json();
+  };
+
+  const onClickClose = async () => {
     if (!post) {
       alert('게시글 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
       return;
     }
 
-    alert(`${post.id}번 게시글 마감 api 발사`);
-  }
+    try {
+      await postClose();
+      alert(`${post.id}번 게시글이 마감되었습니다.`);
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
 
   return (
     <button

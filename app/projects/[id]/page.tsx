@@ -46,8 +46,8 @@ const PostDetailPage = () => {
           <PostDetail.ProjectDetails />
           {isMyPost && <PostDetail.PostCloseButton />}
           {!isMyPost && <PostDetail.ApplicationButton />}
+          {isMyPost && <PostDetail.ApplicantList />}
         </PostDetail.Root>
-        <ApplicantList />
       </main>
       <Footer />
     </>

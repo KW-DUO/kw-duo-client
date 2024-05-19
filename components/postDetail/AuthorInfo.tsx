@@ -18,6 +18,7 @@ export const AuthorInfo = () => {
         alt="프로필 이미지"
         width={48}
         height={48}
+        className="rounded-full"
       />
       <div className="font-bold">{post.author.nickname}</div>
       <div className="w-0.5 h-5 bg-slate-400" />
