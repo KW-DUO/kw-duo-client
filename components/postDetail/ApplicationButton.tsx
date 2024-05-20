@@ -2,9 +2,11 @@
 import { useContext } from 'react';
 import { PostDetailContext } from '@/components/postDetail/store';
 import { apiUrl } from '@/constant/api';
+import { useRouter } from 'next/navigation';
 
 export const ApplicationButton = () => {
   const post = useContext(PostDetailContext);
+  const router = useRouter();
 
   const postApply = async () => {
     try {
@@ -23,6 +25,7 @@ export const ApplicationButton = () => {
       return;
     }
     postApply();
+    router.push(`/messages`);
     alert(`${post.id}번 게시글 지원 api 발사`);
   };
 
