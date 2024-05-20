@@ -20,7 +20,6 @@ const ProjectList = () => {
   const { projectType, department, course, position, wantedField, q } = useProject();
 
   const path = usePathname();
-  console.log(path);
 
   let findType: string = '';
   if (path === '/') findType = 'find-team';

@@ -17,8 +17,6 @@ export const PostCloseButton = () => {
     if (!response.ok) {
       throw new Error('글 모집 마감 요청 실패');
     }
-
-    return response.json();
   };
 
   const onClickClose = async () => {

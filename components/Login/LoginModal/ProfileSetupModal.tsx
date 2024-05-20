@@ -40,7 +40,6 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
 
       const responseData = await response.json();
       if (response.ok) {
-        console.log('유저 생성:', responseData);
         alert('가입을 축하드립니다!');
         // handleModalClose();
       } else {

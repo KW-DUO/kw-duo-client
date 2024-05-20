@@ -8,6 +8,8 @@ type ProjectCardProps = {
 };
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const interestingFieldArray = project.interestingField ?? null;
+
   return (
     <li className="w-cardWidth h-cardHeight px-6 pt-5 border-2 border-gray rounded-3xl">
       <Card.InfoHeader projectType={project.projectType} />
@@ -18,7 +20,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         department={project.department ?? ''}
         course={project.class ?? ''}
         wantedPosition={project.wantedPosition}
-        interestingField={project.interestingField ?? ''}
+        interestingField={interestingFieldArray}
       />
 
       <Card.TechStack techStack={project.techStack} />

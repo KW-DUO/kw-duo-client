@@ -24,11 +24,9 @@ export const ApplicantList = () => {
     error,
   } = useQuery({
     queryKey: ['applicants', post?.id],
-    queryFn: () => fetchApplicants(post!.id), // non-null assertion 사용
+    queryFn: () => fetchApplicants(post!.id),
     enabled: !!post?.id,
   });
-
-  console.log(applicants);
 
   if (isLoading) {
     return <div>Loading...</div>;
