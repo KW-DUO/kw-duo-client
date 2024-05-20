@@ -1,3 +1,4 @@
+// ProjectContext.tsx
 'use client';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { ProjectState, ProjectContextType } from '@/types';
@@ -8,7 +9,7 @@ const initialState: ProjectState = {
   course: 'ALL',
   position: 'ALL',
   wantedField: 'ALL',
-  bookmarkOnly: false,
+  isBookmarkOnly: false,
   notClosedOnly: true,
   page: 0,
   size: 20,
@@ -31,7 +32,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     setCourse: (course: string) => setState((s) => ({ ...s, course })),
     setPosition: (position: string) => setState((s) => ({ ...s, position })),
     setWantedField: (wantedField: string) => setState((s) => ({ ...s, wantedField })),
-    setBookmarkOnly: (bookmarkOnly: boolean) => setState((s) => ({ ...s, bookmarkOnly })),
+    setIsBookmarkOnly: (isBookmarkOnly: boolean) => setState((s) => ({ ...s, isBookmarkOnly })),
     setNotClosedOnly: (notClosedOnly: boolean) => setState((s) => ({ ...s, notClosedOnly })),
     setPage: (page: number) => setState((s) => ({ ...s, page })),
     setSize: (size: number) => setState((s) => ({ ...s, size })),
