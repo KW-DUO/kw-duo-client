@@ -9,14 +9,14 @@ import Editor from '@/components/Editor/Editor';
 // CONSTANTS
 import { wantedPosition } from '@/constant/wantedPosition';
 import { interestingField } from '@/constant/interestingField/index';
-import { getProjectTypeLabel, projectType } from '@/constant/projectType';
+import { postProjectType } from '@/constant/projectType';
 import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
 import { recruitNumber } from '@/constant/recruitNumber';
 import { departmentClasses } from '@/constant/class';
 import { apiUrl } from '@/constant/api';
-import { useRouter } from 'next/router';
 import SelectField from '@/components/createPost/SelectField';
+import { useRouter } from 'next/navigation';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -57,22 +57,7 @@ const EditPost = ({ params }: Props) => {
   const id = Date.now().toString();
   const [isMounted, setIsMounted] = useState(false);
   // https://github.com/JedWatson/react-select/issues/5459 에러 해결
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/${params.id}`);
-        if (!response.ok) {
-          throw new Error('글 상세페이지 값 요청 실패');
-        }
-        const data = await response.json();
-      } catch (error: any) {
-        console.error('네트워크 실패', error.message);
-      }
-    };
-  });
-
-  const [editorKey, setEditorKey] = useState(0); // Editor 컴포넌트를 재마운트하기 위한 key 상태
+  const router = useRouter();
 
   // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
   const [isTeamMemberSearch, setIsTeamMemberSearch] = useState<boolean>(true);
@@ -87,9 +72,6 @@ const EditPost = ({ params }: Props) => {
     techStack: true,
     recruitNumber: true,
   });
-
-  console.log(isTeamMemberSearch);
-  console.log(selectedProjectType);
 
   // 프로젝트 구분 선택에 따른 input 활성화 처리
   useEffect(() => {
@@ -188,8 +170,12 @@ const EditPost = ({ params }: Props) => {
     }
 
     let postURL;
-    if (isTeamMemberSearch) postURL = apiUrl + `/posts/find-teammate`;
-    else postURL = apiUrl + '/posts/find-team';
+    if (isTeamMemberSearch) {
+      postURL = apiUrl + `/posts/find-teammate`;
+    } else {
+      postURL = apiUrl + '/posts/find-team';
+    }
+
     try {
       // const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
       const response = await fetch(postURL, {
@@ -203,12 +189,13 @@ const EditPost = ({ params }: Props) => {
 
       const responsData = await response.json();
       if (response.ok) {
-        console.log('Post created:', responsData);
+        alert('글 수정이 완료되었어요!');
+        router.push(`/projects/${params.id}`);
       } else {
-        throw new Error(responsData.message || 'Failed to create the post');
+        throw new Error(responsData.message || '수정 요청 실패');
       }
     } catch (error: any) {
-      console.error('Error creating post:', error.message);
+      console.error('네트워크 수정 실패:', error.message);
     }
   };
 
@@ -274,7 +261,7 @@ const EditPost = ({ params }: Props) => {
                 control={control}
                 label="1. 프로젝트 구분"
                 name="projectType"
-                options={projectType}
+                options={postProjectType}
                 isDisabled={false}
                 placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
                 handleProjectTypeChange={handleProjectTypeChange}
