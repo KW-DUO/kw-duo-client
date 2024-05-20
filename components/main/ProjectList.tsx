@@ -16,7 +16,6 @@ const ProjectList = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false); // 북마크 상태
-  const [notClosedPosts, setNotClosedPosts] = useState<boolean>(true); // 글의 마감이 안된 상태
 
   const { projectType, department, course, position, wantedField, q } = useProject();
 
@@ -34,7 +33,7 @@ const ProjectList = () => {
       try {
         const res = await fetch(
           apiUrl +
-            `/posts/${findType}?${q && `q=${q}&`}projectType=${projectType}&department=${department}&class=${course}&position=${position}&wantedField=${wantedField}&bookmarkOnly=${isBookmarked}&notClosedOnly=${notClosedPosts}&page=${currentPage}`
+            `/posts/${findType}?${q && `q=${q}&`}projectType=${projectType}&department=${department}&class=${course}&position=${position}&wantedField=${wantedField}&bookmarkOnly=${isBookmarked}&page=${currentPage}`
         );
         const data = await res.json();
         // setPosts(data.posts);
@@ -49,7 +48,6 @@ const ProjectList = () => {
     fetchPosts();
   }, [
     isBookmarked,
-    notClosedPosts,
     currentPage,
     projectType,
     department,
