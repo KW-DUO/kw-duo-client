@@ -106,13 +106,10 @@ const Mypage = () => {
       formData.append('image', file);
 
       try {
-        const response = await fetch(
-          'https://kw-duo-server.onrender.com/file/upload-profile-image',
-          {
-            method: 'POST',
-            body: formData,
-          }
-        );
+        const response = await fetch(`${apiUrl}/file/upload-profile-image`, {
+          method: 'POST',
+          body: formData,
+        });
 
         if (response.ok) {
           const result = await response.json();
@@ -204,12 +201,10 @@ const Mypage = () => {
         </label>
 
         <label className="w-full">
-          <div className="text-sm font-bold">
-            자기소개<span className="text-custom-red">*</span>
-          </div>
+          <div className="text-sm font-bold">자기소개</div>
           <textarea
             id="bio"
-            {...register('bio', { required: '자기소개를 입력해주세요.' })}
+            {...register('bio')}
             cols={10}
             rows={10}
             placeholder="자기소개 입력"
