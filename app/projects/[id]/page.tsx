@@ -23,7 +23,7 @@ const PostDetailPage = ({ params }: Props) => {
   // const postDetail = DUMMY_POST_DETAIL;
 
   // TODO: 로그인한 사용자의 게시글인지 확인하는 로직 필요
-  const isMyPost = false;
+  const isMyPost = true;
 
   const {
     data: postDetail,

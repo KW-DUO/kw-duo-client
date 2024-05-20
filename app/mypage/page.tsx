@@ -3,7 +3,7 @@ import { positions, getPositionLabel } from '@/constant/position';
 import { techStack } from '@/constant/techStack';
 import { mypageForm } from '@/types/mypageFormTypes';
 import { userImageURL } from '@/constant/images';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -24,6 +24,7 @@ const Mypage = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [profileData, setProfileData] = useState<mypageForm | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -92,12 +93,55 @@ const Mypage = () => {
     }
   };
 
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const response = await fetch(
+          'https://kw-duo-server.onrender.com/file/upload-profile-image',
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          const result = await response.json();
+          setProfileData((prevData) =>
+            prevData
+              ? { ...prevData, profileImgUrl: result.imageUrl, profileImgId: result.imageId }
+              : null
+          );
+          setValue('profileImgId', result.imageId);
+          setValue('profileImgUrl', result.imageUrl);
+          alert('이미지 업로드가 성공했습니다!');
+        } else {
+          const errorData = await response.json();
+          console.error('Error uploading image:', errorData);
+          alert('이미지 업로드 중 오류가 발생했습니다.');
+        }
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        alert('이미지 업로드 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
     <main className="max-w-[500px] mx-auto p-5">
       <div className="flex justify-center items-center mb-10">
-        <label className="cursor-pointer">
+        <label className="cursor-pointer" onClick={handleImageClick}>
           <img
             src={profileData?.profileImgUrl || userImageURL}
             alt="user-image"
@@ -105,6 +149,12 @@ const Mypage = () => {
           />
           <div className="text-center">프로필 사진 변경</div>
         </label>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleImageChange}
+        />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
