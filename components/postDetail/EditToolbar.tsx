@@ -2,11 +2,13 @@
 import { PostDetailContext } from '@/components/postDetail/store';
 import { apiUrl } from '@/constant/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 
 export const EditToolbar = () => {
   const post = useContext(PostDetailContext);
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const getApiUrl = (postType: string, postId: number) => {
     switch (postType) {
@@ -47,10 +49,9 @@ export const EditToolbar = () => {
   function onEditClick() {
     if (!post) {
       alert('게시글 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
-
       return;
     }
-
+    router.push(`/edit/${post.id}`);
     alert(`${post.id}번 게시글 수정 페이지로 이동`);
   }
 

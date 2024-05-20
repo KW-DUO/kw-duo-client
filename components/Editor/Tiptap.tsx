@@ -10,9 +10,10 @@ import { useEffect } from 'react';
 type TiptapProps = {
   onChange: (newContent: string) => void;
   toggleState: boolean;
+  initialValue: string;
 };
 
-const Tiptap = ({ onChange, toggleState }: TiptapProps) => {
+const Tiptap = ({ onChange, toggleState, initialValue }: TiptapProps) => {
   const handleChange = (newContent: string) => {
     onChange(newContent);
   };
@@ -44,7 +45,13 @@ const Tiptap = ({ onChange, toggleState }: TiptapProps) => {
       handleChange(editor.getHTML());
     },
   });
-  
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(initialValue); // Update content when initialValue changes
+    }
+  }, [initialValue, editor]);
+
   useEffect(() => {
     if (editor) {
       editor.commands.setContent(''); // toggleState가 변경될 때마다 에디터 내용을 초기화합니다.

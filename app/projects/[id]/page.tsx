@@ -34,8 +34,6 @@ const PostDetailPage = ({ params }: Props) => {
     queryFn: () => fetchPostDetail(params.id),
   });
 
-  console.log(params);
-
   if (isLoading) return 'Loading...';
   if (error) return '글 상세 조회 실패: ' + error.message;
 
