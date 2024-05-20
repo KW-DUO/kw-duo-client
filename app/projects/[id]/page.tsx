@@ -5,20 +5,25 @@ import { DUMMY_POST_DETAIL } from '@/dummy/post';
 import { ApplicantList } from '@/components/postDetail/ApplicantList';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { apiUrl } from './../../../constant/api/index';
 
-const fetchPostDetail = async () => {
-  const response = await fetch('https://kw-duo-server.onrender.com/posts/1');
+type Props = {
+  params: { id: number };
+};
+
+const fetchPostDetail = async (postId: number) => {
+  const response = await fetch(`${apiUrl}/posts/${postId}`, { method: 'GET' });
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
   return response.json();
 };
 
-const PostDetailPage = () => {
+const PostDetailPage = ({ params }: Props) => {
   // const postDetail = DUMMY_POST_DETAIL;
 
   // TODO: 로그인한 사용자의 게시글인지 확인하는 로직 필요
-  const isMyPost = true;
+  const isMyPost = false;
 
   const {
     data: postDetail,
@@ -26,8 +31,10 @@ const PostDetailPage = () => {
     isLoading,
   } = useQuery({
     queryKey: ['postDetail'],
-    queryFn: fetchPostDetail,
+    queryFn: () => fetchPostDetail(params.id),
   });
+
+  console.log(params);
 
   if (isLoading) return 'Loading...';
   if (error) return '글 상세 조회 실패: ' + error.message;
