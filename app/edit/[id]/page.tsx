@@ -9,7 +9,7 @@ import Editor from '@/components/Editor/Editor';
 // CONSTANTS
 import { wantedPosition } from '@/constant/wantedPosition';
 import { interestingField } from '@/constant/interestingField/index';
-import { postProjectType } from '@/constant/projectType';
+import { projectType } from '@/constant/projectType';
 import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
 import { recruitNumber } from '@/constant/recruitNumber';
@@ -261,7 +261,7 @@ const EditPost = ({ params }: Props) => {
                 control={control}
                 label="1. 프로젝트 구분"
                 name="projectType"
-                options={postProjectType}
+                options={projectType}
                 isDisabled={false}
                 placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
                 handleProjectTypeChange={handleProjectTypeChange}
