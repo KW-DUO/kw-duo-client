@@ -173,7 +173,6 @@ const EditPost = ({ params }: Props) => {
     }
 
     try {
-      // const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
       const response = await fetch(postURL, {
         method: 'POST',
         headers: {
@@ -183,12 +182,12 @@ const EditPost = ({ params }: Props) => {
         body: JSON.stringify(data),
       });
 
-      const responsData = await response.json();
+      const responseData = await response.json();
       if (response.ok) {
         alert('글 수정이 완료되었어요!');
         router.push(`/projects/${params.id}`);
       } else {
-        throw new Error(responsData.message || '수정 요청 실패');
+        throw new Error(responseData.message || '수정 요청 실패');
       }
     } catch (error: any) {
       console.error('네트워크 수정 실패:', error.message);
@@ -205,7 +204,7 @@ const EditPost = ({ params }: Props) => {
         }
         const data = await response.json();
 
-        setPostType(postType);
+        setPostType(data.postType);
         setSelectedProjectType(data.projectType); // 프로젝트 타입 선택 적용
         reset(data);
       } catch (error: any) {
@@ -222,29 +221,9 @@ const EditPost = ({ params }: Props) => {
       {isMounted ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <section className="flex gap-5 font-bold text-white mb-8 ">
-            {postType === 'FIND_TEAMMATE' ? (
-              <button
-                type="button"
-                className={`py-3 rounded-3xl w-[200px] ${postType === 'FIND_TEAMMATE' ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-                onClick={() => {
-                  setPostType('FIND_TEAMMATE');
-                  handleProjectTypeChange('');
-                }}
-              >
-                팀원 구하기
-              </button>
-            ) : (
-              <button
-                type="button"
-                className={`py-3 rounded-3xl w-[200px] ${postType === 'FIND_TEAM' ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-                onClick={() => {
-                  setPostType('FIND_TEAM');
-                  handleProjectTypeChange('');
-                }}
-              >
-                팀 구하기
-              </button>
-            )}
+            <button type="button" className="py-3 rounded-3xl w-[200px] bg-secondary">
+              {postType === 'FIND_TEAMMATE' ? '팀원 구하기' : '팀 구하기'}
+            </button>
           </section>
 
           {/* 기본정보 입력 */}
