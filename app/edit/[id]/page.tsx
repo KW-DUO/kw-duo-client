@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 // COMPONENTS
@@ -55,7 +55,6 @@ const EditPost = ({ params }: Props) => {
   // https://github.com/JedWatson/react-select/issues/5459 에러 해결
   const router = useRouter();
 
-  // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
   const [postType, setPostType] = useState<PostType>('FIND_TEAMMATE');
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
 
@@ -135,10 +134,6 @@ const EditPost = ({ params }: Props) => {
   const title = watch('title');
   const content = watch('content');
 
-  // 학과 선택에 따른 수업 정보 처리
-  const selectedDepartment = watch('department');
-  const classesOptions = departmentClasses({ department: selectedDepartment });
-
   // POST 요청
   const onSubmit = async (data: FormFields) => {
     // 필수 필드가 비어 있는지 확인
@@ -165,15 +160,10 @@ const EditPost = ({ params }: Props) => {
       return;
     }
 
-    let postURL;
-    if (postType) {
-      postURL = apiUrl + `/posts/find-teammate`;
-    } else {
-      postURL = apiUrl + '/posts/find-team';
-    }
+    const postURL = postType === 'FIND_TEAMMATE' ? '/posts/find-teammate' : '/posts/find-team';
 
     try {
-      const response = await fetch(postURL, {
+      const response = await fetch(apiUrl + postURL, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -218,121 +208,123 @@ const EditPost = ({ params }: Props) => {
   return (
     <main className="w-[1024px] mx-auto pt-24 pb-16">
       {/* 토글 버튼 */}
-      {isMounted ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <section className="flex gap-5 font-bold text-white mb-8 ">
-            <button type="button" className="py-3 rounded-3xl w-[200px] bg-secondary">
-              {postType === 'FIND_TEAMMATE' ? '팀원 구하기' : '팀 구하기'}
-            </button>
-          </section>
 
-          {/* 기본정보 입력 */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <section className="flex gap-5 font-bold text-white mb-8 ">
+          <button type="button" className="py-3 rounded-3xl w-[200px] bg-secondary">
+            {postType === 'FIND_TEAMMATE' ? '팀원 구하기' : '팀 구하기'}
+          </button>
+        </section>
 
-          <section className="text-black mb-14">
-            <h1 className="py-4 text-2xl font-bold">기본정보를 입력해주세요</h1>
-            <hr className="border-t-2" />
-            <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
-              <SelectField
-                control={control}
-                label="1. 프로젝트 구분"
-                name="projectType"
-                options={projectType}
-                isDisabled={false}
-                placeholder="수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트"
-                handleProjectTypeChange={handleProjectTypeChange}
-              />
-              {/* label 로 감싸보기 */}
-              <SelectField
-                control={control}
-                label="2. 학과 선택"
-                name="department"
-                options={departments}
-                isDisabled={formFieldsDisabled.department}
-                placeholder="컴정공/소프트/정융"
-              />
-              {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
-              <SelectField
-                control={control}
-                label="3. 수업"
-                name="class"
-                options={classesOptions}
-                isDisabled={formFieldsDisabled.class}
-                placeholder="수업 선택"
-              />
-              <SelectField
-                control={control}
-                label="4. 관심 분야"
-                name="interestingField"
-                options={interestingField}
-                isDisabled={formFieldsDisabled.interestingField}
-                placeholder="웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷..."
-                isMulti={true}
-              />
-              <SelectField
-                control={control}
-                label={postType ? '5. 모집 포지션' : '5. 지원 포지션'}
-                name="wantedPosition"
-                options={wantedPosition}
-                isDisabled={formFieldsDisabled.wantedPosition}
-                placeholder="웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷..."
-                isMulti={true}
-              />
-              <SelectField
-                control={control}
-                label="6. 기술 스택"
-                name="techStack"
-                options={techStack}
-                isDisabled={formFieldsDisabled.techStack}
-                placeholder="기술 스택"
-                isMulti={true}
-              />
-              {postType && (
+        {/* 기본정보 입력 */}
+        <section className="text-black mb-14">
+          <h1 className="py-4 text-2xl font-bold">기본정보를 입력해주세요</h1>
+          <hr className="border-t-2" />
+          <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
+            {isMounted && (
+              <>
                 <SelectField
                   control={control}
-                  label="7. 모집 인원"
-                  name="recruitNumber"
-                  options={recruitNumber}
-                  isDisabled={formFieldsDisabled.recruitNumber}
-                  placeholder="인원 설정"
+                  label="1. 프로젝트 구분"
+                  name="projectType"
+                  options={projectType}
+                  isDisabled={false}
+                  placeholder="수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트"
+                  handleProjectTypeChange={handleProjectTypeChange}
                 />
-              )}
-            </ul>
-          </section>
-          {/* 프로젝트 소개 */}
-          <section className="text-black">
-            <h1 className="text-2xl font-bold mb-4">
-              {postType === 'FIND_TEAMMATE'
-                ? '프로젝트에 대해 소개해주세요'
-                : '어떤 팀을 원하는지 작성해주세요'}
-            </h1>
-            <hr className="border-t-2" />
-            <section className="mt-5 mb-2">
-              <input
-                {...register('title')}
-                placeholder="글 제목을 입력해주세요!"
-                type="text"
-                className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
-              />
-              <Controller
-                control={control}
-                name="content"
-                render={({ field }) => (
-                  <Editor
-                    {...field}
-                    toggleState={postType === 'FIND_TEAMMATE'}
-                    onChange={(newContent) => field.onChange(newContent)}
+                {/* label 로 감싸보기 */}
+                <SelectField
+                  control={control}
+                  label="2. 학과 선택"
+                  name="department"
+                  options={departments}
+                  isDisabled={formFieldsDisabled.department}
+                  placeholder="컴정공/소프트/정융"
+                />
+                {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
+                <SelectField
+                  control={control}
+                  label="3. 수업"
+                  name="class"
+                  options={departmentClasses(watch('department'))}
+                  isDisabled={formFieldsDisabled.class}
+                  placeholder="수업 선택"
+                />
+                <SelectField
+                  control={control}
+                  label="4. 관심 분야"
+                  name="interestingField"
+                  options={interestingField}
+                  isDisabled={formFieldsDisabled.interestingField}
+                  placeholder="웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷..."
+                  isMulti={true}
+                />
+                <SelectField
+                  control={control}
+                  label={postType === 'FIND_TEAMMATE' ? '5. 모집 포지션' : '5. 지원 포지션'}
+                  name="wantedPosition"
+                  options={wantedPosition}
+                  isDisabled={formFieldsDisabled.wantedPosition}
+                  placeholder="웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷..."
+                  isMulti={true}
+                />
+                <SelectField
+                  control={control}
+                  label="6. 기술 스택"
+                  name="techStack"
+                  options={techStack}
+                  isDisabled={formFieldsDisabled.techStack}
+                  placeholder="기술 스택"
+                  isMulti={true}
+                />
+                {postType === 'FIND_TEAMMATE' && (
+                  <SelectField
+                    control={control}
+                    label="7. 모집 인원"
+                    name="recruitNumber"
+                    options={recruitNumber}
+                    isDisabled={formFieldsDisabled.recruitNumber}
+                    placeholder="인원 설정"
                   />
                 )}
-              />
-            </section>
-
-            {/* 제출 버튼 */}
-            <button type="submit" className="bg-secondary text-white w-full h-16 font-bold rounded">
-              등록하기
-            </button>
+              </>
+            )}
+          </ul>
+        </section>
+        {/* 프로젝트 소개 */}
+        <section className="text-black">
+          <h1 className="text-2xl font-bold mb-4">
+            {postType === 'FIND_TEAMMATE'
+              ? '프로젝트에 대해 소개해주세요'
+              : '어떤 팀을 원하는지 작성해주세요'}
+          </h1>
+          <hr className="border-t-2" />
+          <section className="mt-5 mb-2">
+            <input
+              {...register('title')}
+              placeholder="글 제목을 입력해주세요!"
+              type="text"
+              className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
+            />
+            <Controller
+              control={control}
+              name="content"
+              render={({ field }) => (
+                <Editor
+                  {...field}
+                  toggleState={postType === 'FIND_TEAMMATE'}
+                  onChange={(newContent) => field.onChange(newContent)}
+                />
+              )}
+            />
           </section>
-        </form>
-      ) : null}
+
+          {/* 제출 버튼 */}
+          <button type="submit" className="bg-secondary text-white w-full h-16 font-bold rounded">
+            등록하기
+          </button>
+        </section>
+      </form>
     </main>
   );
 };

@@ -1,8 +1,4 @@
-type DepartmentClassesProps = {
-  department: string | null | undefined;
-};
-
-export const departmentClasses = ({ department }: DepartmentClassesProps) => {
+export const departmentClasses = (department: string | null | undefined) => {
   switch (department) {
     case 'COMPUTER_INFORMATION_ENGINEERING':
       return [
