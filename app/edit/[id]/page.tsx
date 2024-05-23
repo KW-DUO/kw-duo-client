@@ -8,7 +8,7 @@ import Editor from '@/components/Editor/Editor';
 
 // CONSTANTS
 import { wantedPosition } from '@/constant/wantedPosition';
-import { interestingField } from '@/constant/interestingField/index';
+import { interestingField } from '@/constant/interestingField';
 import { projectType } from '@/constant/projectType';
 import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
@@ -18,23 +18,18 @@ import { apiUrl } from '@/constant/api';
 import SelectField from '@/components/createPost/SelectField';
 import { useRouter } from 'next/navigation';
 
-// todo:
-// - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
+// todo: 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
 
 type FormFields = {
   projectType: string;
   department?: string | null;
   class?: string | null;
-  interestingField?: string[] | [];
+  interestingField?: string[];
   wantedPosition: string[];
   techStack: string[];
   recruitNumber?: number | null;
   title: string;
   content: string;
-};
-
-type EditorMethods = {
-  resetContent: () => void;
 };
 
 const DEFAULT_VALUES = {
@@ -54,7 +49,6 @@ type Props = {
 };
 
 const EditPost = ({ params }: Props) => {
-  const id = Date.now().toString();
   const [isMounted, setIsMounted] = useState(false);
   // https://github.com/JedWatson/react-select/issues/5459 에러 해결
   const router = useRouter();
