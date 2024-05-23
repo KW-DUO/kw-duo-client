@@ -58,7 +58,7 @@ const EditPost = ({ params }: Props) => {
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
 
   // input 활성화 관리
-  const [FormFieldsDisabled, setFormFieldsDisabled] = useState({
+  const [formFieldsDisabled, setFormFieldsDisabled] = useState({
     department: true,
     class: true,
     interestingField: true,
@@ -142,16 +142,16 @@ const EditPost = ({ params }: Props) => {
     // 필수 필드가 비어 있는지 확인
     let errorMessage = '';
     if (selectedprojectType === '') errorMessage += '프로젝트 구분을 선택해주세요.\n';
-    if (!data.department && !FormFieldsDisabled.department)
+    if (!data.department && !formFieldsDisabled.department)
       errorMessage += '학과를 선택해주세요.\n';
-    if (!data.class && !FormFieldsDisabled.class) errorMessage += '수업을 선택해주세요.\n';
-    if (data.interestingField?.length === 0 && !FormFieldsDisabled.interestingField)
+    if (!data.class && !formFieldsDisabled.class) errorMessage += '수업을 선택해주세요.\n';
+    if (data.interestingField?.length === 0 && !formFieldsDisabled.interestingField)
       errorMessage += '관심 분야를 선택해주세요.\n';
-    if (data.wantedPosition.length === 0 && !FormFieldsDisabled.wantedPosition)
+    if (data.wantedPosition.length === 0 && !formFieldsDisabled.wantedPosition)
       errorMessage += '원하는 포지션을 선택해주세요.\n';
-    if (data.techStack.length === 0 && !FormFieldsDisabled.techStack)
+    if (data.techStack.length === 0 && !formFieldsDisabled.techStack)
       errorMessage += '기술 스택을 선택해주세요.\n';
-    if (!data.recruitNumber && !FormFieldsDisabled.recruitNumber)
+    if (!data.recruitNumber && !formFieldsDisabled.recruitNumber)
       errorMessage += '모집 인원을 선택해주세요.\n';
     if (selectedprojectType !== '') {
       if (title === '') errorMessage += '제목을 입력해주세요.\n';
@@ -266,7 +266,7 @@ const EditPost = ({ params }: Props) => {
                 label="2. 학과 선택"
                 name="department"
                 options={departments}
-                isDisabled={FormFieldsDisabled.department}
+                isDisabled={formFieldsDisabled.department}
                 placeholder={'컴정공/소프트/정융'}
               />
               {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
@@ -275,7 +275,7 @@ const EditPost = ({ params }: Props) => {
                 label="3. 수업"
                 name="class"
                 options={classesOptions}
-                isDisabled={FormFieldsDisabled.class}
+                isDisabled={formFieldsDisabled.class}
                 placeholder={'수업 선택'}
               />
               <SelectField
@@ -283,7 +283,7 @@ const EditPost = ({ params }: Props) => {
                 label="4. 관심 분야"
                 name="interestingField"
                 options={interestingField}
-                isDisabled={FormFieldsDisabled.interestingField}
+                isDisabled={formFieldsDisabled.interestingField}
                 placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
                 isMulti={true}
               />
@@ -292,7 +292,7 @@ const EditPost = ({ params }: Props) => {
                 label={isTeamMemberSearch ? '5. 모집 포지션' : '5. 지원 포지션'}
                 name="wantedPosition"
                 options={wantedPosition}
-                isDisabled={FormFieldsDisabled.wantedPosition}
+                isDisabled={formFieldsDisabled.wantedPosition}
                 placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
                 isMulti={true}
               />
@@ -301,7 +301,7 @@ const EditPost = ({ params }: Props) => {
                 label={'6. 기술 스택'}
                 name="techStack"
                 options={techStack}
-                isDisabled={FormFieldsDisabled.techStack}
+                isDisabled={formFieldsDisabled.techStack}
                 placeholder="기술 스택"
                 isMulti={true}
               />
@@ -311,7 +311,7 @@ const EditPost = ({ params }: Props) => {
                   label={'7. 모집 인원'}
                   name="recruitNumber"
                   options={recruitNumber}
-                  isDisabled={FormFieldsDisabled.recruitNumber}
+                  isDisabled={formFieldsDisabled.recruitNumber}
                   placeholder="인원 설정"
                 />
               )}
