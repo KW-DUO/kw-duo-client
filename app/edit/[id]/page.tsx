@@ -230,7 +230,7 @@ const EditPost = ({ params }: Props) => {
 
           <section className="text-black mb-14">
             <h1 className="py-4 text-2xl font-bold">기본정보를 입력해주세요</h1>
-            <div className="border-t-2"></div>
+            <hr className="border-t-2" />
             <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
               <SelectField
                 control={control}
@@ -238,7 +238,7 @@ const EditPost = ({ params }: Props) => {
                 name="projectType"
                 options={projectType}
                 isDisabled={false}
-                placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
+                placeholder="수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트"
                 handleProjectTypeChange={handleProjectTypeChange}
               />
               {/* label 로 감싸보기 */}
@@ -248,7 +248,7 @@ const EditPost = ({ params }: Props) => {
                 name="department"
                 options={departments}
                 isDisabled={formFieldsDisabled.department}
-                placeholder={'컴정공/소프트/정융'}
+                placeholder="컴정공/소프트/정융"
               />
               {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
               <SelectField
@@ -257,7 +257,7 @@ const EditPost = ({ params }: Props) => {
                 name="class"
                 options={classesOptions}
                 isDisabled={formFieldsDisabled.class}
-                placeholder={'수업 선택'}
+                placeholder="수업 선택"
               />
               <SelectField
                 control={control}
@@ -265,7 +265,7 @@ const EditPost = ({ params }: Props) => {
                 name="interestingField"
                 options={interestingField}
                 isDisabled={formFieldsDisabled.interestingField}
-                placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
+                placeholder="웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷..."
                 isMulti={true}
               />
               <SelectField
@@ -274,12 +274,12 @@ const EditPost = ({ params }: Props) => {
                 name="wantedPosition"
                 options={wantedPosition}
                 isDisabled={formFieldsDisabled.wantedPosition}
-                placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
+                placeholder="웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷..."
                 isMulti={true}
               />
               <SelectField
                 control={control}
-                label={'6. 기술 스택'}
+                label="6. 기술 스택"
                 name="techStack"
                 options={techStack}
                 isDisabled={formFieldsDisabled.techStack}
@@ -289,7 +289,7 @@ const EditPost = ({ params }: Props) => {
               {postType && (
                 <SelectField
                   control={control}
-                  label={'7. 모집 인원'}
+                  label="7. 모집 인원"
                   name="recruitNumber"
                   options={recruitNumber}
                   isDisabled={formFieldsDisabled.recruitNumber}
@@ -301,9 +301,11 @@ const EditPost = ({ params }: Props) => {
           {/* 프로젝트 소개 */}
           <section className="text-black">
             <h1 className="text-2xl font-bold mb-4">
-              {postType ? '프로젝트에 대해 소개해주세요' : '어떤 팀을 원하는지 작성해주세요'}
+              {postType === 'FIND_TEAMMATE'
+                ? '프로젝트에 대해 소개해주세요'
+                : '어떤 팀을 원하는지 작성해주세요'}
             </h1>
-            <div className="border-t-2"></div>
+            <hr className="border-t-2" />
             <section className="mt-5 mb-2">
               <input
                 {...register('title')}
