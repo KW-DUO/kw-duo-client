@@ -48,13 +48,15 @@ type Props = {
   params: { id: number };
 };
 
+type PostType = 'FIND_TEAMMATE' | 'FIND_TEAM';
+
 const EditPost = ({ params }: Props) => {
   const [isMounted, setIsMounted] = useState(false);
   // https://github.com/JedWatson/react-select/issues/5459 에러 해결
   const router = useRouter();
 
   // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
-  const [isTeamMemberSearch, setIsTeamMemberSearch] = useState<boolean>(true);
+  const [postType, setPostType] = useState<PostType>('FIND_TEAMMATE');
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
 
   // input 활성화 관리
@@ -77,7 +79,7 @@ const EditPost = ({ params }: Props) => {
           interestingField: true,
           wantedPosition: false,
           techStack: false,
-          recruitNumber: isTeamMemberSearch ? false : true,
+          recruitNumber: postType !== 'FIND_TEAMMATE',
         });
         break;
       case 'GRADUATION_PROJECT':
@@ -87,7 +89,7 @@ const EditPost = ({ params }: Props) => {
           interestingField: false,
           wantedPosition: false,
           techStack: false,
-          recruitNumber: isTeamMemberSearch ? false : true,
+          recruitNumber: postType !== 'FIND_TEAMMATE',
         });
         break;
       case 'SIDE_PROJECT':
@@ -97,7 +99,7 @@ const EditPost = ({ params }: Props) => {
           interestingField: false,
           wantedPosition: false,
           techStack: false,
-          recruitNumber: isTeamMemberSearch ? false : true,
+          recruitNumber: postType !== 'FIND_TEAMMATE',
         });
         break;
       default:
@@ -110,7 +112,7 @@ const EditPost = ({ params }: Props) => {
           recruitNumber: true,
         });
     }
-  }, [selectedProjectType, isTeamMemberSearch]);
+  }, [selectedProjectType, postType]);
 
   // 프로젝트 타입 변경 처리 함수
   const handleProjectTypeChange = (option: string | undefined) => {
@@ -164,7 +166,7 @@ const EditPost = ({ params }: Props) => {
     }
 
     let postURL;
-    if (isTeamMemberSearch) {
+    if (postType) {
       postURL = apiUrl + `/posts/find-teammate`;
     } else {
       postURL = apiUrl + '/posts/find-team';
@@ -202,8 +204,8 @@ const EditPost = ({ params }: Props) => {
           throw new Error('글 상세페이지 값 요청 실패');
         }
         const data = await response.json();
-        if (data.postType === 'FIND_TEAMMATE') setIsTeamMemberSearch(false);
-        if (data.postType === 'FIND_TEAM') setIsTeamMemberSearch(false);
+
+        setPostType(postType);
         setSelectedProjectType(data.projectType); // 프로젝트 타입 선택 적용
         reset(data);
       } catch (error: any) {
@@ -220,12 +222,12 @@ const EditPost = ({ params }: Props) => {
       {isMounted ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <section className="flex gap-5 font-bold text-white mb-8 ">
-            {isTeamMemberSearch ? (
+            {postType === 'FIND_TEAMMATE' ? (
               <button
                 type="button"
-                className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+                className={`py-3 rounded-3xl w-[200px] ${postType === 'FIND_TEAMMATE' ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
                 onClick={() => {
-                  setIsTeamMemberSearch(true);
+                  setPostType('FIND_TEAMMATE');
                   handleProjectTypeChange('');
                 }}
               >
@@ -234,9 +236,9 @@ const EditPost = ({ params }: Props) => {
             ) : (
               <button
                 type="button"
-                className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+                className={`py-3 rounded-3xl w-[200px] ${postType === 'FIND_TEAM' ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
                 onClick={() => {
-                  setIsTeamMemberSearch(false);
+                  setPostType('FIND_TEAM');
                   handleProjectTypeChange('');
                 }}
               >
@@ -289,7 +291,7 @@ const EditPost = ({ params }: Props) => {
               />
               <SelectField
                 control={control}
-                label={isTeamMemberSearch ? '5. 모집 포지션' : '5. 지원 포지션'}
+                label={postType ? '5. 모집 포지션' : '5. 지원 포지션'}
                 name="wantedPosition"
                 options={wantedPosition}
                 isDisabled={formFieldsDisabled.wantedPosition}
@@ -305,7 +307,7 @@ const EditPost = ({ params }: Props) => {
                 placeholder="기술 스택"
                 isMulti={true}
               />
-              {isTeamMemberSearch && (
+              {postType && (
                 <SelectField
                   control={control}
                   label={'7. 모집 인원'}
@@ -320,9 +322,7 @@ const EditPost = ({ params }: Props) => {
           {/* 프로젝트 소개 */}
           <section className="text-black">
             <h1 className="text-2xl font-bold mb-4">
-              {isTeamMemberSearch
-                ? '프로젝트에 대해 소개해주세요'
-                : '어떤 팀을 원하는지 작성해주세요'}
+              {postType ? '프로젝트에 대해 소개해주세요' : '어떤 팀을 원하는지 작성해주세요'}
             </h1>
             <div className="border-t-2"></div>
             <section className="mt-5 mb-2">
@@ -338,7 +338,7 @@ const EditPost = ({ params }: Props) => {
                 render={({ field }) => (
                   <Editor
                     {...field}
-                    toggleState={isTeamMemberSearch}
+                    toggleState={postType === 'FIND_TEAMMATE'}
                     onChange={(newContent) => field.onChange(newContent)}
                   />
                 )}
