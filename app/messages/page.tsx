@@ -7,7 +7,7 @@ import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { apiUrl } from '@/constant/api';
 import { formatDate } from '@/util/formatDate';
-import { Sidebar } from '@/components/Chat/Sidebar';
+import { ChatSidebar } from '@/components/Chat/ChatSidebar';
 import * as Chat from '@/components/Chat';
 import { ChatRoom } from '@/types';
 
@@ -26,7 +26,7 @@ const Chatting = () => {
       <main className="max-w-[1300px] py-10 mx-auto">
         <section className="border border-gray flex flex-1 h-[80vh] bg-[#fffbfb]">
           {/* 왼쪽 채팅방 */}
-          <Chat.Sidebar onChangeRoomId={handleChangeRoomId} />
+          <Chat.ChatSidebar onChangeRoomId={handleChangeRoomId} />
           <Chat.Chats roomId={roomId} />
         </section>
       </main>
