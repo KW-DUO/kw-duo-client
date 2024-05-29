@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 // COMPONENTS
@@ -9,7 +9,7 @@ import SelectField from './../../components/createPost/SelectField';
 
 // CONSTANTS
 import { wantedPosition } from '@/constant/wantedPosition';
-import { interestingField } from '@/constant/interestingField';
+import { interestingField } from '@/constant/interestingField/index';
 import { projectType } from '@/constant/projectType';
 import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
@@ -135,6 +135,10 @@ const CreatePost = () => {
   const title = watch('title');
   const content = watch('content');
 
+  // 학과 선택에 따른 수업 정보 처리
+  const selectedDepartment = watch('department');
+  const classesOptions = departmentClasses({ department: selectedDepartment });
+
   // POST 요청
   const onSubmit = async (data: FormFields) => {
     // 필수 필드가 비어 있는지 확인
@@ -177,7 +181,7 @@ const CreatePost = () => {
 
       const responsData = await response.json();
       if (!response.ok) {
-        throw new Error(responsData.message ?? 'Failed to create the post');
+        throw new Error(responsData.message || 'Failed to create the post');
       }
     } catch (error: any) {
       console.error('Error creating post:', error.message);
@@ -241,7 +245,7 @@ const CreatePost = () => {
                 control={control}
                 label="3. 수업"
                 name="class"
-                options={departmentClasses(watch('department'))}
+                options={classesOptions}
                 isDisabled={FormFieldsDisabled.class}
                 placeholder={'수업 선택'}
               />
