@@ -1,8 +1,5 @@
 import SurveyPostionHorizontalBarChart from '@/components/chart/SurveyPostionHorizontalBarChart';
-import SurveyPostionVerticalBarChart from '@/components/chart/SurveyPostionVerticalBarChart';
-import SurveyVerticalBarChart from '@/components/chart/SurveyPostionVerticalBarChart';
 import SurveyCodingTestLanguageHorizontalBarChart from './../../components/chart/SurveyCodingTestLanguageHorizontalBarChart';
-import SurveyTechstackVerticalBarChart from '@/components/chart/SurveyTechstackVerticalBarChart';
 import SurveyTechstackHorizontalBarChart from './../../components/chart/SurveyTechstackHorizontalBarChart';
 import Footer from '@/components/footer/Footer';
 
