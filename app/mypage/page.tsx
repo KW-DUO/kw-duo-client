@@ -209,7 +209,7 @@ const Mypage = () => {
             rows={10}
             placeholder="자기소개 입력"
             className="border rounded py-3 px-3 h-28 w-full resize-none"
-          ></textarea>
+          />
           {errors.bio && <span className="text-red-500">{errors.bio.message}</span>}
         </label>
 
