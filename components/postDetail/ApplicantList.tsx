@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import ApplicationCard from './ApplicationCard';
 import { PostDetailContext } from '@/components/postDetail/store';
 import { useContext } from 'react';
-import { Applicant } from '@/types/Applicant';
+import { Applicant } from '@/types/applicant';
 
 const fetchApplicants = async (postId: number) => {
   const response = await fetch(`https://kw-duo-server.onrender.com/posts/${postId}/applicant`);

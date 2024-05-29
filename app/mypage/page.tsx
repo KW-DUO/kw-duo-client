@@ -1,7 +1,7 @@
 'use client';
 import { positions, getPositionLabel } from '@/constant/position';
 import { techStack } from '@/constant/techStack';
-import { mypageForm } from '@/types/mypageFormTypes';
+import { MyPageForm } from '@/types/mypageFormTypes';
 import { userImageURL } from '@/constant/images';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -9,6 +9,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { apiUrl } from '@/constant/api';
 import { getDepartmentLabel } from '@/constant/department';
+import { UploadImage } from '@/types';
 
 const animatedComponents = makeAnimated();
 
@@ -19,11 +20,11 @@ const Mypage = () => {
     control,
     setValue,
     formState: { errors },
-  } = useForm<mypageForm>();
+  } = useForm<MyPageForm>();
 
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState<mypageForm | null>(null);
+  const [profileData, setProfileData] = useState<MyPageForm | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -31,37 +32,40 @@ const Mypage = () => {
   }, []);
 
   useEffect(() => {
-    if (isMounted) {
-      fetch(`${apiUrl}/members/info`)
-        .then((response) => response.json())
-        .then((data) => {
-          const formattedData = {
-            ...data,
-            department: getDepartmentLabel(data.department),
-            position: { label: getPositionLabel(data.position), value: data.position },
-            techStack: data.techStack.map((tech: string) => ({ label: tech, value: tech })),
-          };
-          setProfileData(formattedData);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error fetching profile data:', error);
-          setLoading(false);
-        });
+    if (!isMounted) {
+      return;
     }
+    fetch(`${apiUrl}/members/info`)
+      .then((response) => response.json())
+      .then((data) => {
+        const formattedData = {
+          ...data,
+          department: getDepartmentLabel(data.department),
+          position: { label: getPositionLabel(data.position), value: data.position },
+          techStack: data.techStack.map((tech: string) => ({ label: tech, value: tech })),
+        };
+        setProfileData(formattedData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching profile data:', error);
+        setLoading(false);
+      });
   }, [isMounted]);
 
   useEffect(() => {
-    if (profileData) {
-      for (const key in profileData) {
-        if (profileData.hasOwnProperty(key)) {
-          setValue(key as keyof mypageForm, profileData[key as keyof mypageForm]);
-        }
+    if (!profileData) {
+      return;
+    }
+
+    for (const key in profileData) {
+      if (profileData.hasOwnProperty(key)) {
+        setValue(key as keyof MyPageForm, profileData[key as keyof MyPageForm]);
       }
     }
   }, [profileData, setValue]);
 
-  const onSubmit = async (data: mypageForm) => {
+  const onSubmit = async (data: MyPageForm) => {
     try {
       const response = await fetch(`${apiUrl}/members/info`, {
         method: 'POST',
@@ -80,13 +84,14 @@ const Mypage = () => {
         }),
       });
 
-      if (response.ok) {
-        alert('수정완료되었습니다!');
-      } else {
+      if (!response.ok) {
         const errorData = await response.json();
         console.error('Error submitting form:', errorData);
         alert('제출 중 오류가 발생했습니다.');
+        return;
       }
+
+      alert('수정완료되었습니다!');
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('제출 중 오류가 발생했습니다.');
@@ -101,35 +106,38 @@ const Mypage = () => {
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('image', file);
+    if (!file) {
+      return;
+    }
 
-      try {
-        const response = await fetch(`${apiUrl}/file/upload-profile-image`, {
-          method: 'POST',
-          body: formData,
-        });
+    const formData = new FormData();
+    formData.append('image', file);
 
-        if (response.ok) {
-          const result = await response.json();
-          setProfileData((prevData) =>
-            prevData
-              ? { ...prevData, profileImgUrl: result.imageUrl, profileImgId: result.imageId }
-              : null
-          );
-          setValue('profileImgId', result.imageId);
-          setValue('profileImgUrl', result.imageUrl);
-          alert('이미지 업로드가 성공했습니다!');
-        } else {
-          const errorData = await response.json();
-          console.error('Error uploading image:', errorData);
-          alert('이미지 업로드 중 오류가 발생했습니다.');
-        }
-      } catch (error) {
-        console.error('Error uploading image:', error);
+    try {
+      const response = await fetch(`${apiUrl}/file/upload-profile-image`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error uploading image:', errorData);
         alert('이미지 업로드 중 오류가 발생했습니다.');
+        return;
       }
+
+      const result: UploadImage = await response.json();
+      setProfileData((prevData) =>
+        prevData
+          ? { ...prevData, profileImgUrl: result.imageUrl, profileImgId: result.imageId }
+          : null
+      );
+      setValue('profileImgId', result.imageId);
+      setValue('profileImgUrl', result.imageUrl);
+      alert('이미지 업로드가 성공했습니다!');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('이미지 업로드 중 오류가 발생했습니다.');
     }
   };
 
@@ -209,7 +217,7 @@ const Mypage = () => {
             rows={10}
             placeholder="자기소개 입력"
             className="border rounded py-3 px-3 h-28 w-full resize-none"
-          />
+          ></textarea>
           {errors.bio && <span className="text-red-500">{errors.bio.message}</span>}
         </label>
 
