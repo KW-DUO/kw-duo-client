@@ -225,29 +225,25 @@ const EditPost = ({ params }: Props) => {
       {/* 토글 버튼 */}
       {isMounted ? (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <section className="flex gap-5 font-bold text-white mb-8 ">
+          <section className="flex gap-5 font-bold text-white mb-8 text-center">
             {isTeamMemberSearch ? (
-              <button
-                type="button"
+              <div
                 className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
                 onClick={() => {
                   setIsTeamMemberSearch(true);
-                  handleProjectTypeChange('');
                 }}
               >
                 팀원 구하기
-              </button>
+              </div>
             ) : (
-              <button
-                type="button"
+              <div
                 className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
                 onClick={() => {
                   setIsTeamMemberSearch(false);
-                  handleProjectTypeChange('');
                 }}
               >
                 팀 구하기
-              </button>
+              </div>
             )}
           </section>
 
