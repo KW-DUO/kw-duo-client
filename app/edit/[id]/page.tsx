@@ -5,7 +5,6 @@ import { Controller, useForm } from 'react-hook-form';
 
 // COMPONENTS
 import Editor from '@/components/Editor/Editor';
-import SelectField from './../../components/createPost/SelectField';
 
 // CONSTANTS
 import { wantedPosition } from '@/constant/wantedPosition';
@@ -16,6 +15,8 @@ import { techStack } from '@/constant/techStack';
 import { recruitNumber } from '@/constant/recruitNumber';
 import { departmentClasses } from '@/constant/class';
 import { apiUrl } from '@/constant/api';
+import SelectField from '@/components/createPost/SelectField';
+import { useRouter } from 'next/navigation';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -48,12 +49,15 @@ const DEFAULT_VALUES = {
   content: '',
 };
 
-const CreatePost = () => {
+type Props = {
+  params: { id: number };
+};
+
+const EditPost = ({ params }: Props) => {
   const id = Date.now().toString();
   const [isMounted, setIsMounted] = useState(false);
   // https://github.com/JedWatson/react-select/issues/5459 에러 해결
-
-  const [editorKey, setEditorKey] = useState(0); // Editor 컴포넌트를 재마운트하기 위한 key 상태
+  const router = useRouter();
 
   // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
   const [isTeamMemberSearch, setIsTeamMemberSearch] = useState<boolean>(true);
@@ -166,8 +170,12 @@ const CreatePost = () => {
     }
 
     let postURL;
-    if (isTeamMemberSearch) postURL = apiUrl + `/posts/find-teammate`;
-    else postURL = apiUrl + '/posts/find-team';
+    if (isTeamMemberSearch) {
+      postURL = apiUrl + `/posts/find-teammate`;
+    } else {
+      postURL = apiUrl + '/posts/find-team';
+    }
+
     try {
       // const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
       const response = await fetch(postURL, {
@@ -180,13 +188,37 @@ const CreatePost = () => {
       });
 
       const responsData = await response.json();
-      if (!response.ok) {
-        throw new Error(responsData.message || 'Failed to create the post');
+      if (response.ok) {
+        alert('글 수정이 완료되었어요!');
+        router.push(`/projects/${params.id}`);
+      } else {
+        throw new Error(responsData.message || '수정 요청 실패');
       }
     } catch (error: any) {
-      console.error('Error creating post:', error.message);
+      console.error('네트워크 수정 실패:', error.message);
     }
   };
+
+  // 해당 글 정보 GET 요청
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/posts/${params.id}`);
+        if (!response.ok) {
+          throw new Error('글 상세페이지 값 요청 실패');
+        }
+        const data = await response.json();
+        if (data.postType === 'FIND_TEAMMATE') setIsTeamMemberSearch(false);
+        if (data.postType === 'FIND_TEAM') setIsTeamMemberSearch(false);
+        setSelectedProjectType(data.projectType); // 프로젝트 타입 선택 적용
+        reset(data);
+      } catch (error: any) {
+        console.error('네트워크 실패', error.message);
+      }
+    };
+
+    fetchData();
+  }, [params.id, reset]);
 
   return (
     <main className="w-[1024px] mx-auto pt-24 pb-16">
@@ -194,26 +226,29 @@ const CreatePost = () => {
       {isMounted ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <section className="flex gap-5 font-bold text-white mb-8 ">
-            <button
-              type="button"
-              className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-              onClick={() => {
-                setIsTeamMemberSearch(true);
-                handleProjectTypeChange('');
-              }}
-            >
-              팀원 구하기
-            </button>
-            <button
-              type="button"
-              className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-              onClick={() => {
-                setIsTeamMemberSearch(false);
-                handleProjectTypeChange('');
-              }}
-            >
-              팀 구하기
-            </button>
+            {isTeamMemberSearch ? (
+              <button
+                type="button"
+                className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+                onClick={() => {
+                  setIsTeamMemberSearch(true);
+                  handleProjectTypeChange('');
+                }}
+              >
+                팀원 구하기
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+                onClick={() => {
+                  setIsTeamMemberSearch(false);
+                  handleProjectTypeChange('');
+                }}
+              >
+                팀 구하기
+              </button>
+            )}
           </section>
 
           {/* 기본정보 입력 */}
@@ -327,4 +362,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

@@ -5,9 +5,9 @@ import LoginModal from './LoginModal';
 // post 요청 처리
 // 인증번호 숫자만 입력할 수 있도록 하기
 
-const EmailVerificationModal = ({ onNext }: LoginStepProps) => {
+const EmailVerificationModal = ({ onNext, onClose }: LoginStepProps) => {
   return (
-    <LoginModal>
+    <LoginModal onClose={onClose}>
       <section className="font-bold px-10 py-16 text-2xl">
         <h1 className="text-3xl mb-14">광운대학교 웹메일 인증</h1>
         <div className="flex items-center justify-between mb-10">

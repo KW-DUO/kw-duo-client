@@ -1,9 +1,14 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 
-const LoginModal = ({ children }: any) => {
+type LoginModalProps = {
+  children: ReactNode;
+  onClose: () => void;
+};
+
+const LoginModal = ({ children, onClose }: LoginModalProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -11,14 +16,10 @@ const LoginModal = ({ children }: any) => {
     dialogRef.current?.showModal();
   }, []);
 
-  const handleClose = () => {
-    dialogRef.current?.close();
-  };
-
   // dialog 바깥 클릭 모달 닫기
   const handleOutsideClick = (event: React.MouseEvent<HTMLDialogElement>) => {
     if (event.target === dialogRef.current) {
-      handleClose();
+      onClose();
     }
   };
 
@@ -30,7 +31,7 @@ const LoginModal = ({ children }: any) => {
     >
       <nav className="w-full bg-primary text-white font-bold text-3xl h-[60px] flex justify-between items-center px-5">
         <h1>KW DUO</h1>
-        <X size={38} onClick={handleClose} className="cursor-pointer" />
+        <X size={38} onClick={onClose} className="cursor-pointer" />
       </nav>
       {children}
     </dialog>

@@ -13,6 +13,10 @@ const Navbar = () => {
     setIsLoginModalOpen(true); // 로그인 버튼 클릭 시 모달을 엽니다.
   };
 
+  const handleCloseModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
   return (
     <>
       <nav className="bg-secondary h-20">
@@ -32,7 +36,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {isLoginModalOpen && <LoginStep />}
+      {isLoginModalOpen && <LoginStep onClose={handleCloseModal} />}
     </>
   );
 };

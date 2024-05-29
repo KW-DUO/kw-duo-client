@@ -4,7 +4,7 @@ export type ProjectState = {
   course: string;
   position: string;
   wantedField: string;
-  bookmarkOnly: boolean;
+  isBookmarkOnly: boolean;
   notClosedOnly: boolean;
   page: number;
   size: number;
@@ -17,7 +17,7 @@ export type ProjectContextType = ProjectState & {
   setCourse: (className: string) => void;
   setPosition: (position: string) => void;
   setWantedField: (wantedField: string) => void;
-  setBookmarkOnly: (bookmarkOnly: boolean) => void;
+  setIsBookmarkOnly: (bookmarkOnly: boolean) => void;
   setNotClosedOnly: (notClosedOnly: boolean) => void;
   setPage: (page: number) => void;
   setSize: (size: number) => void;

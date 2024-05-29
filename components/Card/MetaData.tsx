@@ -5,7 +5,7 @@ import React from 'react';
 type MetaDataProps = {
   department?: string;
   course?: string;
-  interestingField?: string;
+  interestingField?: string[] | null;
   wantedPosition: string[];
 };
 
@@ -28,7 +28,7 @@ export const MetaData = ({
       <div className="mb-2">
         {course ? '수업: ' : '관심분야: '}
         <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
-          {course ?? interestingField}
+          {course ?? interestingField?.join(', ')}
         </span>
       </div>
       <div className="mb-4 h-14 line-clamp-2">

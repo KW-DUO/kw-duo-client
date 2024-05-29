@@ -3,12 +3,11 @@
 import { Button } from '@/components/navBar/Button';
 import { Select } from '@/components/navBar/Select';
 import { useState } from 'react';
-import { departments } from '@/constant/department';
+import { departmentsFilterOptions } from '@/constant/department';
 import { SearchBar } from '@/components/navBar/SearchBar';
-import { wantedPosition } from '@/constant/wantedPosition';
-import { useForm } from 'react-hook-form';
+import { wantedPositionFilterOptions } from '@/constant/wantedPosition';
 import { useProject } from '@/context/ProjectContext';
-import { interestingField } from '@/constant/interestingField';
+import { interestingFieldFilterOptions } from '@/constant/interestingField';
 import { departmentClasses } from '@/constant/class';
 
 const FiltersBar = () => {
@@ -21,13 +20,13 @@ const FiltersBar = () => {
     course,
     position,
     wantedField,
-    bookmarkOnly,
+    isBookmarkOnly,
     q,
     setDepartment,
     setCourse,
     setPosition,
     setWantedField,
-    setBookmarkOnly,
+    setIsBookmarkOnly,
     setQuery,
   } = useProject();
 
@@ -36,7 +35,7 @@ const FiltersBar = () => {
       {/* 필터 옵션들 */}
       <div className="flex gap-2.5 h-9">
         <Select title="학과" value={department} onValueChange={setDepartment}>
-          {departments.map(({ label, value }) => (
+          {departmentsFilterOptions.map(({ label, value }) => (
             <Select.Option key={value} value={value}>
               {label}
             </Select.Option>
@@ -51,21 +50,21 @@ const FiltersBar = () => {
             ))}
         </Select>
         <Select title="포지션" value={position} onValueChange={setPosition}>
-          {wantedPosition.map(({ label, value }) => (
+          {wantedPositionFilterOptions.map(({ label, value }) => (
             <Select.Option key={value} value={value}>
               {label}
             </Select.Option>
           ))}
         </Select>
         <Select title="관심분야" value={wantedField} onValueChange={setWantedField}>
-          {interestingField.map(({ label, value }) => (
+          {interestingFieldFilterOptions.map(({ label, value }) => (
             <Select.Option key={value} value={value}>
               {label}
             </Select.Option>
           ))}
         </Select>
         {/* 추가적인 버튼들 */}
-        <Button onClick={() => setBookmarkOnly(!bookmarkOnly)}>❤️ 내 북마크 보기</Button>
+        <Button onClick={() => setIsBookmarkOnly(!isBookmarkOnly)}>❤️ 내 북마크 보기</Button>
         {/* <Button>👀 모집 중만 보기</Button> */}
       </div>
       <SearchBar value={q || ''} onValueChange={setQuery} />
