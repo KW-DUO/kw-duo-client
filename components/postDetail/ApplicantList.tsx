@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import ApplicationCard from './ApplicationCard';
 import { PostDetailContext } from '@/components/postDetail/store';
 import { useContext } from 'react';
-import { Applicant } from '@/types/applicant';
+import { Applicant } from '@/types/Applicant';
 import { queryKeys } from '@/queries/queryKeys';
 import { apiUrl } from '@/constant/api';
 

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Applicant } from '@/types/applicant';
+import { Applicant } from '@/types/Applicant';
 import { getDepartmentLabel } from '@/constant/department';
 import { userImageURL } from '@/constant/images';
 
