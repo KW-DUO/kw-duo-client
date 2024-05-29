@@ -67,7 +67,7 @@ const FiltersBar = () => {
         <Button onClick={() => setIsBookmarkOnly(!isBookmarkOnly)}>❤️ 내 북마크 보기</Button>
         {/* <Button>👀 모집 중만 보기</Button> */}
       </div>
-      <SearchBar value={q || ''} onValueChange={setQuery} />
+      <SearchBar value={q ?? ''} onValueChange={setQuery} />
     </form>
   );
 };

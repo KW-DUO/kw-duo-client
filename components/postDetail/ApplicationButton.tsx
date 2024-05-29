@@ -24,9 +24,8 @@ export const ApplicationButton = () => {
       alert('게시글 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
       return;
     }
-    postApply();
+    await postApply();
     router.push(`/messages`);
-    alert(`${post.id}번 게시글 지원 api 발사`);
   };
 
   return (

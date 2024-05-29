@@ -1,5 +1,10 @@
 import { ChevronRight, CircleCheck } from 'lucide-react';
-import { AgreementItemProps } from './AgreementModal';
+
+type AgreementItemProps = {
+  text: string;
+  agreed: boolean;
+  onClick: () => void;
+};
 
 export const AgreementItem = ({ text, agreed, onClick }: AgreementItemProps) => {
   return (

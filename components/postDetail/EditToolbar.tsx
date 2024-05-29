@@ -1,13 +1,11 @@
 'use client';
 import { PostDetailContext } from '@/components/postDetail/store';
 import { apiUrl } from '@/constant/api';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 
 export const EditToolbar = () => {
   const post = useContext(PostDetailContext);
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   const getApiUrl = (postType: string, postId: number) => {
@@ -37,12 +35,8 @@ export const EditToolbar = () => {
       if (!response.ok) {
         throw new Error('post 삭제 요청 실패');
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      } else {
-        throw new Error('unknown 에러 발생');
-      }
+    } catch (error: any) {
+      console.error('post 삭제 요청 실패', error.message);
     }
   };
 
@@ -52,7 +46,6 @@ export const EditToolbar = () => {
       return;
     }
     router.push(`/edit/${post.id}`);
-    alert(`${post.id}번 게시글 수정 페이지로 이동`);
   }
 
   async function onDeleteClick() {

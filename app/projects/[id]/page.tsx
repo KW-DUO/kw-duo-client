@@ -1,11 +1,9 @@
 'use client';
 import Footer from './../../../components/footer/Footer';
 import * as PostDetail from '@/components/postDetail';
-import { DUMMY_POST_DETAIL } from '@/dummy/post';
-import { ApplicantList } from '@/components/postDetail/ApplicantList';
-import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiUrl } from './../../../constant/api/index';
+import { queryKeys } from '@/queries/queryKeys';
 
 type Props = {
   params: { id: number };
@@ -20,8 +18,6 @@ const fetchPostDetail = async (postId: number) => {
 };
 
 const PostDetailPage = ({ params }: Props) => {
-  // const postDetail = DUMMY_POST_DETAIL;
-
   // TODO: 로그인한 사용자의 게시글인지 확인하는 로직 필요
   const isMyPost = true;
 
@@ -30,7 +26,7 @@ const PostDetailPage = ({ params }: Props) => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ['postDetail'],
+    queryKey: queryKeys.postDetail(params.id),
     queryFn: () => fetchPostDetail(params.id),
   });
 

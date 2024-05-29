@@ -44,7 +44,7 @@ const FormFieldSelect = ({
           placeholder={placeholder}
           instanceId={name}
           onChange={onChange}
-          className={`${errors[name] && 'border-red-500'}`} // 에러가 있으면 빨간 테두리 추가
+          className={errors[name] && 'border-red-500'} // 에러가 있으면 빨간 테두리 추가
         />
       </label>
       {errors[name] && (
