@@ -43,7 +43,7 @@ const FiltersBar = () => {
         </Select>
         <Select title="수업" value={course} onValueChange={setCourse}>
           {department &&
-            departmentClasses({ department }).map(({ label, value }) => (
+            departmentClasses(department).map(({ label, value }) => (
               <Select.Option key={value} value={value}>
                 {label}
               </Select.Option>

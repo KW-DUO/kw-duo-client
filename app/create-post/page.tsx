@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 // COMPONENTS
@@ -9,7 +9,7 @@ import SelectField from './../../components/createPost/SelectField';
 
 // CONSTANTS
 import { wantedPosition } from '@/constant/wantedPosition';
-import { interestingField } from '@/constant/interestingField/index';
+import { interestingField } from '@/constant/interestingField';
 import { projectType } from '@/constant/projectType';
 import { departments } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
@@ -135,10 +135,6 @@ const CreatePost = () => {
   const title = watch('title');
   const content = watch('content');
 
-  // 학과 선택에 따른 수업 정보 처리
-  const selectedDepartment = watch('department');
-  const classesOptions = departmentClasses({ department: selectedDepartment });
-
   // POST 요청
   const onSubmit = async (data: FormFields) => {
     // 필수 필드가 비어 있는지 확인
@@ -245,7 +241,7 @@ const CreatePost = () => {
                 control={control}
                 label="3. 수업"
                 name="class"
-                options={classesOptions}
+                options={departmentClasses(watch('department'))}
                 isDisabled={FormFieldsDisabled.class}
                 placeholder={'수업 선택'}
               />
