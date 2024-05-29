@@ -181,7 +181,7 @@ const CreatePost = () => {
 
       const responsData = await response.json();
       if (!response.ok) {
-        throw new Error(responsData.message || 'Failed to create the post');
+        throw new Error(responsData.message ?? 'Failed to create the post');
       }
     } catch (error: any) {
       console.error('Error creating post:', error.message);

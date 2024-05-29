@@ -192,7 +192,7 @@ const EditPost = ({ params }: Props) => {
         alert('글 수정이 완료되었어요!');
         router.push(`/projects/${params.id}`);
       } else {
-        throw new Error(responsData.message || '수정 요청 실패');
+        throw new Error(responsData.message ?? '수정 요청 실패');
       }
     } catch (error: any) {
       console.error('네트워크 수정 실패:', error.message);

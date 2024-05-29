@@ -140,7 +140,7 @@ const Mypage = () => {
       <div className="flex justify-center items-center mb-10">
         <label className="cursor-pointer" onClick={handleImageClick}>
           <img
-            src={profileData?.profileImgUrl || userImageURL}
+            src={profileData?.profileImgUrl ?? userImageURL}
             alt="user-image"
             className="w-[150px] h-[150px] rounded-full"
           />

@@ -11,7 +11,7 @@ const Editor = forwardRef(({ onChange, value, toggleState }: EditorProps, ref) =
   const [content, setContent] = useState<string>('');
 
   useEffect(() => {
-    setContent(value || '');
+    setContent(value ?? '');
   }, [value]);
 
   const handleContentChange = (newValue: string) => {
