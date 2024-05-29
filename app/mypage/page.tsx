@@ -10,8 +10,24 @@ import makeAnimated from 'react-select/animated';
 import { apiUrl } from '@/constant/api';
 import { getDepartmentLabel } from '@/constant/department';
 import { UploadImage } from '@/types';
+import { queryKeys } from '@/queries/queryKeys';
+import { useQuery } from '@tanstack/react-query';
 
 const animatedComponents = makeAnimated();
+
+const fetchProfileData = async () => {
+  const response = await fetch(`${apiUrl}/members/info`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch profile data');
+  }
+  const data = await response.json();
+  return {
+    ...data,
+    department: getDepartmentLabel(data.department),
+    position: { label: getPositionLabel(data.position), value: data.position },
+    techStack: data.techStack.map((tech: string) => ({ label: tech, value: tech })),
+  };
+};
 
 const Mypage = () => {
   const {
@@ -22,36 +38,18 @@ const Mypage = () => {
     formState: { errors },
   } = useForm<MyPageForm>();
 
-  const [isMounted, setIsMounted] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState<MyPageForm | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const {
+    data: profileData,
+    error,
+    isLoading,
+  } = useQuery<MyPageForm>({
+    queryKey: queryKeys.profileData(),
+    queryFn: fetchProfileData,
+  });
 
-  useEffect(() => {
-    if (!isMounted) {
-      return;
-    }
-    fetch(`${apiUrl}/members/info`)
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedData = {
-          ...data,
-          department: getDepartmentLabel(data.department),
-          position: { label: getPositionLabel(data.position), value: data.position },
-          techStack: data.techStack.map((tech: string) => ({ label: tech, value: tech })),
-        };
-        setProfileData(formattedData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching profile data:', error);
-        setLoading(false);
-      });
-  }, [isMounted]);
+  console.log(profileData);
 
   useEffect(() => {
     if (!profileData) {
@@ -104,44 +102,48 @@ const Mypage = () => {
     }
   };
 
-  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) {
-      return;
-    }
+  // const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (!file) {
+  //     return;
+  //   }
 
-    const formData = new FormData();
-    formData.append('image', file);
+  //   const formData = new FormData();
+  //   formData.append('image', file);
 
-    try {
-      const response = await fetch(`${apiUrl}/file/upload-profile-image`, {
-        method: 'POST',
-        body: formData,
-      });
+  //   try {
+  //     const response = await fetch(`${apiUrl}/file/upload-profile-image`, {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error uploading image:', errorData);
-        alert('이미지 업로드 중 오류가 발생했습니다.');
-        return;
-      }
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       console.error('Error uploading image:', errorData);
+  //       alert('이미지 업로드 중 오류가 발생했습니다.');
+  //       return;
+  //     }
 
-      const result: UploadImage = await response.json();
-      setProfileData((prevData) =>
-        prevData
-          ? { ...prevData, profileImgUrl: result.imageUrl, profileImgId: result.imageId }
-          : null
-      );
-      setValue('profileImgId', result.imageId);
-      setValue('profileImgUrl', result.imageUrl);
-      alert('이미지 업로드가 성공했습니다!');
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      alert('이미지 업로드 중 오류가 발생했습니다.');
-    }
-  };
+  //     const result: UploadImage = await response.json();
+  //     setProfileData((prevData) =>
+  //       prevData
+  //         ? { ...prevData, profileImgUrl: result.imageUrl, profileImgId: result.imageId }
+  //         : null
+  //     );
+  //     setValue('profileImgId', result.imageId);
+  //     setValue('profileImgUrl', result.imageUrl);
+  //     alert('이미지 업로드가 성공했습니다!');
+  //   } catch (error) {
+  //     console.error('Error uploading image:', error);
+  //     alert('이미지 업로드 중 오류가 발생했습니다.');
+  //   }
+  // };
 
-  if (loading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error instanceof Error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <main className="max-w-[500px] mx-auto p-5">
@@ -158,7 +160,7 @@ const Mypage = () => {
           type="file"
           ref={fileInputRef}
           style={{ display: 'none' }}
-          onChange={handleImageChange}
+          // onChange={handleImageChange}
         />
       </div>
 

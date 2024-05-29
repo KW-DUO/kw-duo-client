@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { UserProfileSetupInfo } from '@/types';
 import FormField from './FormField';
 import FormFieldSelect from './FormFieldSelect';
+import { apiUrl } from '@/constant/api';
 
 type ProfileSetupModalProps = {
   onClose: () => void;
@@ -30,7 +31,7 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
       data.githubUrl = data.githubUrl === '' ? null : data.githubUrl;
       data.baekjoonId = data.baekjoonId === '' ? null : data.baekjoonId;
 
-      const response = await fetch('https://kw-duo-server.onrender.com/members/join', {
+      const response = await fetch(`${apiUrl}/members/join`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',

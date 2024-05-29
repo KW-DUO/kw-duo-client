@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import { Applicant } from '@/types/Applicant';
+import { Applicant } from '@/types/applicant';
 import { getDepartmentLabel } from '@/constant/department';
+import { userImageURL } from '@/constant/images';
 
 const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }: Applicant) => {
   return (
@@ -12,14 +13,18 @@ const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }:
         height={75}
         className="mb-3"
       /> */}
-      <img src={profileImgUrl} alt="유저 이미지" className="mb-3 rounded-full w-[75px] h-[75px]" />
+      <img
+        src={profileImgUrl ?? userImageURL}
+        alt="유저 이미지"
+        className="mb-3 rounded-full w-[75px] h-[75px]"
+      />
 
       <div className="font-bold">{nickname}</div>
       <div className="font-bold mb-5">{getDepartmentLabel(department)}</div>
       <ul className="flex flex-wrap text-sm gap-1 overflow-hidden h-[75px]">
-        {techStack.map((stack, index) => (
+        {techStack.map((stack) => (
           <li
-            key={index}
+            key={stack}
             className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px]"
           >
             {stack}

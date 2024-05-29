@@ -1,6 +1,6 @@
 export type UserProfileSetupInfo = {
   oAuthId: string;
-  profileImgId: number;
+  profileImgId: number | null;
   nickname: string;
   department: string;
   techStack: string[];
