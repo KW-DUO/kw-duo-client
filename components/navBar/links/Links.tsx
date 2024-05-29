@@ -23,7 +23,7 @@ const links = [
   },
   {
     title: '자료',
-    path: '/',
+    path: '/survey',
   },
 ];
 

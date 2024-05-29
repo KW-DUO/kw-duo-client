@@ -2,6 +2,7 @@ export const techStack = [
   // 프론트엔드 기술 스택
   { label: 'React', value: 'REACT' },
   { label: 'Next.js', value: 'NEXTJS' },
+  { label: 'Vue', value: 'VUE' },
   { label: 'JavaScript', value: 'JAVASCRIPT' },
   { label: 'TypeScript', value: 'TYPESCRIPT' },
 

@@ -1,14 +1,41 @@
+'use client';
 import Footer from './../../../components/footer/Footer';
 import * as PostDetail from '@/components/postDetail';
 import { DUMMY_POST_DETAIL } from '@/dummy/post';
 import { ApplicantList } from '@/components/postDetail/ApplicantList';
+import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { apiUrl } from './../../../constant/api/index';
 
-const PostDetailPage = () => {
-  // TODO: api fetch로 받아와야 함
-  const postDetail = DUMMY_POST_DETAIL;
+type Props = {
+  params: { id: number };
+};
+
+const fetchPostDetail = async (postId: number) => {
+  const response = await fetch(`${apiUrl}/posts/${postId}`, { method: 'GET' });
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
+
+const PostDetailPage = ({ params }: Props) => {
+  // const postDetail = DUMMY_POST_DETAIL;
 
   // TODO: 로그인한 사용자의 게시글인지 확인하는 로직 필요
   const isMyPost = true;
+
+  const {
+    data: postDetail,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ['postDetail'],
+    queryFn: () => fetchPostDetail(params.id),
+  });
+
+  if (isLoading) return 'Loading...';
+  if (error) return '글 상세 조회 실패: ' + error.message;
 
   return (
     <>
@@ -24,8 +51,8 @@ const PostDetailPage = () => {
           <PostDetail.ProjectDetails />
           {isMyPost && <PostDetail.PostCloseButton />}
           {!isMyPost && <PostDetail.ApplicationButton />}
+          {isMyPost && <PostDetail.ApplicantList />}
         </PostDetail.Root>
-        <ApplicantList />
       </main>
       <Footer />
     </>
