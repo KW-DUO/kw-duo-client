@@ -11,7 +11,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import ChatRoomItem from './ChatRoomItem';
 
-type SideBarProps = {
+type ChatSidebarProps = {
   onChangeRoomId: (id: number) => void;
 };
 
@@ -20,7 +20,7 @@ type ChatRoomResponse = {
   hasMore: boolean;
 };
 
-export const Sidebar = ({ onChangeRoomId }: SideBarProps) => {
+export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
 
   const { ref, inView } = useInView(); // ref가 연결된 요소가 뷰포트에 들어오면 inView true값으로 변함 -> 변할때 fetchNextPage 호출
