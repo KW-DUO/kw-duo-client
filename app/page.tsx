@@ -2,12 +2,9 @@ import Footer from '@/components/footer/Footer';
 import FiltersBar from '../components/main/FilterBar';
 import ProjectList from '@/components/main/ProjectList';
 import ProjectTypeFilter from '@/components/main/ProjectTypeFilter';
-import { Pagination } from '@mui/material';
 import ScrollToTop from './../components/main/ScrollToTop';
-import { useEffect, useState } from 'react';
-import { PostCard } from '@/types';
-import { apiUrl } from '@/constant/api';
 import { ProjectProvider } from '@/context/ProjectContext';
+import { useTranslation } from 'react-i18next';
 
 export default function Main() {
   return (

@@ -1,17 +1,20 @@
 export const positions = [
-  { label: '프론트엔드', value: 'FRONTEND' },
-  { label: '백엔드', value: 'BACKEND' },
-  { label: '안드로이드', value: 'ANDROID' },
-  { label: 'iOS', value: 'IOS' },
-  { label: '게임 개발자', value: 'GAME_DEV' },
-  { label: '기획자', value: 'PLANNER' },
-  { label: '디자이너', value: 'DESIGNER' },
-  { label: '머신러닝', value: 'MACHINE_LEARNING' },
-  { label: '블록체인', value: 'BLOCKCHAIN' },
-  { label: '임베디드', value: 'EMBEDDED' },
+  { label: 'filters.positions.frontend', value: 'FRONTEND' },
+  { label: 'filters.positions.backend', value: 'BACKEND' },
+  { label: 'filters.positions.android', value: 'ANDROID' },
+  { label: 'filters.positions.ios', value: 'IOS' },
+  { label: 'filters.positions.gameDev', value: 'GAME_DEV' },
+  { label: 'filters.positions.planner', value: 'PLANNER' },
+  { label: 'filters.positions.designer', value: 'DESIGNER' },
+  { label: 'filters.positions.machineLearning', value: 'MACHINE_LEARNING' },
+  { label: 'filters.positions.blockchain', value: 'BLOCKCHAIN' },
+  { label: 'filters.positions.embedded', value: 'EMBEDDED' },
 ] as const;
 
-export function getPositionLabel(value: string): string {
+export function getPositionLabel(value: string, t: (key: string) => string): string {
   const position = positions.find((pos) => pos.value === value);
-  return position ? position.label : 'Unknown';
+  if (!position) {
+    throw new Error(`Unknown position value: ${value}`);
+  }
+  return t(position.label);
 }

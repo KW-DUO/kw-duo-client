@@ -1,0 +1,90 @@
+{
+  "projectTypes": {
+    "all": "All",
+    "classProject": "Class Project",
+    "graduationProject": "Graduation Project",
+    "sideProject": "Side Project"
+  },
+   "nav": {
+    "findTeam": "Find Team",
+    "findTeamMembers": "Find Team Members",
+    "messages": "Messages",
+    "notifications": "Notifications",
+    "createPost": "Create Post",
+    "resources": "Resources",
+    "login": "Login",
+    "myPage": "My Page",
+    "stats": "Stats",
+    "guidelines": "Guidelines"
+  },
+   "filters": {
+    "department": "Department",
+    "course": "Course",
+    "position": "Position",
+    "fieldOfInterest": "Field of Interest",
+    "bookmark": "❤️ View My Bookmarks",
+    "searchPlaceholder": "Search by title",
+    "departments": {
+      "all": "All",
+      "computerInformationEngineering": "Computer and Information Engineering",
+      "software": "Software",
+      "informationConvergence": "Information Convergence"
+    },
+    "courses": {
+    "softwareEngineering": "Software Engineering",
+    "introToComputerEngineeringLab1": "Intro to Computer Engineering Lab 1",
+    "database": "Database",
+    "introToEngineeringDesign": "Intro to Engineering Design",
+    "creativeDesign": "Creative Design",
+    "dataStructuresLab": "Data Structures Lab",
+    "appliedSoftwareLab": "Applied Software Lab",
+    "deepLearningLab": "Deep Learning Lab",
+    "bigDataProgramming": "Big Data Programming",
+    "textMining": "Text Mining",
+    "iotSystemDesignAndLab": "IoT System Design and Lab",
+    "uxUiDesign": "UX/UI Design",
+    "machineLearning": "Machine Learning",
+    "dataVisualization": "Data Visualization",
+    "others": "Others"
+  },
+     "positions": {
+      "all":"All",
+    "any": "Any",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "android": "Android",
+    "ios": "iOS",
+    "gameDev": "Game Developer",
+    "planner": "Planner",
+    "designer": "Designer",
+    "machineLearning": "Machine Learning",
+    "blockchain": "Blockchain",
+    "embedded": "Embedded",
+    "other": "Other"
+  },
+   "fields": {
+      "all": "All",
+      "web": "Web",
+      "app": "App",
+      "ai": "AI",
+      "game": "Game",
+      "blockchain": "Blockchain",
+      "iot": "IoT",
+      "other": "Other"
+    }
+
+  },
+  "postDate": {
+    "createdAtPrefix": "Created at ·"
+  },
+   "metaData": {
+    "department": "Department",
+    "course": "Course",
+    "interestingField": "Field of Interest",
+    "wantedPosition": "Position"
+  },
+  "button": {
+    "apply": "Apply"
+  }
+
+}

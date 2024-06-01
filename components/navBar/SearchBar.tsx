@@ -1,4 +1,5 @@
 import { SearchIcon, XIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   value: string;
@@ -7,6 +8,8 @@ type Props = {
 
 // todo: 검색 디바운스 적용
 export const SearchBar = ({ value, onValueChange }: Props) => {
+  const { t } = useTranslation();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onValueChange(e.target.value);
   };
@@ -23,7 +26,7 @@ export const SearchBar = ({ value, onValueChange }: Props) => {
         type="text"
         value={value}
         onChange={handleChange}
-        placeholder="제목을 검색해보세요."
+        placeholder={t('filters.searchPlaceholder')}
         className="w-[200px] border-none ml-3 outline-none bg-transparent h-10"
       />
       {value !== '' && (

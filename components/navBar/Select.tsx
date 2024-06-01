@@ -1,10 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 type SelectProps = {
   children?: React.ReactNode;
   title: string;
   titleDisabled?: boolean;
   value?: string;
+  disabled?: boolean;
   onValueChange?: (e: string) => void;
 };
 
@@ -14,14 +16,23 @@ type OptionProps = {
   children?: React.ReactNode;
 };
 
-const getTitleClass = (title: string) => {
-  switch (title) {
-    case '학과':
-      return 'w-[180px]';
-    case '수업':
-      return 'w-[220px]';
-    default:
-      return 'w-[140px]';
+const getTitleClass = (title: string, language: string) => {
+  if (language === 'ko') {
+    switch (title) {
+      case '학과':
+        return 'w-[163px]';
+      case '수업':
+        return 'w-[220px]';
+      default:
+        return 'w-[140px]';
+    }
+  } else if (language === 'en') {
+    switch (title) {
+      case 'Course':
+        return 'w-[220px]';
+      default:
+        return 'w-fit';
+    }
   }
 };
 
@@ -31,23 +42,30 @@ export const Select = ({
   value = '',
   onValueChange,
   children,
+  disabled = false,
 }: SelectProps) => {
+  const { i18n } = useTranslation();
+  const language = i18n.language;
+
   return (
-    <select
-      value={value}
-      onChange={(e) => {
-        onValueChange?.(e.target.value);
-      }}
-      className={`flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3 outline-none ${title} ${getTitleClass(title)} ${value !== 'ALL' && 'border-orange-400 text-orange-400'}`}
-    >
-      {/* 선택 안한 값이 ALL */}
-      {value === 'ALL' && (
-        <option value="ALL" disabled={titleDisabled} hidden>
-          {title}
-        </option>
-      )}
-      {children}
-    </select>
+    <>
+      <select
+        value={value}
+        onChange={(e) => {
+          onValueChange?.(e.target.value);
+        }}
+        disabled={disabled}
+        className={`flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3 outline-none ${title} ${getTitleClass(title, language)} ${value !== 'ALL' && 'border-orange-400 text-orange-400'} ${disabled && 'bg-gray'}`}
+      >
+        {/* 선택 안한 값이 ALL */}
+        {value === 'ALL' && (
+          <option value="ALL" disabled={titleDisabled} hidden>
+            {title}
+          </option>
+        )}
+        {children}
+      </select>
+    </>
   );
 };
 

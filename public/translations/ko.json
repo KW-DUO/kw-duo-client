@@ -1,0 +1,87 @@
+{
+  "projectTypes": {
+    "all": "전체",
+    "classProject": "수업 프로젝트",
+    "graduationProject": "졸업 프로젝트",
+    "sideProject": "사이드 프로젝트"
+  },
+  "nav": {
+    "findTeam": "팀 찾기",
+    "findTeamMembers": "팀원 찾기",
+    "messages": "메시지",
+    "createPost": "새 글 쓰기",
+    "resources": "자료",
+    "login": "로그인",
+    "myPage": "마이페이지",
+    "stats": "통계",
+    "guidelines": "팀플 가이드라인"
+  },
+  "filters": {
+    "department": "학과",
+    "course": "수업",
+    "position": "포지션",
+    "fieldOfInterest": "관심분야",
+    "bookmark": "❤️ 내 북마크 보기",
+    "searchPlaceholder": "제목을 검색해보세요.",
+    "departments": {
+      "all": "전체",
+      "computerInformationEngineering": "컴퓨터정보공학부",
+      "software": "소프트웨어학과",
+      "informationConvergence": "정보융합학부"
+    },
+      "courses": {
+    "softwareEngineering": "소프트웨어공학",
+    "introToComputerEngineeringLab1": "컴퓨터공학기초실험1",
+    "database": "데이터베이스",
+    "introToEngineeringDesign": "공학설계입문",
+    "creativeDesign": "창의설계입문",
+    "dataStructuresLab": "자료구조실습",
+    "appliedSoftwareLab": "응용소프트웨어 실습",
+    "deepLearningLab": "딥러닝 실습",
+    "bigDataProgramming": "빅데이터프로그래밍",
+    "textMining": "텍스트마이닝",
+    "iotSystemDesignAndLab": "IoT시스템설계및실습",
+    "uxUiDesign": "UX/UI디자인",
+    "machineLearning": "기계학습",
+    "dataVisualization": "데이터시각화",
+    "others": "기타 및 없음"
+  },
+    "positions": {
+      "all": "전체",
+      "any": "상관없음",
+      "frontend": "프론트엔드",
+      "backend": "백엔드",
+      "android": "안드로이드",
+      "ios": "iOS",
+      "gameDev": "게임 개발자",
+      "planner": "기획자",
+      "designer": "디자이너",
+      "machineLearning": "머신러닝",
+      "blockchain": "블록체인",
+      "embedded": "임베디드",
+      "other": "기타"
+    },
+     "fields": {
+      "all": "전체",
+      "web": "웹",
+      "app": "앱",
+      "ai": "인공지능",
+      "game": "게임",
+      "blockchain": "블록체인",
+      "iot": "사물인터넷",
+      "other": "기타"
+     }
+  },
+   "postDate": {
+    "createdAtPrefix": "작성일 ·"
+  },
+    "metaData": {
+    "department": "학과",
+    "course": "수업",
+    "interestingField": "관심분야",
+    "wantedPosition": "포지션"
+  },
+   "button": {
+    "apply": "지원하기"
+  }
+}

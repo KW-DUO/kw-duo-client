@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Applicant } from '@/types/Applicant';
-import { getDepartmentLabel } from '@/constant/department';
+import { useGetDepartmentLabel } from '@/constant/department';
 import { userImageURL } from '@/constant/images';
 
 const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }: Applicant) => {
@@ -20,7 +20,7 @@ const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }:
       />
 
       <div className="font-bold">{nickname}</div>
-      <div className="font-bold mb-5">{getDepartmentLabel(department)}</div>
+      <div className="font-bold mb-5">{useGetDepartmentLabel(department)}</div>
       <ul className="flex flex-wrap text-sm gap-1 overflow-hidden h-[75px]">
         {techStack.map((stack) => (
           <li

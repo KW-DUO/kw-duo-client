@@ -2,8 +2,7 @@ import React from 'react';
 import LoginModal from './LoginModal';
 import { LoginStepProps } from '../LoginStep/LoginStep';
 import { GoogleLoginButton } from '../LoginButton';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
+import { useGoogleLogin } from '@react-oauth/google';
 
 const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
   const login = useGoogleLogin({
@@ -24,16 +23,6 @@ const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
         <div>
           <h1 className="text-center mb-14 text-3xl font-bold">간편 로그인 후 이용 가능합니다!</h1>
           <GoogleLoginButton onClick={login} />
-          {/* <GoogleLogin
-            onSuccess={(credentialResponse: any) => {
-              let credentialResponseDecoded = jwtDecode(credentialResponse.credential);
-              console.log(credentialResponse);
-              console.log(credentialResponseDecoded);
-            }}
-            onError={() => {
-              console.log('Login Failed');
-            }}
-          /> */}
           {/* <NaverLoginButton /> */}
           {/* <KakaoLoginButton /> */}
         </div>

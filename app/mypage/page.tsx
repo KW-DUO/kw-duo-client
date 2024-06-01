@@ -8,14 +8,14 @@ import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { apiUrl } from '@/constant/api';
-import { getDepartmentLabel } from '@/constant/department';
+import { useGetDepartmentLabel } from '@/constant/department';
 import { UploadImage } from '@/types';
 import { queryKeys } from '@/queries/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 
 const animatedComponents = makeAnimated();
 
-const fetchProfileData = async () => {
+const useFetchProfileData = async () => {
   const response = await fetch(`${apiUrl}/members/info`);
   if (!response.ok) {
     throw new Error('Failed to fetch profile data');
@@ -23,7 +23,7 @@ const fetchProfileData = async () => {
   const data = await response.json();
   return {
     ...data,
-    department: getDepartmentLabel(data.department),
+    department: useGetDepartmentLabel(data.department),
     position: { label: getPositionLabel(data.position), value: data.position },
     techStack: data.techStack.map((tech: string) => ({ label: tech, value: tech })),
   };
@@ -46,10 +46,8 @@ const Mypage = () => {
     isLoading,
   } = useQuery<MyPageForm>({
     queryKey: queryKeys.profileData(),
-    queryFn: fetchProfileData,
+    queryFn: useFetchProfileData,
   });
-
-  console.log(profileData);
 
   useEffect(() => {
     if (!profileData) {
