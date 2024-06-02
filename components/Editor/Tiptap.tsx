@@ -6,6 +6,7 @@ import Toolbar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 import { useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type TiptapProps = {
   onChange: (newContent: string) => void;
@@ -14,30 +15,15 @@ type TiptapProps = {
 };
 
 const Tiptap = ({ onChange, toggleState, initialValue }: TiptapProps) => {
+  const { t } = useTranslation();
+
   const handleChange = (newContent: string) => {
     onChange(newContent);
   };
 
   const getPlaceholderText = useCallback(() => {
-    return toggleState
-      ? `
-          [개발 프로젝트 모집 내용 예시]
-          프로젝트 주제:
-          프로젝트 목표:
-          프로젝트 소개:
-          프로젝트 관련 주의사항:
-          프로젝트 포지션별 모집인원:
-          기술 스택:
-        `
-      : `
-          [자기소개 작성 내용 예시]
-          자신의 장점 어필:
-          기술 스택 어필:
-          관련 경험:
-          프로젝트 참여 동기:
-          팀과의 협업 경험:
-        `;
-  }, [toggleState]);
+    return toggleState ? t('editor.projectPlaceholder') : t('editor.introPlaceholder');
+  }, [toggleState, t]);
 
   // Tiptap 에디터 초기화
   const editor = useEditor({

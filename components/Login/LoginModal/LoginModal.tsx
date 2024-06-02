@@ -14,6 +14,13 @@ const LoginModal = ({ children, onClose }: LoginModalProps) => {
   useEffect(() => {
     // 대화 상자를 보이게 하는 코드
     dialogRef.current?.showModal();
+    // 모달이 열려 있을 때 body 스크롤 비활성화
+    document.body.style.overflow = 'hidden';
+
+    // 모달이 닫힐 때 body 스크롤 복원
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, []);
 
   // dialog 바깥 클릭 모달 닫기
@@ -25,7 +32,7 @@ const LoginModal = ({ children, onClose }: LoginModalProps) => {
 
   return (
     <dialog
-      className="w-[700px] rounded-lg outline-none"
+      className="w-[700px] rounded-lg outline-none overflow-hidden"
       ref={dialogRef}
       onClick={handleOutsideClick}
     >

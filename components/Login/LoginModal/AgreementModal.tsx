@@ -3,6 +3,7 @@ import { CircleCheck } from 'lucide-react';
 import { LoginStepProps } from '../LoginStep/LoginStep';
 import { AgreementItem } from './AgreementItem';
 import { useAgreements } from '@/hooks/useAgreements';
+import { useTranslation } from 'react-i18next';
 
 type AgreementProps = {
   id: number;
@@ -10,25 +11,27 @@ type AgreementProps = {
   agreed: boolean;
 };
 
-const initialAgreements: AgreementProps[] = [
-  { id: 1, text: '서비스이용약관 동의 (필수)', agreed: false },
-  { id: 2, text: '개인정보 수집 및 이용 동의 (필수)', agreed: false },
-];
-
 const AgreementModal = ({ onNext, onClose }: LoginStepProps) => {
+  const { t } = useTranslation();
+
+  const initialAgreements: AgreementProps[] = [
+    { id: 1, text: t('login.terms.agreeToTermsOfService'), agreed: false },
+    { id: 2, text: t('login.terms.agreeToPersonalInformationCollectionAndUse'), agreed: false },
+  ];
+
   const { agreements, allAgreed, handleAgreementClick, handleAllAgree } =
     useAgreements(initialAgreements);
 
   return (
     <LoginModal onClose={onClose}>
       <section className="font-bold py-7 px-10">
-        <h1 className="text-3xl mb-10">약관 동의</h1>
+        <h1 className="text-3xl mb-10">{t('login.terms.termsAndConditions')}</h1>
         <div className="text-2xl mb-20">
           <div className="flex items-center mb-5 cursor-pointer" onClick={handleAllAgree}>
             <CircleCheck size={30} color={allAgreed ? '#A32828' : '#999999'} />
-            <p className="ml-2">모두 동의합니다</p>
+            <p className="ml-2">{t('login.terms.agreeToAll')}</p>
           </div>
-          <div className="border-b-2 mb-5"></div>
+          <hr className="border-b-2 mb-5"></hr>
           {agreements.map((agreement) => (
             <AgreementItem
               key={agreement.id}
@@ -45,7 +48,7 @@ const AgreementModal = ({ onNext, onClose }: LoginStepProps) => {
           }`}
           disabled={!allAgreed}
         >
-          확인
+          {t('login.confirm')}
         </button>
       </section>
     </LoginModal>

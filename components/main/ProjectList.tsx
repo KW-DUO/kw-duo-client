@@ -10,6 +10,8 @@ import { useProject } from '@/context/ProjectContext';
 import { addQueryParams } from '@/util';
 import { queryKeys } from '@/queries/queryKeys';
 import { useQuery } from '@tanstack/react-query';
+import LoadingSpinner from '../loading/LoadingSpinner';
+import Image from 'next/image';
 
 const fetchPosts = async (url: string): Promise<PostCard[]> => {
   const response = await fetch(url);
@@ -81,34 +83,53 @@ const ProjectList = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center">Loading...</div>;
+    return (
+      <div className="text-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-center">로딩 에러</div>;
+    return <div className="text-center min-h-[800px]">로딩 에러</div>;
   }
 
   return (
     <>
-      <div>
-        <ul className="max-w-maxWidth grid grid-cols-4 gap-7">
-          {currentPosts?.map((post, index) => (
-            <Link key={index} href={`/projects/${post.id}`}>
-              <ProjectCard project={post} />
-            </Link>
-          ))}
-        </ul>
-        {/*페이지 네이션 */}
-        <Pagination
-          className="mt-8 mb-8 flex justify-center"
-          count={totalPages}
-          page={currentPage}
-          onClick={(e) => {
-            const eventTarget = e.target as HTMLElement;
-            let page = parseInt(eventTarget.innerText);
-            handleChangePage(page);
-          }}
-        />
+      <div className="min-h-[800px]">
+        {currentPosts.length === 0 ? (
+          <div className="text-center flex flex-col items-center justify-center h-full text-3xl">
+            <Image
+              src="/images/write_image.jpg"
+              alt="No posts"
+              className="mb-4"
+              width={300}
+              height={300}
+            />
+            처음 글을 작성하는 주인공이 되세요!
+          </div>
+        ) : (
+          <>
+            <ul className="max-w-maxWidth grid grid-cols-4 gap-7 ">
+              {currentPosts.map((post, index) => (
+                <Link key={index} href={`/projects/${post.id}`}>
+                  <ProjectCard project={post} />
+                </Link>
+              ))}
+            </ul>
+            {/*페이지 네이션 */}
+            <Pagination
+              className="mt-8 mb-8 flex justify-center"
+              count={totalPages}
+              page={currentPage}
+              onClick={(e) => {
+                const eventTarget = e.target as HTMLElement;
+                let page = parseInt(eventTarget.innerText);
+                handleChangePage(page);
+              }}
+            />
+          </>
+        )}
       </div>
     </>
   );

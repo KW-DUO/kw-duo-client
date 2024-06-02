@@ -4,6 +4,7 @@ import * as PostDetail from '@/components/postDetail';
 import { useQuery } from '@tanstack/react-query';
 import { apiUrl } from './../../../constant/api/index';
 import { queryKeys } from '@/queries/queryKeys';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 
 type Props = {
   params: { id: number };
@@ -30,7 +31,7 @@ const PostDetailPage = ({ params }: Props) => {
     queryFn: () => fetchPostDetail(params.id),
   });
 
-  if (isLoading) return 'Loading...';
+  if (isLoading) return <LoadingSpinner />;
   if (error) return '글 상세 조회 실패: ' + error.message;
 
   return (

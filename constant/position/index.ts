@@ -1,17 +1,41 @@
+import { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
+
 export const positions = [
-  { label: '프론트엔드', value: 'FRONTEND' },
-  { label: '백엔드', value: 'BACKEND' },
-  { label: '안드로이드', value: 'ANDROID' },
-  { label: 'iOS', value: 'IOS' },
-  { label: '게임 개발자', value: 'GAME_DEV' },
-  { label: '기획자', value: 'PLANNER' },
-  { label: '디자이너', value: 'DESIGNER' },
-  { label: '머신러닝', value: 'MACHINE_LEARNING' },
-  { label: '블록체인', value: 'BLOCKCHAIN' },
-  { label: '임베디드', value: 'EMBEDDED' },
+  { label: 'filters.positions.frontend', value: 'FRONTEND' },
+  { label: 'filters.positions.backend', value: 'BACKEND' },
+  { label: 'filters.positions.android', value: 'ANDROID' },
+  { label: 'filters.positions.ios', value: 'IOS' },
+  { label: 'filters.positions.gameDev', value: 'GAME_DEV' },
+  { label: 'filters.positions.planner', value: 'PLANNER' },
+  { label: 'filters.positions.designer', value: 'DESIGNER' },
+  { label: 'filters.positions.machineLearning', value: 'MACHINE_LEARNING' },
+  { label: 'filters.positions.blockchain', value: 'BLOCKCHAIN' },
+  { label: 'filters.positions.embedded', value: 'EMBEDDED' },
 ] as const;
 
-export function getPositionLabel(value: string): string {
+// 회원가입, 마이페이지
+export function usePositionOptions() {
+  const { t } = useTranslation();
+
+  return [
+    { label: t('filters.positions.frontend'), value: 'FRONTEND' },
+    { label: t('filters.positions.backend'), value: 'BACKEND' },
+    { label: t('filters.positions.android'), value: 'ANDROID' },
+    { label: t('filters.positions.ios'), value: 'IOS' },
+    { label: t('filters.positions.gameDev'), value: 'GAME_DEV' },
+    { label: t('filters.positions.planner'), value: 'PLANNER' },
+    { label: t('filters.positions.designer'), value: 'DESIGNER' },
+    { label: t('filters.positions.machineLearning'), value: 'MACHINE_LEARNING' },
+    { label: t('filters.positions.blockchain'), value: 'BLOCKCHAIN' },
+    { label: t('filters.positions.embedded'), value: 'EMBEDDED' },
+  ];
+}
+
+export function getPositionLabel(value: string, t: TFunction): string {
   const position = positions.find((pos) => pos.value === value);
-  return position ? position.label : 'Unknown';
+  if (!position) {
+    throw new Error(`Unknown position value: ${value}`);
+  }
+  return t(position.label);
 }

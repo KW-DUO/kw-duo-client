@@ -4,11 +4,11 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { ProjectState, ProjectContextType } from '@/types';
 
 const initialState: ProjectState = {
-  projectType: 'ALL',
-  department: 'ALL',
-  course: 'ALL',
-  position: 'ALL',
-  wantedField: 'ALL',
+  projectType: '',
+  department: '',
+  course: '',
+  position: '',
+  wantedField: '',
   isBookmarkOnly: false,
   notClosedOnly: true,
   page: 0,

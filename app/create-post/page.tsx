@@ -8,14 +8,15 @@ import Editor from '@/components/Editor/Editor';
 import SelectField from './../../components/createPost/SelectField';
 
 // CONSTANTS
-import { wantedPosition } from '@/constant/wantedPosition';
-import { interestingField } from '@/constant/interestingField/index';
-import { projectType } from '@/constant/projectType';
-import { departments } from '@/constant/department';
+import { useWantedPositionOptions } from '@/constant/wantedPosition';
+import { interestingField, useGetInterestingFieldOptions } from '@/constant/interestingField/index';
+import { projectType, useGetProjectTypeOptions } from '@/constant/projectType';
+import { departments, useGetDepartmentOptions } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
-import { recruitNumber } from '@/constant/recruitNumber';
+import { recruitNumber, useGetRecruitNumberOptions } from '@/constant/recruitNumber';
 import { departmentClasses } from '@/constant/class';
 import { apiUrl } from '@/constant/api';
+import { useTranslation } from 'react-i18next';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -68,6 +69,8 @@ const CreatePost = () => {
     techStack: true,
     recruitNumber: true,
   });
+
+  const { t } = useTranslation();
 
   // 프로젝트 구분 선택에 따른 input 활성화 처리
   useEffect(() => {
@@ -137,7 +140,7 @@ const CreatePost = () => {
 
   // 학과 선택에 따른 수업 정보 처리
   const selectedDepartment = watch('department');
-  const classesOptions = departmentClasses({ department: selectedDepartment });
+  const classesOptions = departmentClasses({ department: selectedDepartment }, t);
 
   // POST 요청
   const onSubmit = async (data: FormFields) => {
@@ -188,6 +191,12 @@ const CreatePost = () => {
     }
   };
 
+  const projectTypeOptions = useGetProjectTypeOptions();
+  const departmentOptions = useGetDepartmentOptions();
+  const interestingFieldOptions = useGetInterestingFieldOptions();
+  const wantedPositionOptions = useWantedPositionOptions();
+  const recruitNumberOptions = useGetRecruitNumberOptions();
+
   return (
     <main className="w-[1024px] mx-auto pt-24 pb-16">
       {/* 토글 버튼 */}
@@ -202,7 +211,7 @@ const CreatePost = () => {
                 handleProjectTypeChange('');
               }}
             >
-              팀원 구하기
+              {t('nav.findTeamMembers')}
             </button>
             <button
               type="button"
@@ -212,78 +221,83 @@ const CreatePost = () => {
                 handleProjectTypeChange('');
               }}
             >
-              팀 구하기
+              {t('nav.findTeam')}
             </button>
           </section>
 
           {/* 기본정보 입력 */}
 
           <section className="text-black mb-14">
-            <h1 className="py-4 text-2xl font-bold">기본정보를 입력해주세요</h1>
+            <h1 className="py-4 text-2xl font-bold">{t('form.enterBasicInfo')}</h1>
             <div className="border-t-2"></div>
             <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
               <SelectField
                 control={control}
-                label="1. 프로젝트 구분"
+                label={`1. ${t('form.projectType')}`}
                 name="projectType"
-                options={projectType}
+                options={projectTypeOptions}
                 isDisabled={false}
-                placeholder={'수업 프로젝트 / 졸업 프로젝트 / 사이드 프로젝트'}
+                placeholder={t('form.projectTypePlaceholder')}
                 handleProjectTypeChange={handleProjectTypeChange}
               />
               {/* label 로 감싸보기 */}
               <SelectField
                 control={control}
-                label="2. 학과 선택"
+                label={`2. ${t('form.departmentSelection')}`}
                 name="department"
-                options={departments}
+                options={departmentOptions}
                 isDisabled={FormFieldsDisabled.department}
-                placeholder={'컴정공/소프트/정융'}
+                placeholder={t('form.departmentPlaceholder')}
               />
               {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
               <SelectField
                 control={control}
-                label="3. 수업"
+                label={`3. ${t('form.classSelection')}`}
                 name="class"
                 options={classesOptions}
                 isDisabled={FormFieldsDisabled.class}
-                placeholder={'수업 선택'}
+                placeholder={t('form.classPlaceholder')}
               />
+
               <SelectField
                 control={control}
-                label="4. 관심 분야"
+                label={`4. ${t('form.fieldOfInterestSelection')}`}
                 name="interestingField"
-                options={interestingField}
+                options={interestingFieldOptions}
                 isDisabled={FormFieldsDisabled.interestingField}
-                placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
+                placeholder={t('form.fieldOfInterestPlaceholder')}
                 isMulti={true}
               />
               <SelectField
                 control={control}
-                label={isTeamMemberSearch ? '5. 모집 포지션' : '5. 지원 포지션'}
+                label={
+                  isTeamMemberSearch
+                    ? `5. ${t('form.wantedPositionSelectionRecruit')}`
+                    : `5. ${t('form.wantedPositionSelectionApply')}`
+                }
                 name="wantedPosition"
-                options={wantedPosition}
+                options={wantedPositionOptions}
                 isDisabled={FormFieldsDisabled.wantedPosition}
-                placeholder={'웹 / 앱 / 인공지능 / 게임 / 블록체인 / 사물인터넷...'}
+                placeholder={t('form.wantedPositionPlaceholder')}
                 isMulti={true}
               />
               <SelectField
                 control={control}
-                label={'6. 기술 스택'}
+                label={`6. ${t('form.techStackSelection')}`}
                 name="techStack"
                 options={techStack}
                 isDisabled={FormFieldsDisabled.techStack}
-                placeholder="기술 스택"
+                placeholder={t('form.techStackPlaceholder')}
                 isMulti={true}
               />
               {isTeamMemberSearch && (
                 <SelectField
                   control={control}
-                  label={'7. 모집 인원'}
+                  label={`7. ${t('form.recruitNumberSelection')}`}
                   name="recruitNumber"
-                  options={recruitNumber}
+                  options={recruitNumberOptions}
                   isDisabled={FormFieldsDisabled.recruitNumber}
-                  placeholder="인원 설정"
+                  placeholder={t('form.recruitNumberPlaceholder')}
                 />
               )}
             </ul>
@@ -291,15 +305,13 @@ const CreatePost = () => {
           {/* 프로젝트 소개 */}
           <section className="text-black">
             <h1 className="text-2xl font-bold mb-4">
-              {isTeamMemberSearch
-                ? '프로젝트에 대해 소개해주세요'
-                : '어떤 팀을 원하는지 작성해주세요'}
+              {isTeamMemberSearch ? t('form.projectDescription') : t('form.teamDescription')}
             </h1>
             <div className="border-t-2"></div>
             <section className="mt-5 mb-2">
               <input
                 {...register('title')}
-                placeholder="글 제목을 입력해주세요!"
+                placeholder={t('form.titlePlaceholder')}
                 type="text"
                 className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
               />
@@ -318,7 +330,7 @@ const CreatePost = () => {
 
             {/* 제출 버튼 */}
             <button type="submit" className="bg-secondary text-white w-full h-16 font-bold rounded">
-              등록하기
+              {t('button.submit')}
             </button>
           </section>
         </form>
