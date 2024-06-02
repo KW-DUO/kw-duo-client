@@ -26,8 +26,6 @@ export const getDepartmentCode = (department: string, t: TFunction): string => {
 
 // 글 작성
 export const departmentClasses = ({ department }: DepartmentClassesProps, t: TFunction) => {
-  // const departmentCode = department ? getDepartmentCode(department, t) : 'UNKNOWN';
-  // console.log(department, departmentCode);
   switch (department) {
     case 'ALL':
       return [];

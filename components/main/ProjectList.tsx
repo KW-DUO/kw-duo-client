@@ -12,6 +12,7 @@ import { queryKeys } from '@/queries/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../loading/LoadingSpinner';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 const fetchPosts = async (url: string): Promise<PostCard[]> => {
   const response = await fetch(url);
@@ -48,6 +49,8 @@ const ProjectList = () => {
   };
 
   const queryKey = queryKeys.projects(queryParams);
+
+  const { t } = useTranslation();
 
   const {
     data: posts,
@@ -91,7 +94,7 @@ const ProjectList = () => {
   }
 
   if (error) {
-    return <div className="text-center min-h-[800px]">로딩 에러</div>;
+    return <div className="text-center min-h-[800px]">{t('loadingError')}</div>;
   }
 
   return (
@@ -106,7 +109,7 @@ const ProjectList = () => {
               width={300}
               height={300}
             />
-            처음 글을 작성하는 주인공이 되세요!
+            {t('noPosts.message')}
           </div>
         ) : (
           <>

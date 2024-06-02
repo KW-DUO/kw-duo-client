@@ -24,9 +24,7 @@ export function getProjectTypeLabel(projectTypeValue: string, t: TFunction): str
 }
 
 export function getProjectTypeValue(projectTypeLabel: string, t: TFunction): string {
-  console.log(projectTypeLabel);
   const type = projectTypeFilterOptions.find((type) => type.label === projectTypeLabel);
-  console.log('#', type);
   if (!type) throw Error('프로젝트 타입 라벨에 매칭되는 것이 없습니다.');
   return t(type.value);
 }

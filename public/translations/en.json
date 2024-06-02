@@ -249,5 +249,9 @@
       "techStack": "Select your tech stack.",
       "bio": "Enter your bio."
     }
-  }
+  },
+  "noPosts": {
+    "message": "Be the first to write a post!"
+  },
+  "loadingError": "Loading error"
 }
