@@ -11,7 +11,7 @@ type OptionType = {
 type SelectFieldProps = {
   control: Control<any>;
   name: string;
-  label: string;
+  label?: string;
   options: ReadonlyArray<OptionType>;
   isDisabled?: boolean;
   placeholder?: string;
@@ -22,7 +22,7 @@ type SelectFieldProps = {
 const SelectField = ({
   control,
   name,
-  label,
+  label = '',
   options,
   isDisabled,
   placeholder,

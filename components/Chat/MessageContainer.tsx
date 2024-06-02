@@ -2,6 +2,7 @@ import { apiUrl } from '@/constant/api';
 import { ChatMessage } from '@/types';
 import { toYYYYMMDD } from '@/util';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import LoadingSpinner from '../loading/LoadingSpinner';
 
 export const MessageContainer = ({ userId, roomId }: any) => {
   const [messageList, setMessageList] = useState<ChatMessage[]>([]);
@@ -81,7 +82,8 @@ export const MessageContainer = ({ userId, roomId }: any) => {
     return null;
   };
 
-  if (loading) return <p className="flex-1 flex justify-center items-center">Loading...</p>;
+  // if (loading) return <p className="flex-1 flex justify-center items-center">Loading...</p>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div ref={containerRef} className="flex-1 overflow-y-auto flex flex-col gap-5 p-5">

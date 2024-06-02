@@ -1,24 +1,6 @@
 import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
-function createPositionLabels(t: TFunction) {
-  return {
-    ALL: t('filters.positions.all'),
-    ANY: t('filters.positions.any'),
-    FRONTEND: t('filters.positions.frontend'),
-    BACKEND: t('filters.positions.backend'),
-    ANDROID: t('filters.positions.android'),
-    IOS: t('filters.positions.ios'),
-    GAME_DEV: t('filters.positions.gameDev'),
-    PLANNER: t('filters.positions.planner'),
-    DESIGNER: t('filters.positions.designer'),
-    MACHINE_LEARNING: t('filters.positions.machineLearning'),
-    BLOCKCHAIN: t('filters.positions.blockchain'),
-    EMBEDDED: t('filters.positions.embedded'),
-    OTHER: t('filters.positions.other'),
-  };
-}
-
 // 새 글 쓰기
 export function useWantedPositionOptions() {
   const { t } = useTranslation();
@@ -64,27 +46,3 @@ export function useWantedPositionFilterOptions() {
 //   const position = wantedPosition.find((pos) => pos.value === value);
 //   return position ? position.label : 'Unknown';
 // }
-
-export function useGetPositionLabel() {
-  const { t } = useTranslation();
-
-  return (value: string): string => {
-    const positionLabels = {
-      ALL: t('filters.positions.all'),
-      ANY: t('filters.positions.any'),
-      FRONTEND: t('filters.positions.frontend'),
-      BACKEND: t('filters.positions.backend'),
-      ANDROID: t('filters.positions.android'),
-      IOS: t('filters.positions.ios'),
-      GAME_DEV: t('filters.positions.gameDev'),
-      PLANNER: t('filters.positions.planner'),
-      DESIGNER: t('filters.positions.designer'),
-      MACHINE_LEARNING: t('filters.positions.machineLearning'),
-      BLOCKCHAIN: t('filters.positions.blockchain'),
-      EMBEDDED: t('filters.positions.embedded'),
-      OTHER: t('filters.positions.other'),
-    };
-
-    return positionLabels[value] || 'Unknown';
-  };
-}

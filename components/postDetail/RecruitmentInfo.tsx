@@ -8,9 +8,11 @@ import { projectType } from '@/constant/projectType';
 import { positions } from '@/constant/position';
 import { interestingField } from '@/constant/interestingField';
 import { MAXIMUM_RECRUIT_NUMBER } from '@/constant/recruitNumber/projectConstants';
+import { useTranslation } from 'react-i18next';
 
 export const RecruitmentInfo = () => {
   const post = useContext(PostDetailContext);
+  const { t } = useTranslation();
 
   if (!post) return <>Loading...</>;
 
@@ -21,48 +23,51 @@ export const RecruitmentInfo = () => {
         <ul className="grid grid-cols-2 text-xl gap-y-8">
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500 w-" style={{ width: '140px' }}>
-              프로젝트 구분
+              {t('filters.department')}
             </div>
-            <div>{projectType.find((t) => t.value === post.projectType)?.label}</div>
+            <div>
+              {t(projectType.find((t) => t.value === post.projectType)?.label ?? 'Unknown')}
+            </div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '120px' }}>
-              모집 포지션
+              {t('filters.position')}
             </div>
             <div>
               {post.wantedPosition
-                .map((p) => positions.find((pos) => pos.value === p)?.label)
+                .map((p) => t(positions.find((pos) => pos.value === p)?.label ?? 'Unknown'))
                 .join(', ')}
             </div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '140px' }}>
-              모집 학과
+              {t('filters.department')}
             </div>
-            <div>{departments.find((d) => d.value === post.department)?.label}</div>
+            <div>{t(departments.find((d) => d.value === post.department)?.label ?? 'Unknown')}</div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '120px' }}>
-              모집 인원
+              {t('recruitNumber.label')}
             </div>
             <div>
-              {post.recruitNumber}명 {post.recruitNumber === MAXIMUM_RECRUIT_NUMBER ? '이상' : ''}
+              {post.recruitNumber}{' '}
+              {post.recruitNumber === MAXIMUM_RECRUIT_NUMBER ? t('recruitNumber.moreThan') : ''}
             </div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '140px' }}>
-              관심 분야/수업
+              {t('filters.fieldOfInterest')}
             </div>
             <div>
               {post.interestingField
                 ? post.interestingField
-                    .map((p) => interestingField.find((f) => f.value === p)?.label)
+                    .map((p) => t(interestingField.find((f) => f.value === p)?.label ?? 'Unknown'))
                     .join(', ')
                 : post.class}
             </div>
           </li>
           <li className="flex font-bold items-center ">
-            <div className="w-[120px] mr-2 text-gray-500">기술 스택</div>
+            <div className="w-[120px] mr-2 text-gray-500">{t('techStack')}</div>
             <div className="flex items-center gap-2">
               {post.techStack.map((stack) => (
                 <Image

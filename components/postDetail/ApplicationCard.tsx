@@ -2,20 +2,16 @@ import Image from 'next/image';
 import { Applicant } from '@/types/Applicant';
 import { useGetDepartmentLabel } from '@/constant/department';
 import { userImageURL } from '@/constant/images';
+import { useTranslation } from 'react-i18next';
 
 const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }: Applicant) => {
+  const { t } = useTranslation();
+
   return (
     <li className="w-[250px] h-[340px] flex flex-col items-center p-5 border border-neutral-500 rounded-xl">
-      {/* <Image
-        src={profileImgUrl}
-        alt="유저 이미지"
-        width={75}
-        height={75}
-        className="mb-3"
-      /> */}
       <img
         src={profileImgUrl ?? userImageURL}
-        alt="유저 이미지"
+        alt={t('applicantList.applicantCard.userImageAlt')}
         className="mb-3 rounded-full w-[75px] h-[75px]"
       />
 
@@ -31,7 +27,9 @@ const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }:
           </li>
         ))}
       </ul>
-      <button className="w-full h-10 bg-secondary rounded-lg text-white mt-5">메시지 보내기</button>
+      <button className="w-full h-10 bg-secondary rounded-lg text-white mt-5">
+        {t('applicantList.applicantCard.sendMessage')}
+      </button>
     </li>
   );
 };

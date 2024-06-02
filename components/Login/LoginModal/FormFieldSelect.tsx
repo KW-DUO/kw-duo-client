@@ -1,5 +1,6 @@
 import Select from 'react-select';
 import { UserProfileSetupInfo } from '@/types';
+import { useTranslation } from 'react-i18next';
 
 type FormFieldSelectProps = {
   label: string;
@@ -30,13 +31,16 @@ const FormFieldSelect = ({
       isMulti ? selectedOption.map((option: any) => option.value) : selectedOption.value
     );
   };
+  const { t } = useTranslation();
 
   return (
     <div className="mb-5">
       <label>
         <p>
           {label}
-          {isRequired && <span className="text-[#0038FF]">(*필수)</span>}
+          {isRequired && (
+            <span className="text-[#0038FF]">{t('login.profileSetup.requiredField')}</span>
+          )}
         </p>
         <Select
           options={options}
@@ -44,12 +48,10 @@ const FormFieldSelect = ({
           placeholder={placeholder}
           instanceId={name}
           onChange={onChange}
-          className={errors[name] && 'border-red-500'} // 에러가 있으면 빨간 테두리 추가
+          className={errors[name] && 'border-red-500'}
         />
       </label>
-      {errors[name] && (
-        <p className="text-red-500">선택이 필요합니다.</p> // 에러 메시지 표시
-      )}
+      {errors[name] && <p className="text-red-500">{t('login.profileSetup.errorMessage')}</p>}
     </div>
   );
 };

@@ -1,10 +1,10 @@
 'use client';
-import { positions, getPositionLabel } from '@/constant/position';
+import { getPositionLabel, usePositionOptions } from '@/constant/position';
 import { techStack } from '@/constant/techStack';
 import { MyPageForm } from '@/types/mypageFormTypes';
 import { userImageURL } from '@/constant/images';
 import React, { useEffect, useState, useRef } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { apiUrl } from '@/constant/api';
@@ -12,21 +12,19 @@ import { useGetDepartmentLabel } from '@/constant/department';
 import { UploadImage } from '@/types';
 import { queryKeys } from '@/queries/queryKeys';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
+import SelectField from '@/components/createPost/SelectField';
 
 const animatedComponents = makeAnimated();
 
-const useFetchProfileData = async () => {
+const fetchProfileData = async () => {
   const response = await fetch(`${apiUrl}/members/info`);
   if (!response.ok) {
     throw new Error('Failed to fetch profile data');
   }
   const data = await response.json();
-  return {
-    ...data,
-    department: useGetDepartmentLabel(data.department),
-    position: { label: getPositionLabel(data.position), value: data.position },
-    techStack: data.techStack.map((tech: string) => ({ label: tech, value: tech })),
-  };
+  return data;
 };
 
 const Mypage = () => {
@@ -34,11 +32,12 @@ const Mypage = () => {
     register,
     handleSubmit,
     control,
-    setValue,
+    reset,
     formState: { errors },
   } = useForm<MyPageForm>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const {
     data: profileData,
@@ -46,20 +45,16 @@ const Mypage = () => {
     isLoading,
   } = useQuery<MyPageForm>({
     queryKey: queryKeys.profileData(),
-    queryFn: useFetchProfileData,
+    queryFn: fetchProfileData,
   });
 
-  useEffect(() => {
-    if (!profileData) {
-      return;
-    }
+  const positionOptions = usePositionOptions();
 
-    for (const key in profileData) {
-      if (profileData.hasOwnProperty(key)) {
-        setValue(key as keyof MyPageForm, profileData[key as keyof MyPageForm]);
-      }
-    }
-  }, [profileData, setValue]);
+  useEffect(() => {
+    if (!profileData) return;
+
+    reset(profileData);
+  }, [profileData, reset, t]);
 
   const onSubmit = async (data: MyPageForm) => {
     try {
@@ -72,9 +67,9 @@ const Mypage = () => {
           nickname: data.nickname,
           profileImgId: data.profileImgId,
           department: data.department,
-          position: data.position.value,
+          position: data.position,
           bio: data.bio,
-          techStack: data.techStack.map((stack) => stack.value),
+          techStack: data.techStack,
           githubUrl: data.githubUrl,
           baekjoonId: data.baekjoonId,
         }),
@@ -100,51 +95,14 @@ const Mypage = () => {
     }
   };
 
-  // const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (!file) {
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append('image', file);
-
-  //   try {
-  //     const response = await fetch(`${apiUrl}/file/upload-profile-image`, {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       console.error('Error uploading image:', errorData);
-  //       alert('이미지 업로드 중 오류가 발생했습니다.');
-  //       return;
-  //     }
-
-  //     const result: UploadImage = await response.json();
-  //     setProfileData((prevData) =>
-  //       prevData
-  //         ? { ...prevData, profileImgUrl: result.imageUrl, profileImgId: result.imageId }
-  //         : null
-  //     );
-  //     setValue('profileImgId', result.imageId);
-  //     setValue('profileImgUrl', result.imageUrl);
-  //     alert('이미지 업로드가 성공했습니다!');
-  //   } catch (error) {
-  //     console.error('Error uploading image:', error);
-  //     alert('이미지 업로드 중 오류가 발생했습니다.');
-  //   }
-  // };
-
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
 
   if (error instanceof Error) {
     return <div>Error: {error.message}</div>;
   }
 
   return (
-    <main className="max-w-[500px] mx-auto p-5">
+    <main className="max-w-[500px] mx-auto p-5 limark list-none">
       <div className="flex justify-center items-center mb-10">
         <label className="cursor-pointer" onClick={handleImageClick}>
           <img
@@ -152,7 +110,7 @@ const Mypage = () => {
             alt="user-image"
             className="w-[150px] h-[150px] rounded-full"
           />
-          <div className="text-center">프로필 사진 변경</div>
+          <div className="text-center">{t('mypage.profileImageChange')}</div>
         </label>
         <input
           type="file"
@@ -165,12 +123,13 @@ const Mypage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <label className="mb-5">
           <div className="text-sm font-bold">
-            닉네임<span className="text-custom-red">*</span>
+            {t('mypage.nickname')}
+            <span className="text-custom-red">{t('mypage.required')}</span>
           </div>
           <input
             type="text"
-            placeholder="닉네임을 입력해주세요."
-            {...register('nickname', { required: '닉네임을 입력해주세요.' })}
+            placeholder={t('mypage.nicknamePlaceholder')}
+            {...register('nickname', { required: t('mypage.errorMessage.nickname') })}
             className="border w-full py-3 px-3 rounded"
           />
           {errors.nickname && <span className="text-red-500">{errors.nickname.message}</span>}
@@ -178,44 +137,41 @@ const Mypage = () => {
 
         <label className="mb-5">
           <div className="text-sm font-bold">
-            학과<span className="text-custom-red">*</span>
+            {t('mypage.department')}
+            <span className="text-custom-red">{t('mypage.required')}</span>
           </div>
           <input
             type="text"
             disabled={true}
-            {...register('department')}
+            value={getPositionLabel(profileData?.position || '', t)}
             className="border w-full py-3 px-3 rounded bg-gray"
           />
         </label>
 
         <label className="mb-5">
           <div className="text-sm font-bold">
-            포지션<span className="text-custom-red">*</span>
+            {t('mypage.position')}
+            <span className="text-custom-red">{t('mypage.required')}</span>
           </div>
-          <Controller
-            name="position"
+          <SelectField
             control={control}
-            rules={{ required: '포지션을 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                closeMenuOnSelect={true}
-                components={animatedComponents}
-                options={positions}
-              />
-            )}
+            // label={t('mypage.positionPlaceholder')}
+            name="position"
+            options={positionOptions}
+            placeholder={t('mypage.positionPlaceholder')}
           />
+
           {errors.position && <span className="text-red-500">{errors.position.message}</span>}
         </label>
 
         <label className="w-full">
-          <div className="text-sm font-bold">자기소개</div>
+          <div className="text-sm font-bold">{t('mypage.bio')}</div>
           <textarea
             id="bio"
             {...register('bio')}
             cols={10}
             rows={10}
-            placeholder="자기소개 입력"
+            placeholder={t('mypage.bioPlaceholder')}
             className="border rounded py-3 px-3 h-28 w-full resize-none"
           ></textarea>
           {errors.bio && <span className="text-red-500">{errors.bio.message}</span>}
@@ -223,40 +179,37 @@ const Mypage = () => {
 
         <label className="mb-5">
           <div className="text-sm font-bold">
-            기술 스택<span className="text-custom-red">*</span>
+            {t('mypage.techStack')}
+            <span className="text-custom-red">{t('mypage.required')}</span>
           </div>
-          <Controller
-            name="techStack"
+
+          <SelectField
             control={control}
-            rules={{ required: '기술 스택을 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                options={techStack}
-              />
-            )}
+            // label={t('mypage.positionPlaceholder')}
+            name="techStack"
+            options={techStack}
+            placeholder={t('mypage.techStackPlaceholder')}
+            isMulti={true}
           />
+
           {errors.techStack && <span className="text-red-500">{errors.techStack.message}</span>}
         </label>
 
         <label className="mb-5">
-          <div className="text-sm font-bold">나의 GitHub URL</div>
+          <div className="text-sm font-bold">{t('mypage.githubUrl')}</div>
           <input
             type="text"
-            placeholder="깃허브 링크 추가해보세요!"
+            placeholder={t('mypage.githubUrlPlaceholder')}
             {...register('githubUrl')}
             className="border w-full py-3 px-3 rounded"
           />
         </label>
 
         <label className="mb-5">
-          <div className="text-sm font-bold">백준 ID</div>
+          <div className="text-sm font-bold">{t('mypage.baekjoonId')}</div>
           <input
             type="text"
-            placeholder="백준 ID를 넣어 자신의 티어를 뽐내봐요!"
+            placeholder={t('mypage.baekjoonIdPlaceholder')}
             {...register('baekjoonId')}
             className="border w-full py-3 px-3 rounded"
           />
@@ -266,7 +219,7 @@ const Mypage = () => {
           type="submit"
           className="h-12 w-full bg-secondary text-white font-bold text-sm rounded"
         >
-          프로필 저장
+          {t('mypage.submit')}
         </button>
       </form>
     </main>

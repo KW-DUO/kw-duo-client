@@ -1,11 +1,15 @@
 'use client';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { PostDetailContext } from '@/components/postDetail/store';
 import { apiUrl } from '@/constant/api';
+import { useTranslation } from 'react-i18next';
+import ConfirmationModal from '../modal/ConfirmationModal';
 
 export const PostCloseButton = () => {
   const post = useContext(PostDetailContext);
+  const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const postClose = async () => {
     if (!post) {
@@ -15,30 +19,42 @@ export const PostCloseButton = () => {
     const response = await fetch(url, { method: 'POST' });
 
     if (!response.ok) {
-      throw new Error('글 모집 마감 요청 실패');
+      throw new Error(t('button.closeRecruitmentError'));
     }
   };
 
   const onClickClose = async () => {
     if (!post) {
-      alert('게시글 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
+      alert(t('button.loadingPost'));
       return;
     }
 
     try {
       await postClose();
-      alert(`${post.id}번 게시글이 마감되었습니다.`);
+      alert(t('button.postClosed', { postId: post.id }));
+      setIsModalOpen(false);
     } catch (error: any) {
       alert(error.message);
     }
   };
 
+  const handleConfirmClose = () => {
+    onClickClose();
+  };
+
   return (
-    <button
-      onClick={onClickClose}
-      className="w-full h-[70px] bg-secondary rounded text-white font-bold text-2xl mb-14"
-    >
-      모집 마감하기
-    </button>
+    <>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="w-full h-[70px] bg-secondary rounded text-white font-bold text-2xl mb-14"
+      >
+        {t('button.closeRecruitment')}
+      </button>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirmClose}
+      />
+    </>
   );
 };

@@ -11,7 +11,7 @@ import LanguageSwitcher from '../multiLanguage/LanguageSwitcher';
 // todo
 // 로그인 상태 관리 적용
 const Navbar = () => {
-  const isLoggedIn = true; // 로그인 여부
+  const isLoggedIn = false; // 로그인 여부
   const { t } = useTranslation(); // 언어
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // 모달 표시 상태를 관리합니다.
   const pathname = usePathname();
@@ -29,10 +29,7 @@ const Navbar = () => {
     { title: t('nav.guidelines'), path: '/guidelines' },
   ];
 
-  const notificationItems = [
-    { title: '거래 알림', path: '/notifications/transaction' },
-    { title: '크몽 알림', path: '/notifications/crow' },
-  ];
+  const notificationItems = [{ title: '알람', path: '#' }];
 
   return (
     <>

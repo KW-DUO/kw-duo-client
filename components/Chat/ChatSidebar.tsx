@@ -49,7 +49,7 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   if (status === 'pending') {
-    return <p>Loading...</p>;
+    return <p className="text-center">Loading...</p>;
   }
 
   if (status === 'error') {

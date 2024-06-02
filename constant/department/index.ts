@@ -48,7 +48,7 @@ export function useGetDepartmentLabel(departmentValue: string): string {
   };
 
   const label = departmentLabels[departmentValue];
-  if (!label) throw Error('학과 값에 매칭되는 것이 없습니다.');
+  // if (!label) throw Error('학과 값에 매칭되는 것이 없습니다.');
   return label;
 }
 
@@ -77,4 +77,13 @@ export function getDepartmentLabel(departmentValue: string, t: TFunction): strin
     throw new Error(`Unknown department value: ${departmentValue}`);
   }
   return t(department.label);
+}
+
+// 글 생성에 사용
+export function useGetDepartmentOptions() {
+  const { t } = useTranslation();
+  return departments.map((department) => ({
+    value: department.value,
+    label: t(department.label),
+  }));
 }

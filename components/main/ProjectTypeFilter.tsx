@@ -19,7 +19,9 @@ const ProjectTypeFilter = () => {
   // 클릭 이벤트 핸들러
   const handleProjectTypeChange = (type: ProjectType) => {
     setSelectedProjectType(type);
-    const value = getProjectTypeValue(t(`projectTypes.${type}`), t);
+    console.log(type);
+    const value = getProjectTypeValue(`projectTypes.${type}`, t);
+    console.log(value);
     setProjectType(value);
   };
 

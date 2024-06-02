@@ -1,5 +1,6 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+
+import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -12,6 +13,7 @@ import {
   ChartOptions,
   ChartData,
 } from 'chart.js';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -29,34 +31,74 @@ const jobData = [
   { label: '기타', value: 1 },
 ];
 
-const data: ChartData<'bar'> = {
-  labels: jobData.map((job) => job.label),
-  datasets: [
-    {
-      label: '현재 직무',
-      data: jobData.map((job) => job.value),
-      backgroundColor: '#00b2ff',
-    },
-  ],
-};
+// const data: ChartData<'bar'> = {
+//   labels: jobData.map((job) => job.label),
+//   datasets: [
+//     {
+//       label: '현재 직무',
+//       data: jobData.map((job) => job.value),
+//       backgroundColor: '#00b2ff',
+//     },
+//   ],
+// };
 
-const options: ChartOptions<'bar'> = {
-  indexAxis: 'y' as const,
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false, // 범례(라벨) 비활성화
-    },
-    title: {
-      display: false, // 제목 비활성화
-    },
-  },
-};
+// const options: ChartOptions<'bar'> = {
+//   indexAxis: 'y' as const,
+//   responsive: true,
+//   plugins: {
+//     legend: {
+//       display: false, // 범례(라벨) 비활성화
+//     },
+//     title: {
+//       display: false, // 제목 비활성화
+//     },
+//   },
+// };
 
 const SurveyPostionHorizontalBarChart = () => {
+  const { t } = useTranslation();
+
+  const jobData = [
+    { label: t('survey.positions.frontend'), value: 10 },
+    { label: t('survey.positions.backend'), value: 20 },
+    { label: t('survey.positions.android'), value: 5 },
+    { label: t('survey.positions.ios'), value: 7 },
+    { label: t('survey.positions.gameDev'), value: 3 },
+    { label: t('survey.positions.planner'), value: 2 },
+    { label: t('survey.positions.designer'), value: 8 },
+    { label: t('survey.positions.machineLearning'), value: 12 },
+    { label: t('survey.positions.blockchain'), value: 4 },
+    { label: t('survey.positions.embedded'), value: 6 },
+    { label: t('survey.positions.other'), value: 1 },
+  ];
+
+  const data: ChartData<'bar'> = {
+    labels: jobData.map((job) => job.label),
+    datasets: [
+      {
+        label: '현재 직무',
+        data: jobData.map((job) => job.value),
+        backgroundColor: '#00b2ff',
+      },
+    ],
+  };
+
+  const options: ChartOptions<'bar'> = {
+    indexAxis: 'y' as const,
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false, // 범례(라벨) 비활성화
+      },
+      title: {
+        display: false, // 제목 비활성화
+      },
+    },
+  };
+
   return (
     <div className="mb-10">
-      <h1 className="font-bold text-3xl mb-10">포지션 통계</h1>
+      <h1 className="font-bold text-3xl mb-10">{t('survey.positionStats')}</h1>
       <Bar data={data} options={options} />
     </div>
   );

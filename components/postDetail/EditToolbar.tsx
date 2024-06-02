@@ -2,11 +2,15 @@
 import { PostDetailContext } from '@/components/postDetail/store';
 import { apiUrl } from '@/constant/api';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import ConfirmationModal from './../modal/ConfirmationModal';
 
 export const EditToolbar = () => {
   const post = useContext(PostDetailContext);
   const router = useRouter();
+  const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getApiUrl = (postType: string, postId: number) => {
     switch (postType) {
@@ -20,7 +24,7 @@ export const EditToolbar = () => {
   };
 
   if (!post) {
-    return <div>Loading...</div>;
+    return <div>{t('editToolbar.loading')}</div>;
   }
 
   const deletePost = async () => {
@@ -42,7 +46,7 @@ export const EditToolbar = () => {
 
   function onEditClick() {
     if (!post) {
-      alert('게시글 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
+      alert(t('editToolbar.postLoading'));
       return;
     }
     router.push(`/edit/${post.id}`);
@@ -50,19 +54,27 @@ export const EditToolbar = () => {
 
   async function onDeleteClick() {
     if (!post) {
-      alert('게시글 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
+      alert(t('editToolbar.postLoading'));
       return;
     }
-    deletePost();
-
-    alert(`${post.id}번 게시글 삭제 api 발사`);
+    setIsModalOpen(true);
   }
+
+  const handleConfirmDelete = async () => {
+    await deletePost();
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="flex font-bold gap-2 items-center">
-      <button onClick={onEditClick}>수정</button>
+      <button onClick={onEditClick}>{t('editToolbar.edit')}</button>
       <div className="w-0.5 h-5 bg-slate-400"></div>
-      <button onClick={onDeleteClick}>삭제</button>
+      <button onClick={onDeleteClick}>{t('editToolbar.delete')}</button>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 };

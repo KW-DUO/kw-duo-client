@@ -3,8 +3,11 @@ import LoginModal from './LoginModal';
 import { LoginStepProps } from '../LoginStep/LoginStep';
 import { GoogleLoginButton } from '../LoginButton';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useTranslation } from 'react-i18next';
 
 const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
+  const { t } = useTranslation();
+
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log(tokenResponse);
@@ -21,7 +24,7 @@ const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
     <LoginModal onClose={onClose}>
       <div className="flex justify-center items-center h-[440px]">
         <div>
-          <h1 className="text-center mb-14 text-3xl font-bold">간편 로그인 후 이용 가능합니다!</h1>
+          <h1 className="text-center mb-14 text-3xl font-bold">{t('login.loginMessage')}</h1>
           <GoogleLoginButton onClick={login} />
           {/* <NaverLoginButton /> */}
           {/* <KakaoLoginButton /> */}

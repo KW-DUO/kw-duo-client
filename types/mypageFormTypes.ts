@@ -1,12 +1,12 @@
 export type MyPageForm = {
-  id?: number;
+  id: number;
   profileImgUrl?: string;
   profileImgId?: number;
   nickname: string;
   department: string;
-  position: { label: string; value: string };
+  position: string;
   bio: string;
-  techStack: { label: string; value: string }[];
+  techStack: string[];
   githubUrl?: string | null;
   baekjoonId?: string | null;
 };

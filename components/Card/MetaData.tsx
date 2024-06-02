@@ -1,5 +1,6 @@
-import { getDepartmentCode } from '@/constant/class';
+import { getDepartmentCode, useGetCourseLabel } from '@/constant/class';
 import { useGetDepartmentLabel } from '@/constant/department';
+import { useGetInterestingFieldLabel } from '@/constant/interestingField';
 import { getPositionLabel } from '@/constant/position';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,21 +20,26 @@ export const MetaData = ({
 }: MetaDataProps) => {
   const { t } = useTranslation();
 
-  const getDepartment = useGetDepartmentLabel(department ?? '');
+  const translatedDepartment = useGetDepartmentLabel(department ?? '');
+  const translatedCourse = useGetCourseLabel(course);
+  const getInterestingFieldLabel = useGetInterestingFieldLabel();
+
   return (
     <div className="mb-2 h-[120px]">
       {department && (
-        <div className="mb-2">
+        <div className="mb-2 text-overflow">
           {t('metaData.department')}:{' '}
           <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
-            {getDepartment}
+            {translatedDepartment}
           </span>
         </div>
       )}
-      <div className="mb-2">
-        {course ? t('metaData.course') : t('metaData.interestingField')}:
+      <div className="mb-2 text-overflow">
+        {course || interestingField ? t('metaData.course') : t('metaData.interestingField')}:
         <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
-          {course ?? interestingField?.join(', ')}
+          {/* {course ?? interestingField?.join(', ')} */}
+          {translatedCourse ??
+            interestingField?.map((field) => getInterestingFieldLabel(field)).join(', ')}
         </span>
       </div>
       <div className="mb-4 h-14 line-clamp-2">

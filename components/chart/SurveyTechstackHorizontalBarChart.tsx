@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -12,7 +13,7 @@ import {
   ChartOptions,
   ChartData,
 } from 'chart.js';
-import { techStack } from '@/constant/techStack';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -73,9 +74,10 @@ const options: ChartOptions<'bar'> = {
 };
 
 const SurveyTechstackHorizontalBarChart = () => {
+  const { t } = useTranslation();
   return (
     <div className="mb-10">
-      <h1 className="text-2xl font-bold text-black mb-4">기술 스택</h1>
+      <h1 className="text-2xl font-bold text-black mb-4">{t('survey.techStack')}</h1>
       <Bar data={data} options={options} />
     </div>
   );

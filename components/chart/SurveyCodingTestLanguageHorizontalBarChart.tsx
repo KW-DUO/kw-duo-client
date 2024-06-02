@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -12,6 +13,7 @@ import {
   ChartOptions,
   ChartData,
 } from 'chart.js';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -51,7 +53,7 @@ const data: ChartData<'bar'> = {
       ],
       borderColor: [
         '#4338ca', // Python
-        '#2563eb', // Java
+        '#3a72ea', // Java
         '#d97706', // JavaScript
         '#b91c1c', // C++
         '#059669', // C
@@ -87,9 +89,10 @@ const options: ChartOptions<'bar'> = {
 };
 
 const SurveyCodingTestLanguageHorizontalBarChart = () => {
+  const { t } = useTranslation();
   return (
     <div className="mb-10">
-      <h1 className="text-2xl font-bold text-black mb-4">코딩 테스트 연습 언어</h1>
+      <h1 className="text-2xl font-bold text-black mb-4">{t('survey.codingTestLanguage')}</h1>
       <Bar data={data} options={options} />
     </div>
   );

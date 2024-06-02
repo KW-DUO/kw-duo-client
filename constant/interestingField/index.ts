@@ -1,3 +1,4 @@
+import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 function createInterestingFieldLabels(t: any) {
@@ -52,4 +53,43 @@ export function useGetInterestingFieldLabel() {
     if (!label) throw new Error(`흥미 분야 값에 매칭되는 라벨이 없습니다: ${value}`);
     return label;
   };
+}
+
+// export const interestingField = [
+//   { label: '웹', value: 'WEB' },
+//   { label: '앱', value: 'APP' },
+//   { label: '인공지능', value: 'AI' },
+//   { label: '게임', value: 'GAME' },
+//   { label: '블록체인', value: 'BLOCKCHAIN' },
+//   { label: '사물인터넷', value: 'IOT' },
+//   { label: '기타', value: 'OTHER' },
+// ] as const;
+
+export const interestingField = [
+  { label: 'filters.fields.web', value: 'WEB' },
+  { label: 'filters.fields.app', value: 'APP' },
+  { label: 'filters.fields.ai', value: 'AI' },
+  { label: 'filters.fields.game', value: 'GAME' },
+  { label: 'filters.fields.blockchain', value: 'BLOCKCHAIN' },
+  { label: 'filters.fields.iot', value: 'IOT' },
+  { label: 'filters.fields.other', value: 'OTHER' },
+] as const;
+
+export const interestingFieldFilterOptions = [
+  { label: '전체', value: 'ALL' },
+  { label: '웹', value: 'WEB' },
+  { label: '앱', value: 'APP' },
+  { label: '인공지능', value: 'AI' },
+  { label: '게임', value: 'GAME' },
+  { label: '블록체인', value: 'BLOCKCHAIN' },
+  { label: '사물인터넷', value: 'IOT' },
+  { label: '기타', value: 'OTHER' },
+] as const;
+
+export function useGetInterestingFieldOptions() {
+  const { t } = useTranslation();
+  return interestingField.map((field) => ({
+    value: field.value,
+    label: t(field.label),
+  }));
 }
