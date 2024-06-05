@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 const TeamProjectGuidelines = () => {
@@ -20,63 +22,108 @@ const TeamProjectGuidelines = () => {
             가이드라인을 제공합니다.
           </p>
 
-          팀 프로젝트 Tip
+          <section className="mb-8">
+            <h3 className="text-3xl font-semibold mb-4">팀 프로젝트 Tip</h3>
+            <hr className="border-2 mb-4" />
+            <h4 className="text-xl font-semibold mb-2">빈번한 소통과 상호작용을 위한 모임</h4>
+            <ul className="list-disc list-inside space-y-2 pl-4">
+              <li>매주 수업 이후 30분 모임 등의 일정은 지양</li>
+              <li>초반일수록 더욱 빈번하게 만나서 과제에 대해서 논의하기</li>
+              <li>
+                규칙적인 회의 시간을 잡는다. 보통 1주에 1번씩 만나지만 언제 다른 시간이 되는지 먼저
+                파악하자.
+                <br />
+                {`       ex) 화요일에 참여가 불가하다면 목요일로 빠르게 대체가 가능하다.(화,목 회의 가능시) `}
+              </li>
+            </ul>
+            <h4 className="text-xl font-semibold mb-2 mt-4">
+              상호작용을 위한 의도적 관심사의 섞임
+            </h4>
+            <ul className="list-disc list-inside space-y-2 pl-4">
+              <li>
+                업무를 1/3 으로 나누는 것이 아니라, 2/3으로 나누기 (3명, 3가지 업무가 있다면
+                2명/1가지 분담)
+              </li>
+              <li>일이 밀리더라도 일찍 끝낸 누군가가 서로 도와주기</li>
+            </ul>
+            <h4 className="text-xl font-semibold mb-2 mt-4">
+              최대한 짧은 주기로 진행상황 공유하고, 여러가지 아이디어를 함께 공유
+            </h4>
+            <ul className="list-disc list-inside space-y-2 pl-4">
+              <li>서로의 비난을 없애고, 자료와 함께 피드백하며 최선을 찾아가기</li>
+              <li>
+                월,수,토 / 화,목,일 2~3일 간격으로 15분간 자신이 작업한 것과 작업할 예정을 Slack이나
+                Discord를 활용하여 스크럼 회의하여 진행상황을 주기적으로 공유하기
+              </li>
+            </ul>
+            <h4 className="text-xl font-semibold mb-2 mt-4">
+              예상외로 변수가 많으니 여유가 있다고 생각하지말자
+            </h4>
 
-          예상외로 변수가 많으니 여유가 있다고 생각하지말자
+            <p className="mb-4"></p>
+            <h4 className="text-xl font-semibold mb-2">
+              항상 회의 전에 노션을 사용해 회의 진행 내용을 미리 정리하고, 회의록을 작성하여
+              공유하기
+            </h4>
+            <ul className="list-disc list-inside space-y-2 pl-4">
+              <li>
+                조장이나 리더는 회의 전에 중점적으로 다룰 토픽과 논의할 내용을 미리 정리해두면, 회의
+                시간을 단축하고 집중도를 높일 수 있다.
+              </li>
+            </ul>
+            <h4 className="text-xl font-semibold mb-2 mt-4">도움이 될만한 노션 템플릿들</h4>
+            <ul className="list-disc list-inside space-y-2 pl-4">
+              <li>
+                <Link
+                  href="https://sasha1107.notion.site/Team-Project-Template-cdcd0a777261493eb42a035b6a12589b"
+                  legacyBehavior
+                >
+                  <a target="_blank" className="text-blue-500 underline">
+                    팀프로젝트 템플릿
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://daewony.notion.site/PRD-bc636faabeb7431887d3facfcb356e76?pvs=4"
+                  legacyBehavior
+                >
+                  <a target="_blank" className="text-blue-500 underline">
+                    스펙문서
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="https://www.notion.so/ko-kr/templates/category/meetings" legacyBehavior>
+                  <a target="_blank" className="text-blue-500 underline">
+                    회의 템플릿
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          </section>
 
-          빈번한 소통과 상호작용을 위한 모임
-          - 매주 수업 이후 30분 모임 등의 일정은 지양
-          - 초반일수록 더욱 빈번하게 만나서 과제에 대해서 논의하기
-
-          상호작용을 위한 의도적 관심사의 섞임
-          - 업무를 1/3 으로 나누는 것이 아니라, 2/3으로 나누기 (3명, 3가지 업무가 있다면 2명/1가지 분담)
-          - 일이 밀리더라도 일찍 끝낸 누군가가 서로 도와주기
-
-          최대한 짧은 주기로 진행상황 고유하고, 여러가지 아이디어를 함께 공유
-          - 서로의 비난을 없애고, 자료와 함께 피드백하며 최선을 찾아가기
-
-          
-
-          웹서비스를 제작시에는 UI 디자인을 학기 중이 아닌 방학때 미리 끝내놓자
-
-          월,수,토 화,목,일 스크럼 회의를 통해
-          
-          첫 만남때 규칙적인 회의 시간을 잡아두자
-          보통 1주에 1번씩 만나지만 언제 다른 시간이 되는지 먼저 파악하자
-          -> 만약 화요일에 참여가 불가하다면 목요일로 빠르게 대체가 가능하다
-
-          
-          회의는 노션이나 
-          
-          그리고 조장이나 리더분들은 회의 전에 어떤 것을 중점적으로 회의를 진행할 것인지 
-          토픽과 내용을 정리하면 회의시간이 단축되고 집중도가 좋습니다
-
-
-https://sasha1107.notion.site/Team-Project-Template-cdcd0a777261493eb42a035b6a12589b
-          
-
-          
-          
-
-          <div className="space-y-8">
+          <div className="space-y-8 mt-10">
             <section>
+              <h3 className="text-3xl font-semibold mb-4">팀 프로젝트 단계</h3>
+              <hr className="border-2 mb-4" />
               <h3 className="text-2xl font-semibold mb-4">1. 프로젝트 목표 설정</h3>
               <p className="mb-4">
                 프로젝트의 최종 목표를 명확하게 정의하고 이를 통해 얻고자 하는 결과를 설정합니다.
-                목표 설정은 프로젝트의 방향을 결정짓는 중요한 단계입니다.
+                <br />
               </p>
               <ul className="list-disc list-inside space-y-2 pl-4">
                 <li>
                   <Link
-                    href="https://www.mindtools.com/pages/article/smart-goals.htm"
+                    href="https://daewony.notion.site/PRD-bc636faabeb7431887d3facfcb356e76?pvs=4"
                     legacyBehavior
                   >
                     <a target="_blank" className="text-blue-500 underline">
-                      SMART Goals
+                      스펙문서: 문제 정의
                     </a>
                   </Link>
-                  방법론: 구체적이고, 측정 가능하며, 달성 가능하고, 관련성 있으며, 시간 제한이 있는
-                  목표를 설정하는 방법입니다.
+                  : 프로젝트의 목적과 목표, 핵심기능이 무엇인지 파악하여 작성하면 도움이 될
+                  것입니다.
                 </li>
                 <li>
                   <Link
@@ -164,23 +211,20 @@ https://sasha1107.notion.site/Team-Project-Template-cdcd0a777261493eb42a035b6a12
               </p>
               <ul className="list-disc list-inside space-y-2 pl-4">
                 <li>
-                  <Link
-                    href="https://www.lucidchart.com/pages/how-to-make-a-flowchart-in-powerpoint"
-                    legacyBehavior
-                  >
+                  <Link href="https://miro.com/guides/flowchart" legacyBehavior>
                     <a target="_blank" className="text-blue-500 underline">
-                      Lucidchart: How to Make a Flowchart
+                      Miro: How to Make a Flowchart
                     </a>
                   </Link>
                   : 플로우차트를 만드는 방법입니다.
                 </li>
                 <li>
-                  <Link href="https://www.smartdraw.com/flowchart/" legacyBehavior>
+                  <Link href="https://miro.com/templates/flowchart/" legacyBehavior>
                     <a target="_blank" className="text-blue-500 underline">
-                      SmartDraw: Flowchart Software
+                      Miro: Flowchart Templates
                     </a>
                   </Link>
-                  : 플로우차트를 그릴 수 있는 도구와 가이드입니다.
+                  : 플로우차트를 그릴 수 있는 도구와 템플릿입니다.
                 </li>
               </ul>
             </section>
@@ -331,6 +375,29 @@ https://sasha1107.notion.site/Team-Project-Template-cdcd0a777261493eb42a035b6a12
                     </a>
                   </Link>
                   : Git 튜토리얼과 가이드입니다.
+                </li>
+              </ul>
+              <h4 className="text-xl font-semibold mb-2 mt-4">깃허브 관련 영상</h4>
+              <ul className="list-disc list-inside space-y-2 pl-4">
+                <li>
+                  <Link
+                    href="https://www.youtube.com/watch?v=lelVripbt2M&pp=ygUM6rmD7IKs7Jqp67KV"
+                    legacyBehavior
+                  >
+                    <a target="_blank" className="text-blue-500 underline">
+                      GitHub 사용법 1
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.youtube.com/watch?v=tkkbYCajCjM&t=687s&pp=ygUM6rmD7IKs7Jqp67KV"
+                    legacyBehavior
+                  >
+                    <a target="_blank" className="text-blue-500 underline">
+                      GitHub 사용법 2
+                    </a>
+                  </Link>
                 </li>
               </ul>
             </section>
