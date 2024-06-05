@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -14,61 +14,12 @@ import {
   ChartData,
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
+import { apiUrl } from '@/constant/api';
+import { HttpClient } from '@/util/HttpClient';
+import { SurveyDataItem, SurveyStatisticsResponse } from '@/constant/survey';
+import { mapCodingTestLanguageToLabel } from '@/constant/codingTestLanguages'; // Adjust the import path as necessary
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const languageData = [
-  { label: 'Python', value: 38.3 },
-  { label: 'Java', value: 29.1 },
-  { label: 'JavaScript', value: 18 },
-  { label: 'C++', value: 5.2 },
-  { label: 'C', value: 3 },
-  { label: 'C#', value: 2 },
-  { label: 'Kotlin', value: 1.5 },
-  { label: 'Swift', value: 1 },
-  { label: 'Go', value: 0.8 },
-  { label: 'Ruby', value: 0.5 },
-  { label: 'Scala', value: 0.4 },
-  { label: 'R', value: 0.2 },
-];
-
-const data: ChartData<'bar'> = {
-  labels: languageData.map((lang) => lang.label),
-  datasets: [
-    {
-      data: languageData.map((lang) => lang.value),
-      backgroundColor: [
-        '#6366f1', // Python
-        '#60a5fa', // Java
-        '#f59e0b', // JavaScript
-        '#f87171', // C++
-        '#34d399', // C
-        '#38bdf8', // C#
-        '#fb7185', // Kotlin
-        '#f472b6', // Swift
-        '#10b981', // Go
-        '#6b7280', // Ruby
-        '#a78bfa', // Scala
-        '#4ade80', // R
-      ],
-      borderColor: [
-        '#4338ca', // Python
-        '#3a72ea', // Java
-        '#d97706', // JavaScript
-        '#b91c1c', // C++
-        '#059669', // C
-        '#0284c7', // C#
-        '#be123c', // Kotlin
-        '#db2777', // Swift
-        '#047857', // Go
-        '#4b5563', // Ruby
-        '#7c3aed', // Scala
-        '#16a34a', // R
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
 const options: ChartOptions<'bar'> = {
   indexAxis: 'y' as const,
@@ -81,19 +32,87 @@ const options: ChartOptions<'bar'> = {
   scales: {
     x: {
       beginAtZero: true,
-      ticks: {
-        callback: (value) => `${value}%`,
-      },
     },
   },
 };
 
 const SurveyCodingTestLanguageHorizontalBarChart = () => {
   const { t } = useTranslation();
+  const [chartData, setChartData] = useState<ChartData<'bar'>>({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
+        borderWidth: 1,
+      },
+    ],
+  });
+
+  useEffect(() => {
+    const client = new HttpClient({
+      baseUrl: apiUrl,
+    });
+
+    client
+      .fetch<SurveyStatisticsResponse>('/statistics/coding-test', 'GET', {})
+      .then((response: SurveyStatisticsResponse) => {
+        const fetchedData = response.statistics;
+        const labels = fetchedData.map((item: SurveyDataItem) =>
+          mapCodingTestLanguageToLabel(item.value)
+        );
+        const data = fetchedData.map((item: SurveyDataItem) => item.count);
+        const backgroundColor = [
+          '#6366f1',
+          '#60a5fa',
+          '#f59e0b',
+          '#f87171',
+          '#34d399',
+          '#38bdf8',
+          '#fb7185',
+          '#f472b6',
+          '#10b981',
+          '#6b7280',
+          '#a78bfa',
+          '#4ade80',
+        ];
+        const borderColor = [
+          '#4338ca',
+          '#3a72ea',
+          '#d97706',
+          '#b91c1c',
+          '#059669',
+          '#0284c7',
+          '#be123c',
+          '#db2777',
+          '#047857',
+          '#4b5563',
+          '#7c3aed',
+          '#16a34a',
+        ];
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              data,
+              backgroundColor: backgroundColor.slice(0, labels.length),
+              borderColor: borderColor.slice(0, labels.length),
+              borderWidth: 1,
+            },
+          ],
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching the coding test statistics:', error);
+      });
+  }, []);
+
   return (
     <div className="mb-10">
       <h1 className="text-2xl font-bold text-black mb-4">{t('survey.codingTestLanguage')}</h1>
-      <Bar data={data} options={options} />
+      <Bar data={chartData} options={options} />
     </div>
   );
 };

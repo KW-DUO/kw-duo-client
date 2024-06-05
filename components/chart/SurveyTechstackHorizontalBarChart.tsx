@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -14,52 +14,15 @@ import {
   ChartData,
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
+import { apiUrl } from '@/constant/api';
+import { HttpClient } from '@/util/HttpClient';
+import { techStack } from '@/constant/techStack';
+import { SurveyDataItem, SurveyStatisticsResponse } from '@/constant/survey';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const dummyDataPoints = [
-  { label: 'React', value: 90 },
-  { label: 'Next.js', value: 85 },
-  { label: 'Vue', value: 80 },
-  { label: 'JavaScript', value: 95 },
-  { label: 'TypeScript', value: 70 },
-  { label: 'Spring', value: 75 },
-  { label: 'Node.js', value: 88 },
-  { label: 'Flask', value: 65 },
-  { label: 'NestJS', value: 60 },
-  { label: 'Django', value: 78 },
-  { label: 'Java', value: 85 },
-  { label: 'MySQL', value: 92 },
-  { label: 'MongoDB', value: 68 },
-  { label: 'Redis', value: 55 },
-  { label: 'Kotlin', value: 50 },
-  { label: 'Swift', value: 60 },
-  { label: 'Flutter', value: 65 },
-  { label: 'Python', value: 98 },
-  { label: 'TensorFlow', value: 45 },
-  { label: 'Pytorch', value: 50 },
-  { label: 'Unity', value: 40 },
-  { label: 'Unreal Engine', value: 35 },
-  { label: 'C', value: 75 },
-  { label: 'C++', value: 70 },
-  { label: 'C#', value: 60 },
-];
-
-dummyDataPoints.sort((a, b) => b.value - a.value);
-
-const data: ChartData<'bar'> = {
-  labels: dummyDataPoints.map((point) => point.label),
-  datasets: [
-    {
-      data: dummyDataPoints.map((point) => point.value),
-      backgroundColor: '#00b2ff',
-      borderColor: '#00b2ff',
-    },
-  ],
-};
-
 const options: ChartOptions<'bar'> = {
-  indexAxis: 'y' as const, // 가로 막대 그래프로 설정
+  indexAxis: 'y' as const, // Horizontal bar chart
   responsive: true,
   plugins: {
     legend: {
@@ -73,12 +36,57 @@ const options: ChartOptions<'bar'> = {
   },
 };
 
+const mapValueToLabel = (value: string) => {
+  const tech = techStack.find((item) => item.value === value);
+  return tech ? tech.label : value;
+};
+
 const SurveyTechstackHorizontalBarChart = () => {
   const { t } = useTranslation();
+  const [chartData, setChartData] = useState<ChartData<'bar'>>({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: '#00b2ff',
+        borderColor: '#00b2ff',
+      },
+    ],
+  });
+
+  useEffect(() => {
+    const client = new HttpClient({
+      baseUrl: apiUrl, // Replace with your base URL
+    });
+
+    client
+      .fetch<SurveyStatisticsResponse>('/statistics/tech-stack', 'GET', {})
+      .then((response) => {
+        const fetchedData = (response as SurveyStatisticsResponse).statistics;
+        const sortedData = fetchedData.sort((a, b) => b.count - a.count);
+        const labels = sortedData.map((item: SurveyDataItem) => mapValueToLabel(item.value));
+        const data = sortedData.map((item: SurveyDataItem) => item.count);
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              data,
+              backgroundColor: '#00b2ff',
+              borderColor: '#00b2ff',
+            },
+          ],
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching the tech stack statistics:', error);
+      });
+  }, []);
+
   return (
     <div className="mb-10">
       <h1 className="text-2xl font-bold text-black mb-4">{t('survey.techStack')}</h1>
-      <Bar data={data} options={options} />
+      <Bar data={chartData} options={options} />
     </div>
   );
 };
