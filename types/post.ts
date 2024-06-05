@@ -1,7 +1,12 @@
-type Author = {
+type PostCardAuthor = {
   id: number;
   nickname: string;
   profileImgUrl: string | null;
+};
+
+type PostDetailAuthor = {
+  id: number;
+  nickname: string;
 };
 
 type Bookmark = {
@@ -17,7 +22,7 @@ export type PostCard = {
   class?: string | null;
   interestingField?: string[] | null;
   wantedPosition: string[];
-  author: Author;
+  author: PostCardAuthor;
   bookmark: Bookmark;
   techStack: string[];
   createdAt: string;
@@ -29,16 +34,13 @@ export type PostDetail = {
   projectType: string;
   title: string;
   content: string;
-  department?: string | null;
-  class?: string | null;
+  department?: string;
+  className?: string;
   wantedPosition: string[];
-  interestingField: string[] | null;
+  interestingField: string[];
   recruitNumber: number;
-  author: {
-    id: number;
-    nickname: string;
-    profileImgUrl: string | null;
-  };
+  author: PostDetailAuthor;
+  bookmark: Bookmark;
   techStack: string[];
   createdAt: string;
 };
