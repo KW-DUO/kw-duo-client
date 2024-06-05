@@ -5,6 +5,7 @@ import { GoogleLoginButton } from '../LoginButton';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '@/constant/api';
+import { useUserStore } from '@/store/userStore';
 
 // todo
 // oauth 토큰을 전달하고 받은 데이터로 회원인지 아닌지 판단
@@ -13,14 +14,30 @@ import { apiUrl } from '@/constant/api';
 
 const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
   const { t } = useTranslation();
+  const { setUserInfo } = useUserStore();
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       // oauth token 서버로 전달
       const fetchedTokenResponse = await fetchToken(tokenResponse.access_token);
 
-      if (onNext) {
-        onNext();
+      if (fetchedTokenResponse.isSignup) {
+        setUserInfo({
+          nickname: '',
+          department: '',
+          techStack: [],
+          codingTestLanguage: '',
+          position: '',
+          email: '',
+          githubUrl: '',
+          baekjoonId: '',
+          oauthId: fetchedTokenResponse.oauthId,
+        });
+        if (onNext) {
+          onNext();
+        }
+      } else {
+        onClose();
       }
     },
   });
@@ -51,7 +68,7 @@ async function fetchToken(accessToken: string) {
   });
 
   if (!response.ok) {
-    throw new Error(`토큰 가져오기 실패: ${response.statusText}`);
+    throw new Error(`oauth 로그인 요청 실패: ${response.statusText}`);
   }
 
   const data = await response.json();
