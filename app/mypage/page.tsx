@@ -1,30 +1,34 @@
 'use client';
+
 import { getPositionLabel, usePositionOptions } from '@/constant/position';
 import { techStack } from '@/constant/techStack';
 import { MyPageForm } from '@/types/mypageFormTypes';
 import { userImageURL } from '@/constant/images';
-import React, { useEffect, useState, useRef } from 'react';
-import { useForm, Controller, set } from 'react-hook-form';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-import { apiUrl } from '@/constant/api';
+import React, { useEffect, useRef } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { useGetDepartmentLabel } from '@/constant/department';
-import { UploadImage } from '@/types';
 import { queryKeys } from '@/queries/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import SelectField from '@/components/createPost/SelectField';
+import makeAnimated from 'react-select/animated';
+import { HttpClient, HttpMethods } from '@/util/HttpClient';
+import { apiUrl } from '@/constant/api';
 
 const animatedComponents = makeAnimated();
 
+const client = new HttpClient(apiUrl, {
+  request: (url, method, args, headers) => {
+    console.log('request', { url, method, args, headers });
+  },
+  response: (url, method, body) => {
+    console.log('response', { url, method, body });
+  },
+});
+
 const fetchProfileData = async () => {
-  const response = await fetch(`${apiUrl}/members/info`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch profile data');
-  }
-  const data = await response.json();
-  return data;
+  return client.fetch<MyPageForm>('/members/info', HttpMethods.GET);
 };
 
 const Mypage = () => {
@@ -58,12 +62,10 @@ const Mypage = () => {
 
   const onSubmit = async (data: MyPageForm) => {
     try {
-      const response = await fetch(`${apiUrl}/members/info`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await client.fetch(
+        '/members/info',
+        HttpMethods.POST,
+        {
           nickname: data.nickname,
           profileImgId: data.profileImgId,
           department: data.department,
@@ -72,15 +74,11 @@ const Mypage = () => {
           techStack: data.techStack,
           githubUrl: data.githubUrl,
           baekjoonId: data.baekjoonId,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error submitting form:', errorData);
-        alert('제출 중 오류가 발생했습니다.');
-        return;
-      }
+        },
+        {
+          'Content-Type': 'application/json',
+        }
+      );
 
       alert('수정완료되었습니다!');
     } catch (error) {
@@ -155,13 +153,11 @@ const Mypage = () => {
           </div>
           <SelectField
             control={control}
-            // label={t('mypage.positionPlaceholder')}
             name="position"
             options={positionOptions}
             placeholder={t('mypage.positionPlaceholder')}
           />
-
-          {errors.position && <span className="text-red-500">{errors.position.message}</span>}
+          {errors.position && <span className="text-red-500">{errors.position?.message}</span>}
         </label>
 
         <label className="w-full">
@@ -174,7 +170,7 @@ const Mypage = () => {
             placeholder={t('mypage.bioPlaceholder')}
             className="border rounded py-3 px-3 h-28 w-full resize-none"
           ></textarea>
-          {errors.bio && <span className="text-red-500">{errors.bio.message}</span>}
+          {errors.bio && <span className="text-red-500">{errors.bio?.message}</span>}
         </label>
 
         <label className="mb-5">
@@ -182,17 +178,14 @@ const Mypage = () => {
             {t('mypage.techStack')}
             <span className="text-custom-red">{t('mypage.required')}</span>
           </div>
-
           <SelectField
             control={control}
-            // label={t('mypage.positionPlaceholder')}
             name="techStack"
             options={techStack}
             placeholder={t('mypage.techStackPlaceholder')}
             isMulti={true}
           />
-
-          {errors.techStack && <span className="text-red-500">{errors.techStack.message}</span>}
+          {errors.techStack && <span className="text-red-500">{errors.techStack?.message}</span>}
         </label>
 
         <label className="mb-5">
