@@ -11,7 +11,7 @@ export const getDepartmentCode = (department: string, t: TFunction): string => {
   const software = t('filters.departments.software');
   const informationConvergence = t('filters.departments.informationConvergence');
   const departmentMap: { [key: string]: string } = {
-    [all]: 'ALL',
+    [all]: '',
     [computerInformationEngineering]: 'COMPUTER_INFORMATION_ENGINEERING',
     [software]: 'SOFTWARE',
     [informationConvergence]: 'INFORMATION_CONVERGENCE',

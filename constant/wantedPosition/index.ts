@@ -11,7 +11,7 @@ export function useWantedPositionOptions() {
     { label: t('filters.positions.backend'), value: 'BACKEND' },
     { label: t('filters.positions.android'), value: 'ANDROID' },
     { label: t('filters.positions.ios'), value: 'IOS' },
-    { label: t('filters.positions.gameDev'), value: 'GAME_DEV' },
+    { label: t('filters.positions.gameDev'), value: 'GAME' },
     { label: t('filters.positions.planner'), value: 'PLANNER' },
     { label: t('filters.positions.designer'), value: 'DESIGNER' },
     { label: t('filters.positions.machineLearning'), value: 'MACHINE_LEARNING' },
@@ -26,13 +26,13 @@ export function useWantedPositionFilterOptions() {
   const { t } = useTranslation();
 
   return [
-    { label: t('filters.positions.all'), value: 'ALL' },
+    { label: t('filters.positions.all'), value: '' },
     { label: t('filters.positions.any'), value: 'ANY' },
     { label: t('filters.positions.frontend'), value: 'FRONTEND' },
     { label: t('filters.positions.backend'), value: 'BACKEND' },
     { label: t('filters.positions.android'), value: 'ANDROID' },
     { label: t('filters.positions.ios'), value: 'IOS' },
-    { label: t('filters.positions.gameDev'), value: 'GAME_DEV' },
+    { label: t('filters.positions.gameDev'), value: 'GAME' },
     { label: t('filters.positions.planner'), value: 'PLANNER' },
     { label: t('filters.positions.designer'), value: 'DESIGNER' },
     { label: t('filters.positions.machineLearning'), value: 'MACHINE_LEARNING' },

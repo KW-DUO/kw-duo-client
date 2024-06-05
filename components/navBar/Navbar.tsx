@@ -2,34 +2,29 @@
 
 import Link from 'next/link';
 import { Bell, UserIcon } from 'lucide-react';
-import { useEffect, useState, ReactNode } from 'react';
+import { useState } from 'react';
 import LoginStep from '../Login/LoginStep/LoginStep';
-import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../multiLanguage/LanguageSwitcher';
+import Dropdown from './Dropdown';
+import { useAuthStore } from '@/store/userStore';
+import { useRouter } from 'next/navigation';
+import { InfoHeader } from './../Card/Header';
+import * as Card from '@/components/Card';
 
-// todo
-// 로그인 상태 관리 적용
 const Navbar = () => {
-  const isLoggedIn = true; // 로그인 여부
-  const { t } = useTranslation(); // 언어
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // 모달 표시 상태를 관리합니다.
-  const pathname = usePathname();
+  const { t } = useTranslation();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const toggleLogin = useAuthStore((state) => state.toggleLogin);
 
   const handleLoginButtonClick = () => {
-    setIsLoginModalOpen(true); // 로그인 버튼 클릭 시 모달을 엽니다.
+    setIsLoginModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsLoginModalOpen(false);
   };
-
-  const dropdownItems: DropdownItem[] = [
-    { title: t('nav.stats'), path: '/survey' },
-    { title: t('nav.guidelines'), path: '/guidelines' },
-  ];
-
-  const notificationItems: DropdownItem[] = [{ title: '알람', path: '#' }];
 
   return (
     <>
@@ -43,18 +38,21 @@ const Navbar = () => {
             <Link href="/team-members">{t('nav.findTeamMembers')}</Link>
             {isLoggedIn && <Link href="/messages">{t('nav.messages')}</Link>}
             {isLoggedIn && <Link href="/create-post">{t('nav.createPost')}</Link>}
-            <Dropdown title={t('nav.resources')} items={dropdownItems} />
-            {isLoggedIn && <ScrollableDropdown trigger={<Bell />} items={notificationItems} />}
+            <ResourcesDropdown />
+            {isLoggedIn && <NotificationsDropdown />}
             {isLoggedIn ? (
-              <LoginUser />
+              <UserDropdown />
             ) : (
               <button onClick={handleLoginButtonClick}>{t('nav.login')}</button>
             )}
             <LanguageSwitcher />
+            <Card.InfoHeader projectType={'CLASS_PROJECT'} projectId={5} />
+            <button onClick={toggleLogin} className="ml-4">
+              (토글 로그인 테스트)
+            </button>
           </div>
         </div>
       </nav>
-
       {isLoginModalOpen && <LoginStep onClose={handleCloseModal} />}
     </>
   );
@@ -62,118 +60,36 @@ const Navbar = () => {
 
 export default Navbar;
 
-const LoginUser = () => {
-  return (
-    <Link href="/mypage">
-      <button>
-        <UserIcon size={30} />
-      </button>
-    </Link>
-  );
+const ResourcesDropdown = () => {
+  const { t } = useTranslation();
+  const dropdownItems = [
+    { title: t('nav.stats'), path: '/survey' },
+    { title: t('nav.guidelines'), path: '/guidelines' },
+  ];
+
+  return <Dropdown trigger={t('nav.resources')} items={dropdownItems} />;
 };
 
-type DropdownItem = {
-  title: string;
-  path: string;
+const NotificationsDropdown = () => {
+  const dropdownItems = [{ title: '알람', path: '#' }];
+
+  return <Dropdown trigger={<Bell />} items={dropdownItems} />;
 };
 
-type DropdownProps = {
-  title: string;
-  items: DropdownItem[];
-};
+const UserDropdown = () => {
+  const { t } = useTranslation();
+  const logout = useAuthStore((state) => state.logout);
+  const router = useRouter();
 
-type ScrollableDropdownProps = {
-  trigger: ReactNode;
-  items: DropdownItem[];
-};
-
-const Dropdown = ({ title, items }: DropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
-  const handleMouseEnter = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      setTimeoutId(null);
-    }
-    setIsOpen(true);
+  const handleLogout = () => {
+    logout();
+    router.push('/');
   };
 
-  const handleMouseLeave = () => {
-    const id = setTimeout(() => {
-      setIsOpen(false);
-    }, 200); // 200ms 지연
-    setTimeoutId(id);
-  };
+  const userDropdownItems = [
+    { title: t('nav.myPage'), path: '/mypage' },
+    { title: t('nav.logout'), onClick: handleLogout },
+  ];
 
-  return (
-    <div
-      className="relative inline-block"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <button className="text-white">{title}</button>
-      {isOpen && (
-        <div
-          className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {items.map((item) => (
-            <Link href={item.path} key={item.title}>
-              <div className="block px-4 py-2 hover:bg-gray-200">{item.title}</div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ScrollableDropdown = ({ trigger, items }: ScrollableDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      setTimeoutId(null);
-    }
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    const id = setTimeout(() => {
-      setIsOpen(false);
-    }, 200); // 200ms 지연
-    setTimeoutId(id);
-  };
-
-  return (
-    <div
-      className="relative inline-block"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <button className="text-white">{trigger}</button>
-      {isOpen && (
-        <div
-          className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded max-h-60 overflow-y-auto"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {items.map((item) => (
-            <Link href={item.path} key={item.title}>
-              <div className="block px-4 py-2 hover:bg-gray-200">{item.title}</div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  return <Dropdown trigger={<UserIcon size={30} />} items={userDropdownItems} />;
 };

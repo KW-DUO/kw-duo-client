@@ -15,16 +15,22 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import SelectField from '@/components/createPost/SelectField';
+import { getCookie, HttpClient } from '@/util/HttpClient';
 
 const animatedComponents = makeAnimated();
 
+const client = new HttpClient({
+  baseUrl: apiUrl,
+  response(url, method, body) {
+    console.log(`[log]: ${url}에다 ${method}로 ${body}를 응답 받음`);
+  },
+  makeBearerAuth() {
+    return getCookie('accessToken');
+  },
+});
+
 const fetchProfileData = async () => {
-  const response = await fetch(`${apiUrl}/members/info`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch profile data');
-  }
-  const data = await response.json();
-  return data;
+  return client.fetch<MyPageForm>('/members/info', 'GET', { params: {} });
 };
 
 const Mypage = () => {
@@ -58,12 +64,8 @@ const Mypage = () => {
 
   const onSubmit = async (data: MyPageForm) => {
     try {
-      const response = await fetch(`${apiUrl}/members/info`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await client.fetch('/members/info', 'POST', {
+        body: {
           nickname: data.nickname,
           profileImgId: data.profileImgId,
           department: data.department,
@@ -72,17 +74,14 @@ const Mypage = () => {
           techStack: data.techStack,
           githubUrl: data.githubUrl,
           baekjoonId: data.baekjoonId,
-        }),
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error submitting form:', errorData);
-        alert('제출 중 오류가 발생했습니다.');
-        return;
+      if (response) {
+        alert('수정완료되었습니다!');
       }
-
-      alert('수정완료되었습니다!');
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('제출 중 오류가 발생했습니다.');

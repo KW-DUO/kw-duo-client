@@ -24,9 +24,10 @@ export function useInterestingFieldOptions() {
 export function useInterestingFieldFilterOptions() {
   const { t } = useTranslation();
   const fieldLabels = createInterestingFieldLabels(t);
+  console.log(fieldLabels);
 
   return [
-    { label: fieldLabels.ALL, value: 'ALL' },
+    { label: fieldLabels.ALL, value: '' },
     ...Object.entries(fieldLabels)
       .map(([value, label]) => ({ label, value }))
       .filter((option) => option.value !== 'ALL'),

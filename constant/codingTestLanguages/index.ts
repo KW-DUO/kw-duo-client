@@ -9,6 +9,12 @@ export const codingTestLanguages = [
   { value: 'SWIFT', label: 'Swift' },
 ];
 
+export const mapCodingTestLanguageToLabel = (value: string) => {
+  const language = codingTestLanguages.find((lang) => lang.value === value);
+  if (!language) throw new Error(`코딩테스트 언어중에서 매칭되는 라벨이 없음: ${value}`);
+  return language.label;
+};
+
 export const useCodingTestOptions = () => {
   return codingTestLanguages.map((language) => ({
     value: language.value,

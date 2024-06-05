@@ -15,7 +15,8 @@
     "login": "Login",
     "myPage": "My Page",
     "stats": "Stats",
-    "guidelines": "Guidelines"
+    "guidelines": "Guidelines",
+    "logout": "Logout"
   },
   "filters": {
     "department": "Department",
@@ -54,7 +55,7 @@
       "backend": "Backend",
       "android": "Android",
       "ios": "iOS",
-      "gameDev": "Game Developer",
+      "game": "Game Developer",
       "planner": "Planner",
       "designer": "Designer",
       "machineLearning": "Machine Learning",
@@ -207,7 +208,7 @@
   },
   "survey": {
     "bannerTitle": "KW DUO<br />Trend Survey",
-    "reportBasedOnMembers": "This report is based on KW DUO's member information.",
+    "reportBasedOnMembers": "members This report is based on KW DUO's member information.",
     "description": "Check out what technologies Kwangwoon University student developers are using through their job/tech stack/coding test language preferences!",
     "positionStats": "Position Statistics",
     "codingTestLanguage": "Coding Test Practice Languages",
@@ -217,7 +218,7 @@
       "backend": "Backend",
       "android": "Android",
       "ios": "iOS",
-      "gameDev": "Game Developer",
+      "game": "Game Developer",
       "planner": "Planner",
       "designer": "Designer",
       "machineLearning": "Machine Learning",

@@ -31,7 +31,7 @@ export const techStack = [
 
   // 게임 개발 기술 스택
   { label: 'Unity', value: 'UNITY' },
-  { label: 'Unreal Engine', value: 'UNREALENGINE' },
+  { label: 'Unreal Engine', value: 'UNREAL' },
 
   // 기타 기술 스택
   { label: 'C', value: 'C' },

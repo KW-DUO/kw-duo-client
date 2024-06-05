@@ -18,4 +18,7 @@ export const DUMMY_POST_DETAIL: PostDetail = {
     profileImgUrl: 'https://avatars.githubusercontent.com/u/44080404?v=4',
   },
   createdAt: '2024-01-01',
+  bookmark: {
+    isBookmarked: false,
+  },
 };

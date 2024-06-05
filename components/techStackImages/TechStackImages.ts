@@ -20,7 +20,7 @@ const techStackImages: { [key: string]: string } = {
   TENSORFLOW: '/icons/techStackIcons/tensorflow.svg',
   PYTORCH: '/icons/techStackIcons/pytorch.svg',
   UNITY: '/icons/techStackIcons/unity.svg',
-  UNREALENGINE: '/icons/techStackIcons/unrealengine.svg',
+  UNREAL: '/icons/techStackIcons/unrealengine.svg',
   C: '/icons/techStackIcons/c.svg',
   CPP: '/icons/techStackIcons/cpp.svg',
   CSHARP: '/icons/techStackIcons/csharp.svg',
