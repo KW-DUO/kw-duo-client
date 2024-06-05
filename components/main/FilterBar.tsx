@@ -51,7 +51,7 @@ const FiltersBar = () => {
           title={t('filters.course')}
           value={course}
           onValueChange={setCourse}
-          disabled={department === 'ALL'}
+          disabled={department === ''}
         >
           {department &&
             departmentClasses({ department }, t).map(({ label, value }) => (
