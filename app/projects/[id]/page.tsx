@@ -5,34 +5,43 @@ import { useQuery } from '@tanstack/react-query';
 import { apiUrl } from './../../../constant/api/index';
 import { queryKeys } from '@/queries/queryKeys';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
+import { HttpClient } from '@/util/HttpClient';
+import { useAuthStore } from '@/store/userStore';
+import { PostDetail as PostDetailType } from '@/types';
 
 type Props = {
   params: { id: number };
 };
 
+const client = new HttpClient({
+  baseUrl: apiUrl,
+});
+
 const fetchPostDetail = async (postId: number) => {
-  const response = await fetch(`${apiUrl}/posts/${postId}`, { method: 'GET' });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
+  return client.fetch<PostDetailType>(`/posts/${postId}`, 'GET', {});
 };
 
 const PostDetailPage = ({ params }: Props) => {
   // TODO: 로그인한 사용자의 게시글인지 확인하는 로직 필요
-  const isMyPost = true;
+
+  const { user } = useAuthStore();
 
   const {
     data: postDetail,
     error,
     isLoading,
-  } = useQuery({
+  } = useQuery<PostDetailType>({
     queryKey: queryKeys.postDetail(params.id),
     queryFn: () => fetchPostDetail(params.id),
   });
 
+  const isMyPost = true;
+  // const isMyPost = user?.id === postDetail?.author.id;
+
   if (isLoading) return <LoadingSpinner />;
   if (error) return '글 상세 조회 실패: ' + error.message;
+
+  if (!postDetail) return null;
 
   return (
     <>
