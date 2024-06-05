@@ -46,7 +46,7 @@ const Navbar = () => {
               <button onClick={handleLoginButtonClick}>{t('nav.login')}</button>
             )}
             <LanguageSwitcher />
-            <Card.InfoHeader projectType={'CLASS_PROJECT'} projectId={1} />
+            <Card.InfoHeader projectType={'CLASS_PROJECT'} projectId={5} />
             <button onClick={toggleLogin} className="ml-4">
               (토글 로그인 테스트)
             </button>

@@ -12,7 +12,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   return (
     <li className="w-cardWidth h-cardHeight px-6 pt-5 border-2 border-gray rounded-3xl">
-      <Card.InfoHeader projectType={project.projectType} />
+      <Card.InfoHeader projectType={project.projectType} projectId={project.id} />
       <Card.PostDate createdAt={project.createdAt} />
       <Card.Title title={project.title} />
       {project.interestingField}
