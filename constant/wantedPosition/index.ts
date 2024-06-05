@@ -26,7 +26,7 @@ export function useWantedPositionFilterOptions() {
   const { t } = useTranslation();
 
   return [
-    { label: t('filters.positions.all'), value: 'ALL' },
+    { label: t('filters.positions.all'), value: '' },
     { label: t('filters.positions.any'), value: 'ANY' },
     { label: t('filters.positions.frontend'), value: 'FRONTEND' },
     { label: t('filters.positions.backend'), value: 'BACKEND' },
