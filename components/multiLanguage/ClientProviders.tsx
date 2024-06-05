@@ -3,8 +3,9 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '@/util/i18n';
+import { googleClientID } from '@/constant/api';
 
-const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '';
+const googleClientId = googleClientID ?? '';
 
 type ClientProvidersProps = {
   children: React.ReactNode;
