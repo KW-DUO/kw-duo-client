@@ -43,11 +43,13 @@ export type AuthState = {
   user: AuthUser | null;
   setLogin: (user: AuthUser) => void;
   logout: () => void;
+  toggleLogin: () => void; // Add toggleLogin
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   isLoggedIn: false,
   user: null,
   setLogin: (user) => set({ isLoggedIn: true, user }),
   logout: () => set({ isLoggedIn: false, user: null }),
+  toggleLogin: () => set({ isLoggedIn: !get().isLoggedIn }),
 }));
