@@ -7,6 +7,7 @@ type PostCardAuthor = {
 type PostDetailAuthor = {
   id: number;
   nickname: string;
+  profileImgUrl: string;
 };
 
 type Bookmark = {

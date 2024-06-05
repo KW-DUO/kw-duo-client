@@ -43,7 +43,7 @@ export type AuthState = {
   user: AuthUser | null;
   setLogin: (user: AuthUser) => void;
   logout: () => void;
-  toggleLogin: () => void; // Add toggleLogin
+  toggleLogin: () => void;
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
