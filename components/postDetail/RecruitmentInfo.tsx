@@ -63,7 +63,7 @@ export const RecruitmentInfo = () => {
                 ? post.interestingField
                     .map((p) => t(interestingField.find((f) => f.value === p)?.label ?? 'Unknown'))
                     .join(', ')
-                : post.class}
+                : post.className}
             </div>
           </li>
           <li className="flex font-bold items-center ">
