@@ -11,6 +11,7 @@ import LanguageSwitcher from '../multiLanguage/LanguageSwitcher';
 // todo
 // 로그인 상태 관리 적용
 const Navbar = () => {
+  // const { isLoggedIn, user } = useAuthStore();
   const isLoggedIn = true; // 로그인 여부
   const { t } = useTranslation(); // 언어
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // 모달 표시 상태를 관리합니다.
