@@ -106,6 +106,8 @@
     "loading": "로딩 중...",
     "postLoading": "게시글 정보를 불러오는 중입니다. 잠시만 기다려주세요.",
     "deleteAlert": "{{postId}}번 게시글 삭제 api 발사",
+    "confirmClose": "모집 마감 확인",
+    "confirmCloseMessage": "이 모집을 마감하시겠습니까?",
     "confirmDelete": "삭제 확인",
     "confirmDeleteMessage": "이 게시물을 삭제하시겠습니까?",
     "cancel": "취소",

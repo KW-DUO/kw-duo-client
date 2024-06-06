@@ -35,8 +35,7 @@ const PostDetailPage = ({ params }: Props) => {
     queryFn: () => fetchPostDetail(params.id),
   });
 
-  const isMyPost = true;
-  // const isMyPost = user?.id === postDetail?.author.id;
+  const isMyPost = user?.id === postDetail?.author.id;
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return '글 상세 조회 실패: ' + error.message;

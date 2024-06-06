@@ -1,7 +1,7 @@
 import LoginModal from './LoginModal';
-import { departments, useGetDepartmentOptions } from '@/constant/department';
+import { useGetDepartmentOptions } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
-import { positions, usePositionOptions } from '@/constant/position';
+import { usePositionOptions } from '@/constant/position';
 import { useForm } from 'react-hook-form';
 import { UserProfileSetupInfo } from '@/types';
 import FormField from './FormField';
@@ -9,9 +9,22 @@ import FormFieldSelect from './FormFieldSelect';
 import { apiUrl } from '@/constant/api';
 import { useTranslation } from 'react-i18next';
 import { useCodingTestOptions } from '@/constant/codingTestLanguages';
+import { AuthUser, useAuthStore, useUserStore } from '@/store/userStore';
+import { getCookie, HttpClient } from '@/util/HttpClient';
 
 type ProfileSetupModalProps = {
   onClose: () => void;
+};
+
+const client = new HttpClient({
+  baseUrl: apiUrl,
+  makeBearerAuth() {
+    return getCookie('accessToken');
+  },
+});
+
+const fetchProfileData = async () => {
+  return client.fetch<AuthUser>('/members/info', 'GET', { params: {} });
 };
 
 const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
@@ -22,10 +35,16 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
     formState: { errors },
   } = useForm<UserProfileSetupInfo>();
   const { t } = useTranslation();
+  const userInfo = useUserStore((state) => state.userInfo);
+  const { setLogin } = useAuthStore();
 
   // POST 요청
   const onSubmit = async (data: UserProfileSetupInfo) => {
     try {
+      if (userInfo && userInfo.oAuthId) {
+        data.oAuthId = userInfo.oAuthId;
+      }
+      data.email = 'test@kw.ac.kr';
       data.githubUrl = data.githubUrl === '' ? null : data.githubUrl;
       data.baekjoonId = data.baekjoonId === '' ? null : data.baekjoonId;
 
@@ -43,7 +62,8 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
 
       if (response.ok) {
         alert(t('login.profileSetup.submitSuccess'));
-        // handleModalClose();
+        const data = await fetchProfileData();
+        setLogin(data);
         onClose();
       } else {
         throw new Error(responseData.message ?? '회원가입 POST 실패');

@@ -10,7 +10,7 @@ type UserInfo = {
   email: string;
   githubUrl: string;
   baekjoonId: string;
-  oauthId: string;
+  oAuthId: string;
 };
 
 type UserState = {
@@ -34,8 +34,8 @@ export type AuthUser = {
   position: string;
   bio: string;
   techStack: string[];
-  githubUrl: string;
-  baekjoonId: string;
+  githubUrl?: string | null;
+  baekjoonId?: string | null;
 };
 
 export type AuthState = {

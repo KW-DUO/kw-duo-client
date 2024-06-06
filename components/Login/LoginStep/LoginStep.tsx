@@ -15,7 +15,7 @@ const LoginStep = ({ onClose }: LoginStepProps) => {
   const { step, next } = useMultistepForm([
     <SocialLoginModal key="social" onNext={handleNext} onClose={onClose} />,
     <AgreementModal key="agreement" onNext={handleNext} onClose={onClose} />,
-    <EmailVerificationModal key="email" onNext={handleNext} onClose={onClose} />,
+    // <EmailVerificationModal key="email" onNext={handleNext} onClose={onClose} />,
     <ProfileSetupModal key="profile" onClose={onClose} />,
   ]);
 

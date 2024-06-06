@@ -40,6 +40,7 @@ export class HttpClient {
     const fetchOptions: RequestInit = {
       method,
       headers: this.getHeaders(headers),
+      credentials: 'include',
     };
 
     // GET, HEAD 요청에는 body를 포함하지 않음

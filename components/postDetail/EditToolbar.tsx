@@ -72,6 +72,8 @@ export const EditToolbar = () => {
       <button onClick={onDeleteClick}>{t('editToolbar.delete')}</button>
       <ConfirmationModal
         isOpen={isModalOpen}
+        title={t('editToolbar.confirmDelete')}
+        message={t('editToolbar.confirmDeleteMessage')}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirmDelete}
       />
