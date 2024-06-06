@@ -14,7 +14,7 @@ import { getCookie, HttpClient } from '@/util/HttpClient';
 // 2. 회원이 아닐경우: 회원가입 스텝 이동
 
 const client = new HttpClient({
-  baseUrl: apiUrl,
+  baseUrl: 'http://localhost:5001/users/login',
   makeBearerAuth: () => getCookie('accessToken'),
 });
 

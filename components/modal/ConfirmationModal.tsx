@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type ConfirmationModalProps = {
@@ -16,6 +17,18 @@ const ConfirmationModal = ({
   onConfirm,
 }: ConfirmationModalProps) => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
