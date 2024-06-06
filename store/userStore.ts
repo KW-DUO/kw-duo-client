@@ -10,7 +10,7 @@ type UserInfo = {
   email: string;
   githubUrl: string;
   baekjoonId: string;
-  oauthId: string;
+  oAuthId: string;
 };
 
 type UserState = {

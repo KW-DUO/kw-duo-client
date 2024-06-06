@@ -47,7 +47,7 @@ const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
           email: '',
           githubUrl: '',
           baekjoonId: '',
-          oauthId: fetchedTokenResponse.oauthId,
+          oAuthId: fetchedTokenResponse.oauthId,
         });
         if (onNext) {
           onNext();
