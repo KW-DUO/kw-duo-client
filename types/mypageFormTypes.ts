@@ -1,7 +1,5 @@
 export type MyPageForm = {
   id: number;
-  profileImgUrl?: string;
-  profileImgId?: number;
   nickname: string;
   department: string;
   position: string;

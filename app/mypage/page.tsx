@@ -67,7 +67,6 @@ const Mypage = () => {
       const response = await client.fetch('/members/info', 'POST', {
         body: {
           nickname: data.nickname,
-          profileImgId: data.profileImgId,
           department: data.department,
           position: data.position,
           bio: data.bio,
@@ -104,11 +103,7 @@ const Mypage = () => {
     <main className="max-w-[500px] mx-auto p-5 limark list-none">
       <div className="flex justify-center items-center mb-10">
         <label className="cursor-pointer" onClick={handleImageClick}>
-          <img
-            src={profileData?.profileImgUrl ?? userImageURL}
-            alt="user-image"
-            className="w-[150px] h-[150px] rounded-full"
-          />
+          <img src={userImageURL} alt="user-image" className="w-[150px] h-[150px] rounded-full" />
           <div className="text-center">{t('mypage.profileImageChange')}</div>
         </label>
         <input
