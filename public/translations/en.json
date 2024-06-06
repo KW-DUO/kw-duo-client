@@ -107,6 +107,8 @@
     "loading": "Loading...",
     "postLoading": "Loading post information. Please wait a moment.",
     "deleteAlert": "Post {{postId}} deletion request sent.",
+    "confirmClose": "Confirm Close",
+    "confirmCloseMessage": "Are you sure you want to close this recruitment?",
     "confirmDelete": "Confirm Delete",
     "confirmDeleteMessage": "Are you sure you want to delete this post?",
     "cancel": "Cancel",

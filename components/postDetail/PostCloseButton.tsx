@@ -52,6 +52,8 @@ export const PostCloseButton = () => {
       </button>
       <ConfirmationModal
         isOpen={isModalOpen}
+        title={t('editToolbar.confirmClose')}
+        message={t('editToolbar.confirmCloseMessage')}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirmClose}
       />
