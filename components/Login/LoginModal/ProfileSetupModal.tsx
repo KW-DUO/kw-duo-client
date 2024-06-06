@@ -26,11 +26,6 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
   // POST 요청
   const onSubmit = async (data: UserProfileSetupInfo) => {
     try {
-      // 임시
-      data.oAuthId = '1';
-      // data.profileImgId = 1;
-      data.email = '1';
-
       data.githubUrl = data.githubUrl === '' ? null : data.githubUrl;
       data.baekjoonId = data.baekjoonId === '' ? null : data.baekjoonId;
 
