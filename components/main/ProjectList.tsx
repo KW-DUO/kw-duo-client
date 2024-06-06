@@ -68,7 +68,7 @@ const ProjectList = () => {
           position: position ?? '',
           wantedField: wantedField ?? '',
           bookmarkOnly: isBookmarkOnly.toString(),
-          page: currentPage.toString(),
+          page: (currentPage - 1).toString(),
         })
       ),
     enabled: !!findType,
