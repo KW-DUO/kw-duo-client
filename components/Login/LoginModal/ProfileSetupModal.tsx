@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { useCodingTestOptions } from '@/constant/codingTestLanguages';
 import { AuthUser, useAuthStore, useUserStore } from '@/store/userStore';
 import { getCookie, HttpClient } from '@/util/HttpClient';
-import { MyPageForm } from '@/types/mypageFormTypes';
 
 type ProfileSetupModalProps = {
   onClose: () => void;
