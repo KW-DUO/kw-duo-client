@@ -34,8 +34,8 @@ export type AuthUser = {
   position: string;
   bio: string;
   techStack: string[];
-  githubUrl: string;
-  baekjoonId: string;
+  githubUrl?: string | null;
+  baekjoonId?: string | null;
 };
 
 export type AuthState = {
