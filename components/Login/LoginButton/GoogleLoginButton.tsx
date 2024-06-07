@@ -14,7 +14,7 @@ export const GoogleLoginButton = ({ onClick }: GoogleLoginButtonProps) => {
       onClick={onClick}
     >
       <Image
-        src={'/icons/loginIcons/google.svg'}
+        src={'/icons/LoginIcons/google.svg'}
         width={40}
         height={40}
         alt="sns login for google"
