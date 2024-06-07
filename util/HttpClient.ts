@@ -1,3 +1,5 @@
+import { apiUrl } from '@/constant/api';
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD';
 
 type RequestInterceptor = (
@@ -31,6 +33,7 @@ export class HttpClient {
     { params = {}, body = {}, headers = {} }: FetchOptions
   ): Promise<T> {
     // baseUrl, path, 쿼리파람으로 url만들기
+    console.log(this.options, path, params);
     const url = createUrl(this.options?.baseUrl, path, params);
 
     // api 쏘기 전에 인터셉터 호출
@@ -40,7 +43,7 @@ export class HttpClient {
     const fetchOptions: RequestInit = {
       method,
       headers: this.getHeaders(headers),
-      credentials: 'include',
+      // credentials: 'include',
     };
 
     // GET, HEAD 요청에는 body를 포함하지 않음
@@ -103,6 +106,15 @@ export function getCookie(name: string): string | null {
   }
   return null;
 }
+
+export const client = new HttpClient({
+  baseUrl: apiUrl,
+  response(url, method, body) {
+    console.log(`[log]: ${url}에다 ${method}로 ${body}를 응답 받음`);
+  },
+  // makeBearerAuth: () => getCookie('accessToken'),
+  makeBearerAuth: () => localStorage.getItem('accessToken'),
+});
 
 /* -------------------------------------------------------------------------- */
 
