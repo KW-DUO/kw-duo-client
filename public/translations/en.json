@@ -1,6 +1,6 @@
 {
   "projectTypes": {
-    "all": "All",
+    "": "All",
     "classProject": "Class Project",
     "graduationProject": "Graduation Project",
     "sideProject": "Side Project"

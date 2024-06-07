@@ -6,15 +6,15 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // type ProjectType = '전체' | '수업 프로젝트' | '졸업 프로젝트' | '사이드 프로젝트';
-type ProjectType = 'all' | 'classProject' | 'graduationProject' | 'sideProject';
+type ProjectType = '' | 'classProject' | 'graduationProject' | 'sideProject';
 
-const projectTypes: ProjectType[] = ['all', 'classProject', 'graduationProject', 'sideProject'];
+const projectTypes: ProjectType[] = ['', 'classProject', 'graduationProject', 'sideProject'];
 
 const ProjectTypeFilter = () => {
   const { t } = useTranslation();
   const { setProjectType } = useProject();
   // 프로젝트 타입 상태 설정
-  const [selectedProjectType, setSelectedProjectType] = useState<ProjectType>('all');
+  const [selectedProjectType, setSelectedProjectType] = useState<ProjectType>('');
 
   // 클릭 이벤트 핸들러
   const handleProjectTypeChange = (type: ProjectType) => {

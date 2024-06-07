@@ -8,6 +8,7 @@ export const projectType = [
 ] as const;
 
 export const projectTypeFilterOptions = [
+  { label: 'projectTypes.', value: '' },
   { label: 'projectTypes.all', value: 'ALL' },
   { label: 'projectTypes.classProject', value: 'CLASS_PROJECT' },
   { label: 'projectTypes.graduationProject', value: 'GRADUATION_PROJECT' },
