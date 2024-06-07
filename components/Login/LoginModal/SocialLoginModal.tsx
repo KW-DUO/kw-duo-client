@@ -5,16 +5,20 @@ import { GoogleLoginButton } from '../LoginButton';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '@/constant/api';
-import { AuthUser, useAuthStore, useUserStore } from '@/store/userStore';
+import { useUserStore } from '@/store/userStore';
 import { client, getCookie, HttpClient } from '@/util/HttpClient';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { queryKeys } from '@/queries/queryKeys';
+import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { MyPageForm } from '@/types/mypageFormTypes';
 
 // todo
 // oauth 토큰을 전달하고 받은 데이터로 회원인지 아닌지 판단
 // 1. 회원일 경우: 모달창 닫기
 // 2. 회원이 아닐경우: 회원가입 스텝 이동
 
-const fetchUserInfo = async (): Promise<AuthUser> => {
-  const userInfo = await client.fetch<AuthUser>('/members/info', 'GET', {
+export const getMemberInfo = async (): Promise<MyPageForm> => {
+  const userInfo = await client.fetch<MyPageForm>('/members/info', 'GET', {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -25,14 +29,14 @@ const fetchUserInfo = async (): Promise<AuthUser> => {
 const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
   const { t } = useTranslation();
   const { setUserInfo } = useUserStore();
-  const { setLogin } = useAuthStore();
+  const { revalidate } = useAuthInfo();
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       // oauth token 서버로 전달
-      const fetchedTokenResponse = await fetchToken(tokenResponse.access_token);
+      const { isSignup, oAuthId, accessToken } = await fetchToken(tokenResponse.access_token);
 
-      if (fetchedTokenResponse.isSignup) {
+      if (isSignup) {
         setUserInfo({
           nickname: '',
           department: '',
@@ -42,16 +46,15 @@ const SocialLoginModal = ({ onNext, onClose }: LoginStepProps) => {
           email: '',
           githubUrl: '',
           baekjoonId: '',
-          oAuthId: fetchedTokenResponse.oAuthId,
+          oAuthId: oAuthId,
         });
         if (onNext) {
           onNext();
         }
       } else {
-        localStorage.setItem('accessToken', fetchedTokenResponse.accessToken!!);
+        localStorage.setItem('accessToken', accessToken!!);
+        revalidate();
         try {
-          const userInfo = await fetchUserInfo();
-          setLogin(userInfo);
         } catch (error) {
           console.error('유저 정보 조회 실패:', error);
         }

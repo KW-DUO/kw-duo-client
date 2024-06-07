@@ -2,20 +2,15 @@
 import Footer from './../../../components/footer/Footer';
 import * as PostDetail from '@/components/postDetail';
 import { useQuery } from '@tanstack/react-query';
-import { apiUrl } from './../../../constant/api/index';
 import { queryKeys } from '@/queries/queryKeys';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
-import { HttpClient } from '@/util/HttpClient';
-import { useAuthStore } from '@/store/userStore';
+import { client, HttpClient } from '@/util/HttpClient';
 import { PostDetail as PostDetailType } from '@/types';
+import { useAuthInfo } from '@/hooks/useMemberInfo';
 
 type Props = {
   params: { id: number };
 };
-
-const client = new HttpClient({
-  baseUrl: apiUrl,
-});
 
 const fetchPostDetail = async (postId: number) => {
   return client.fetch<PostDetailType>(`/posts/${postId}`, 'GET', {});
@@ -24,7 +19,7 @@ const fetchPostDetail = async (postId: number) => {
 const PostDetailPage = ({ params }: Props) => {
   // TODO: 로그인한 사용자의 게시글인지 확인하는 로직 필요
 
-  const { user } = useAuthStore();
+  const { memberId } = useAuthInfo();
 
   const {
     data: postDetail,
@@ -35,7 +30,7 @@ const PostDetailPage = ({ params }: Props) => {
     queryFn: () => fetchPostDetail(params.id),
   });
 
-  const isMyPost = user?.id === postDetail?.author.id;
+  const isMyPost = memberId === postDetail?.author.id;
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return '글 상세 조회 실패: ' + error.message;

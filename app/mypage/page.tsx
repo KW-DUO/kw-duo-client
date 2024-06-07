@@ -15,19 +15,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import SelectField from '@/components/createPost/SelectField';
-import { getCookie, HttpClient } from '@/util/HttpClient';
+import { client, getCookie, HttpClient } from '@/util/HttpClient';
 
 const animatedComponents = makeAnimated();
-
-const client = new HttpClient({
-  baseUrl: apiUrl,
-  response(url, method, body) {
-    console.log(`[log]: ${url}에다 ${method}로 ${body}를 응답 받음`);
-  },
-  makeBearerAuth() {
-    return getCookie('accessToken');
-  },
-});
 
 const fetchProfileData = async () => {
   return client.fetch<MyPageForm>('/members/info', 'GET', { params: {} });

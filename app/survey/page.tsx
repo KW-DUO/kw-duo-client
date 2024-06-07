@@ -7,7 +7,7 @@ import SurveyTechstackHorizontalBarChart from './../../components/chart/SurveyTe
 import Footer from '@/components/footer/Footer';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '@/constant/api';
-import { HttpClient } from '@/util/HttpClient';
+import { client, HttpClient } from '@/util/HttpClient';
 import { formatNumberWithCommas } from '@/util/formatNumberWithCommas';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 
@@ -17,10 +17,6 @@ const Survey = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const client = new HttpClient({
-      baseUrl: apiUrl,
-    });
-
     client
       .fetch<{ count: number }>('/statistics/all-user-count', 'GET', {})
       .then((response: { count: number }) => {

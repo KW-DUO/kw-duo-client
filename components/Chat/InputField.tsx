@@ -4,7 +4,11 @@ type FormValues = {
   message: string;
 };
 
-export const InputField = ({ userId }: any) => {
+type Props = {
+  userId: number;
+};
+
+export const InputField = ({ userId }: Props) => {
   const { register, handleSubmit, reset, watch } = useForm<FormValues>();
   const message = watch('message');
 

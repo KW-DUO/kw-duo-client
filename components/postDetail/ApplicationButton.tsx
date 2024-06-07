@@ -5,6 +5,7 @@ import { PostDetailContext } from '@/components/postDetail/store';
 import { apiUrl } from '@/constant/api';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { client } from './../../util/HttpClient';
 
 export const ApplicationButton = () => {
   const post = useContext(PostDetailContext);
@@ -12,14 +13,7 @@ export const ApplicationButton = () => {
   const { t } = useTranslation();
 
   const postApply = async () => {
-    try {
-      const response = await fetch(apiUrl + `/apply/${post?.id}`, { method: 'POST' });
-      if (!response.ok) {
-        throw new Error(t('button.applicationFailed'));
-      }
-    } catch (error: any) {
-      console.error(t('button.applicationFailed'), error.message);
-    }
+    await client.fetch(`/apply/${post?.id}`, 'POST', {});
   };
 
   const onClickApply = async () => {

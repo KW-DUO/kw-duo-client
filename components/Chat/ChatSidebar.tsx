@@ -1,15 +1,12 @@
 'use client';
-import { apiUrl } from '@/constant/api';
-import { userImageURL } from '@/constant/images';
 import { ChatRoom } from '@/types';
-import { formatDate } from '@/util';
 import { Search } from 'lucide-react';
-import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import algorithmTierImages from '../algorithmTierImages/AlgorithmTierImages';
+import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import ChatRoomItem from './ChatRoomItem';
+import { client } from '@/util/HttpClient';
+import LoadingSpinner from '../loading/LoadingSpinner';
 
 type ChatSidebarProps = {
   onChangeRoomId: (id: number) => void;
@@ -25,16 +22,20 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
 
   const { ref, inView } = useInView(); // ref가 연결된 요소가 뷰포트에 들어오면 inView true값으로 변함 -> 변할때 fetchNextPage 호출
 
-  const fetchChatRooms = async ({ pageParam = 0 }) => {
-    const id = 1;
-    const response = await fetch(`${apiUrl}/chats?q=${id}&page=${pageParam}&size=1`);
-    const data = await response.json();
-    return data;
+  // 검색
+
+  const fetchChatRooms = async ({ q = '', page = 0 }) => {
+    return await client.fetch<ChatRoomResponse>(`/chats`, 'GET', {
+      params: {
+        q,
+        page,
+      },
+    });
   };
 
   const { data, status, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['chatRoomList'],
-    queryFn: fetchChatRooms,
+    queryFn: () => fetchChatRooms({}),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPage) => {
       const nextPage = lastPage.hasMore ? allPage.length + 1 : undefined;
@@ -49,7 +50,11 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   if (status === 'pending') {
-    return <p className="text-center">Loading...</p>;
+    return (
+      <div className="text-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (status === 'error') {

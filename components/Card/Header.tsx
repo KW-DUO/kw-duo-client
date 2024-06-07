@@ -2,12 +2,12 @@
 
 import { apiUrl } from '@/constant/api';
 import { getProjectTypeLabel } from '@/constant/projectType';
-import { getCookie, HttpClient } from '@/util/HttpClient';
+import { client, getCookie, HttpClient } from '@/util/HttpClient';
 import { Heart } from 'lucide-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '@/store/userStore';
 import LoginStep from '../Login/LoginStep/LoginStep';
+import { useAuthInfo } from '@/hooks/useMemberInfo';
 
 type InfoHeaderProps = {
   projectType: string;
@@ -18,7 +18,7 @@ export const InfoHeader = ({ projectType, projectId }: InfoHeaderProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const { t } = useTranslation();
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { isLoggedIn } = useAuthInfo();
 
   const handleBookmarkClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -54,11 +54,6 @@ export const InfoHeader = ({ projectType, projectId }: InfoHeaderProps) => {
     </div>
   );
 };
-
-const client = new HttpClient({
-  baseUrl: apiUrl,
-  makeBearerAuth: () => getCookie('accessToken'),
-});
 
 export const addBookmark = async (projectId: number) => {
   try {

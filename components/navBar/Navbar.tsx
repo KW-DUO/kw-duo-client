@@ -7,16 +7,13 @@ import LoginStep from '../Login/LoginStep/LoginStep';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../multiLanguage/LanguageSwitcher';
 import Dropdown from './Dropdown';
-import { useAuthStore } from '@/store/userStore';
 import { useRouter } from 'next/navigation';
-import { InfoHeader } from './../Card/Header';
-import * as Card from '@/components/Card';
+import { useAuthInfo } from '@/hooks/useMemberInfo';
 
 const Navbar = () => {
   const { t } = useTranslation();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const toggleLogin = useAuthStore((state) => state.toggleLogin);
+  const { isLoggedIn, revalidate } = useAuthInfo();
 
   const handleLoginButtonClick = () => {
     setIsLoginModalOpen(true);
@@ -46,9 +43,6 @@ const Navbar = () => {
               <button onClick={handleLoginButtonClick}>{t('nav.login')}</button>
             )}
             <LanguageSwitcher />
-            <button onClick={toggleLogin} className="ml-4">
-              (토글 로그인 테스트)
-            </button>
           </div>
         </div>
       </nav>
@@ -77,11 +71,14 @@ const NotificationsDropdown = () => {
 
 const UserDropdown = () => {
   const { t } = useTranslation();
-  const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
+  const { revalidate } = useAuthInfo();
+
   const handleLogout = () => {
-    logout();
+    // remove token from localstorage
+    localStorage.removeItem('accessToken');
+    revalidate();
     router.push('/');
   };
 

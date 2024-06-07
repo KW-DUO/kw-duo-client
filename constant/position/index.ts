@@ -12,6 +12,7 @@ export const positions = [
   { label: 'filters.positions.machineLearning', value: 'MACHINE_LEARNING' },
   { label: 'filters.positions.blockchain', value: 'BLOCKCHAIN' },
   { label: 'filters.positions.embedded', value: 'EMBEDDED' },
+  { label: 'filters.positions.any', value: 'ANY' },
 ] as const;
 
 // 회원가입, 마이페이지
@@ -29,6 +30,7 @@ export function usePositionOptions() {
     { label: t('filters.positions.machineLearning'), value: 'MACHINE_LEARNING' },
     { label: t('filters.positions.blockchain'), value: 'BLOCKCHAIN' },
     { label: t('filters.positions.embedded'), value: 'EMBEDDED' },
+    { label: t('filters.positions.any'), value: 'ANY' },
   ];
 }
 
