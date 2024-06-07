@@ -47,9 +47,13 @@ export type AuthState = {
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  isLoggedIn: false,
+  isLoggedIn: !!localStorage.getItem('accessToken'),
   user: null,
   setLogin: (user) => set({ isLoggedIn: true, user }),
-  logout: () => set({ isLoggedIn: false, user: null }),
+  logout: () => {
+    // 로컬스토리지에서 액세스토큰 삭제
+    localStorage.removeItem('accessToken');
+    set({ isLoggedIn: false, user: null });
+  },
   toggleLogin: () => set({ isLoggedIn: !get().isLoggedIn }),
 }));
