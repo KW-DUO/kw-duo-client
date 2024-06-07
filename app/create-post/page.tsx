@@ -17,7 +17,8 @@ import { useGetRecruitNumberOptions } from '@/constant/recruitNumber';
 import { departmentClasses } from '@/constant/class';
 import { apiUrl } from '@/constant/api';
 import { useTranslation } from 'react-i18next';
-import { getCookie, HttpClient } from '@/util/HttpClient';
+import { client, getCookie, HttpClient } from '@/util/HttpClient';
+import { useRouter } from 'next/navigation';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -58,6 +59,8 @@ const CreatePost = () => {
   // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
   const [isTeamMemberSearch, setIsTeamMemberSearch] = useState<boolean>(true);
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
+
+  const router = useRouter();
 
   // input 활성화 관리
   const [FormFieldsDisabled, setFormFieldsDisabled] = useState({
@@ -167,15 +170,10 @@ const CreatePost = () => {
       return;
     }
 
-    const client = new HttpClient({
-      baseUrl: apiUrl,
-      makeBearerAuth: () => getCookie('accessToken'),
-    });
-
     let postURL = isTeamMemberSearch ? '/posts/find-teammate' : '/posts/find-team';
 
     try {
-      const response = await client.fetch(postURL, 'POST', {
+      const response = await client.fetch<{ postId: number }>(postURL, 'POST', {
         body: data,
         headers: {
           'Content-type': 'application/json',
@@ -184,6 +182,7 @@ const CreatePost = () => {
 
       if (response) {
         alert('포스트 생성이 완료되었습니다!');
+        router.push(`/projects/${response.postId}`);
       }
     } catch (error: any) {
       alert('포스트 생성 중 오류가 발생했습니다.');

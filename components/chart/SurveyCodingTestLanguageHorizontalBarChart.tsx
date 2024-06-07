@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '@/constant/api';
-import { HttpClient } from '@/util/HttpClient';
+import { client, HttpClient } from '@/util/HttpClient';
 import { SurveyDataItem, SurveyStatisticsResponse } from '@/constant/survey';
 import { mapCodingTestLanguageToLabel } from '@/constant/codingTestLanguages'; // Adjust the import path as necessary
 
@@ -51,10 +51,6 @@ const SurveyCodingTestLanguageHorizontalBarChart = () => {
   });
 
   useEffect(() => {
-    const client = new HttpClient({
-      baseUrl: apiUrl,
-    });
-
     client
       .fetch<SurveyStatisticsResponse>('/statistics/coding-test', 'GET', {})
       .then((response: SurveyStatisticsResponse) => {

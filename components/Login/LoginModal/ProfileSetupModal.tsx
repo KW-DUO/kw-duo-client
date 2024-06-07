@@ -9,22 +9,16 @@ import FormFieldSelect from './FormFieldSelect';
 import { apiUrl } from '@/constant/api';
 import { useTranslation } from 'react-i18next';
 import { useCodingTestOptions } from '@/constant/codingTestLanguages';
-import { AuthUser, useAuthStore, useUserStore } from '@/store/userStore';
-import { getCookie, HttpClient } from '@/util/HttpClient';
+import { useUserStore } from '@/store/userStore';
+import { client, getCookie, HttpClient } from '@/util/HttpClient';
+import { MyPageForm } from '@/types/mypageFormTypes';
 
 type ProfileSetupModalProps = {
   onClose: () => void;
 };
 
-const client = new HttpClient({
-  baseUrl: apiUrl,
-  makeBearerAuth() {
-    return getCookie('accessToken');
-  },
-});
-
 const fetchProfileData = async () => {
-  return client.fetch<AuthUser>('/members/info', 'GET', { params: {} });
+  return client.fetch<MyPageForm>('/members/info', 'GET', { params: {} });
 };
 
 const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
@@ -36,7 +30,6 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
   } = useForm<UserProfileSetupInfo>();
   const { t } = useTranslation();
   const userInfo = useUserStore((state) => state.userInfo);
-  const { setLogin } = useAuthStore();
 
   // POST 요청
   const onSubmit = async (data: UserProfileSetupInfo) => {
@@ -63,7 +56,6 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
       if (response.ok) {
         alert(t('login.profileSetup.submitSuccess'));
         const data = await fetchProfileData();
-        setLogin(data);
         onClose();
       } else {
         throw new Error(responseData.message ?? '회원가입 POST 실패');

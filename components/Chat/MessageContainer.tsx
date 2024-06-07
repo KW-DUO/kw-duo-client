@@ -3,8 +3,14 @@ import { ChatMessage } from '@/types';
 import { toYYYYMMDD } from '@/util';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import LoadingSpinner from '../loading/LoadingSpinner';
+import { client } from './../../util/HttpClient';
 
-export const MessageContainer = ({ userId, roomId }: any) => {
+type Props = {
+  userId: number;
+  roomId: number;
+};
+
+export const MessageContainer = ({ userId, roomId }: Props) => {
   const [messageList, setMessageList] = useState<ChatMessage[]>([]);
   const [page, setPage] = useState(0); // 채팅 이전 대화 내역
   const [loading, setLoading] = useState(false);
@@ -21,8 +27,9 @@ export const MessageContainer = ({ userId, roomId }: any) => {
     setLoading(true);
     const fetchChats = async () => {
       try {
-        const response = await fetch(`${apiUrl}/chats/${roomId}?page=${page}&size=20`);
-        const data = await response.json();
+        const data = await client.fetch<{ chat: ChatMessage[] }>(`/chats/${roomId}`, 'GET', {
+          params: { page },
+        });
         setMessageList((prev) => (page === 0 ? data.chat : [...data.chat, ...prev]));
       } catch (error) {
         console.error('Failed to fetch messages', error);

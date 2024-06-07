@@ -13,4 +13,18 @@ export const queryKeys = {
     currentPage: number;
   }) => ['projects', params],
   postDetail: (postId: number) => ['postDetail', postId],
+  auth: {
+    all: () => ['auth'],
+    info: () => [...queryKeys.auth.all(), 'info'],
+  },
 };
+
+export type AuthUser =
+  | {
+      isLoggedIn: true;
+      memberId: number;
+    }
+  | {
+      isLoggedIn: false;
+      memberId: null;
+    };

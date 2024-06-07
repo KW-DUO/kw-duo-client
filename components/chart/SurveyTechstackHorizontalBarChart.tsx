@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '@/constant/api';
-import { HttpClient } from '@/util/HttpClient';
+import { client, HttpClient } from '@/util/HttpClient';
 import { techStack } from '@/constant/techStack';
 import { SurveyDataItem, SurveyStatisticsResponse } from '@/constant/survey';
 
@@ -55,10 +55,6 @@ const SurveyTechstackHorizontalBarChart = () => {
   });
 
   useEffect(() => {
-    const client = new HttpClient({
-      baseUrl: apiUrl, // Replace with your base URL
-    });
-
     client
       .fetch<SurveyStatisticsResponse>('/statistics/tech-stack', 'GET', {})
       .then((response) => {

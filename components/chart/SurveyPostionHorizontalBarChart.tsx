@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '@/constant/api';
-import { HttpClient } from '@/util/HttpClient';
+import { client, HttpClient } from '@/util/HttpClient';
 import {
   FormattedSurveyDataItem,
   SurveyDataItem,
@@ -98,10 +98,6 @@ export default SurveyPostionHorizontalBarChart;
 
 const getPositionStatistics = async (): Promise<SurveyDataItem[]> => {
   try {
-    const client = new HttpClient({
-      baseUrl: apiUrl,
-    });
-
     const response = await client.fetch<SurveyStatisticsResponse>(
       '/statistics/position',
       'GET',
