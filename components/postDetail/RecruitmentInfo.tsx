@@ -15,7 +15,6 @@ export const RecruitmentInfo = () => {
   const { t } = useTranslation();
 
   if (!post) return <>Loading...</>;
-  console.log(post);
 
   return (
     <>

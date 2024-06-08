@@ -182,7 +182,6 @@ const CreatePost = () => {
 
       if (response) {
         // alert('글 생성이 완료되었습니다!');
-        // console.log(response);
         router.push(`/projects/${response.postId}`);
       }
     } catch (error: any) {

@@ -14,7 +14,6 @@ type MetaDataProps = {
 
 export const MetaData = ({ department, course, wantedPosition, wantedField }: MetaDataProps) => {
   const { t } = useTranslation();
-  console.log(department, course, wantedField, wantedPosition);
   const translatedDepartment = useGetDepartmentLabel(department ?? undefined);
   const translatedCourse = useGetCourseLabel(course ?? undefined);
   const getInterestingFieldLabel = useGetInterestingFieldLabel();

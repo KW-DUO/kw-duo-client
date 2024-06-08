@@ -13,13 +13,14 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../loading/LoadingSpinner';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import { client } from './../../util/HttpClient';
+
+type ApiResponse = {
+  posts: PostCard[];
+};
 
 const fetchPosts = async (url: string): Promise<PostCard[]> => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('Error fetching data');
-  }
-  const data = await response.json();
+  const data = await client.fetch<ApiResponse>(url, 'GET');
   return data.posts;
 };
 

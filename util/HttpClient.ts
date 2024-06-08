@@ -33,7 +33,6 @@ export class HttpClient {
     { params = {}, body = {}, headers = {} }: FetchOptions = {}
   ): Promise<T> {
     // baseUrl, path, 쿼리파람으로 url만들기
-    console.log(this.options, path, params);
     const url = createUrl(this.options?.baseUrl, path, params);
 
     // api 쏘기 전에 인터셉터 호출
@@ -96,7 +95,9 @@ function createUrl(baseUrl: string | undefined, path: string, params: Record<str
 
 function addQueryParams(url: string, params: Record<string, any>) {
   const searchParams = new URLSearchParams(params);
-  return `${url}?${searchParams.toString()}`;
+  // return `${url}?${searchParams.toString()}`;
+  const queryString = searchParams.toString();
+  return queryString ? `${url}?${queryString}` : url;
 }
 
 export function getCookie(name: string): string | null {
