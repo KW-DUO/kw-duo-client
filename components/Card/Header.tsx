@@ -7,7 +7,7 @@ import { Heart } from 'lucide-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoginStep from '../Login/LoginStep/LoginStep';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import useRequireAuth from '@/hooks/useRequireAuth';
 
 type InfoHeaderProps = {
   projectType: string;
@@ -18,34 +18,24 @@ type InfoHeaderProps = {
 export const InfoHeader = ({ projectType, projectId, bookmark }: InfoHeaderProps) => {
   const isBookmarked = bookmark.isBookmarked;
   const [isChecked, setIsChecked] = useState<boolean>(isBookmarked);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const { t } = useTranslation();
-  const { isLoggedIn } = useAuthInfo();
+  const { requireAuth, isLoginModalOpen, handleCloseModal } = useRequireAuth();
 
   const handleBookmarkClick = async (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // 로그인 안될 시, 로그인 모달창
-    if (!isLoggedIn) {
-      setIsLoginModalOpen(true);
-      return;
-    }
-
-    try {
-      if (isChecked) {
-        await removeBookmark(projectId);
-        setIsChecked;
-      } else {
-        await addBookmark(projectId);
+    requireAuth(async () => {
+      try {
+        if (isChecked) {
+          await removeBookmark(projectId);
+        } else {
+          await addBookmark(projectId);
+        }
+        setIsChecked((prev) => !prev);
+      } catch (error) {
+        console.error('북마크 토글 실패:', error);
       }
-      setIsChecked((prev) => !prev);
-    } catch (error) {
-      console.error('북마크 토글 실패:', error);
-    }
-  };
-
-  const handleCloseModal = () => {
-    setIsLoginModalOpen(false);
+    });
   };
 
   return (

@@ -15,7 +15,7 @@ export const SearchBar = ({ onValueChange }: Props) => {
 
   useEffect(() => {
     onValueChange(debouncedQuery);
-  }, [debouncedQuery, onValueChange]);
+  }, [debouncedQuery]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
