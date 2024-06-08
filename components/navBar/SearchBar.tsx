@@ -1,21 +1,29 @@
+import { useDebounce } from '@/hooks/useDebounce';
 import { SearchIcon, XIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
-  value: string;
   onValueChange: (e: string) => void;
 };
 
-// todo: 검색 디바운스 적용
-export const SearchBar = ({ value, onValueChange }: Props) => {
+export const SearchBar = ({ onValueChange }: Props) => {
   const { t } = useTranslation();
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const debouncedQuery = useDebounce(searchQuery, 300);
+
+  useEffect(() => {
+    onValueChange(debouncedQuery);
+  }, [debouncedQuery, onValueChange]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onValueChange(e.target.value);
+    setSearchQuery(e.target.value);
   };
 
   const deleteValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setSearchQuery('');
     onValueChange('');
   };
 
@@ -24,12 +32,12 @@ export const SearchBar = ({ value, onValueChange }: Props) => {
       <SearchIcon size={18} />
       <input
         type="text"
-        value={value}
+        value={searchQuery}
         onChange={handleChange}
         placeholder={t('filters.searchPlaceholder')}
         className="w-[200px] border-none ml-3 outline-none bg-transparent h-10"
       />
-      {value !== '' && (
+      {searchQuery !== '' && (
         <button onClick={deleteValue} className="ml-3">
           <XIcon size={18} />
         </button>

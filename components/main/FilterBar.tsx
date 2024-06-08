@@ -12,17 +12,12 @@ import { departmentClasses, getDepartmentCode } from '@/constant/class';
 import { useTranslation } from 'react-i18next';
 
 const FiltersBar = () => {
-  // todo: 후에 react-hook-form 사용해보기
-  // fixme: API 연동 시, form의 onSubmit 이벤트로 API 호출
-  const [searchQuery, setSearchQuery] = useState<string>('');
-
   const {
     department,
     course,
     position,
     wantedField,
     isBookmarkOnly,
-    q,
     setDepartment,
     setCourse,
     setPosition,
@@ -82,7 +77,7 @@ const FiltersBar = () => {
         <Button onClick={() => setIsBookmarkOnly(!isBookmarkOnly)}>{t('filters.bookmark')}</Button>
         {/* <Button>👀 모집 중만 보기</Button> */}
       </div>
-      <SearchBar value={q ?? ''} onValueChange={setQuery} />
+      <SearchBar onValueChange={setQuery} />
     </form>
   );
 };
