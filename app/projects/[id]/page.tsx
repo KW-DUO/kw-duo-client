@@ -54,7 +54,6 @@ const PostDetailPage = ({ params }: Props) => {
           {isMyPost && <PostDetail.ApplicantList />}
         </PostDetail.Root>
       </main>
-      <Footer />
     </>
   );
 };
