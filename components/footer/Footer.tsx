@@ -9,9 +9,9 @@ const Footer = () => {
       </div>
       {/* 약관 관련 */}
       <div className="flex items-center gap-12 font-semibold">
-        <a href="">이용약관</a>
-        <a href="">개인정보처리방침</a>
-        <a href="">서비스소개</a>
+        <p>이용약관</p>
+        <p>개인정보처리방침</p>
+        <p>서비스소개</p>
       </div>
     </footer>
   );
