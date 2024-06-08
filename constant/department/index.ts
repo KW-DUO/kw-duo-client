@@ -38,7 +38,7 @@ type DepartmentLabelsProps = {
 };
 
 // 카드, 마이페이지, 글 상세 페이지에 활용 (조회에서 변환)
-export function useGetDepartmentLabel(departmentValue?: string): string {
+export function useGetDepartmentLabel(departmentValue?: string): string | undefined {
   const { t } = useTranslation();
   const departmentLabels: DepartmentLabelsProps = {
     ALL: t('filters.departments.all'),
@@ -46,6 +46,7 @@ export function useGetDepartmentLabel(departmentValue?: string): string {
     SOFTWARE: t('filters.departments.software'),
     INFORMATION_CONVERGENCE: t('filters.departments.informationConvergence'),
   };
+  if (!departmentValue) return undefined;
 
   const label = departmentLabels[departmentValue];
   // if (!label) throw Error('학과 값에 매칭되는 것이 없습니다.');

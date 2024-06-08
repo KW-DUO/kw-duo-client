@@ -3,6 +3,7 @@
 import { useContext } from 'react';
 import { PostDetailContext } from '@/components/postDetail/store';
 import { useTranslation } from 'react-i18next';
+import parse from 'html-react-parser';
 
 export const ProjectDetails = () => {
   const post = useContext(PostDetailContext);
@@ -14,7 +15,7 @@ export const ProjectDetails = () => {
     <>
       <h2 className="font-bold text-2xl mb-10">{t('projectDetails.title')}</h2>
       <hr className="border" />
-      <div className="mt-10 mb-10">{post.content}</div>
+      <div className="mt-10 mb-10">{parse(post.content)}</div>
     </>
   );
 };
