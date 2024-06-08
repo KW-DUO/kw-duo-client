@@ -79,7 +79,7 @@
   "metaData": {
     "department": "학과",
     "course": "수업",
-    "interestingField": "관심분야",
+    "wantedField": "관심분야",
     "wantedPosition": "포지션"
   },
   "button": {

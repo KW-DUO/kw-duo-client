@@ -13,7 +13,7 @@ type Props = {
 };
 
 const fetchPostDetail = async (postId: number) => {
-  return client.fetch<PostDetailType>(`/posts/${postId}`, 'GET', {});
+  return client.fetch<PostDetailType>(`/posts/${postId}`, 'GET');
 };
 
 const PostDetailPage = ({ params }: Props) => {

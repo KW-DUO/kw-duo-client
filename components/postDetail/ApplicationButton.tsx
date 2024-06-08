@@ -13,7 +13,7 @@ export const ApplicationButton = () => {
   const { t } = useTranslation();
 
   const postApply = async () => {
-    await client.fetch(`/apply/${post?.id}`, 'POST', {});
+    await client.fetch(`/apply/${post?.id}`, 'POST');
   };
 
   const onClickApply = async () => {

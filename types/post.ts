@@ -21,7 +21,7 @@ export type PostCard = {
   title: string;
   department?: string | null;
   class?: string | null;
-  interestingField?: string[] | null;
+  wantedField?: string[] | null;
   wantedPosition: string[];
   author: PostCardAuthor;
   bookmark: Bookmark;

@@ -20,7 +20,7 @@ import { client, getCookie, HttpClient } from '@/util/HttpClient';
 const animatedComponents = makeAnimated();
 
 const fetchProfileData = async () => {
-  return client.fetch<MyPageForm>('/members/info', 'GET', { params: {} });
+  return client.fetch<MyPageForm>('/members/info', 'GET');
 };
 
 const Mypage = () => {

@@ -6,22 +6,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 type MetaDataProps = {
-  department?: string;
-  course?: string;
-  interestingField?: string[] | null;
+  department?: string | null;
+  course?: string | null;
+  wantedField?: string[] | null;
   wantedPosition: string[];
 };
 
-export const MetaData = ({
-  department,
-  course,
-  wantedPosition,
-  interestingField,
-}: MetaDataProps) => {
+export const MetaData = ({ department, course, wantedPosition, wantedField }: MetaDataProps) => {
   const { t } = useTranslation();
-
-  const translatedDepartment = useGetDepartmentLabel(department ?? '');
-  const translatedCourse = useGetCourseLabel(course);
+  console.log(department, course, wantedField, wantedPosition);
+  const translatedDepartment = useGetDepartmentLabel(department ?? undefined);
+  const translatedCourse = useGetCourseLabel(course ?? undefined);
   const getInterestingFieldLabel = useGetInterestingFieldLabel();
 
   return (
@@ -35,11 +30,11 @@ export const MetaData = ({
         </div>
       )}
       <div className="mb-2 text-overflow">
-        {course || interestingField ? t('metaData.course') : t('metaData.interestingField')}:
+        {course!! ? t('metaData.course') : t('metaData.wantedField')}:
         <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
-          {/* {course ?? interestingField?.join(', ')} */}
-          {translatedCourse ??
-            interestingField?.map((field) => getInterestingFieldLabel(field)).join(', ')}
+          {course!!
+            ? course
+            : wantedField?.map((field) => getInterestingFieldLabel(field)).join(', ')}
         </span>
       </div>
       <div className="mb-4 h-14 line-clamp-2">

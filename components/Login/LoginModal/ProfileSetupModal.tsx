@@ -18,7 +18,7 @@ type ProfileSetupModalProps = {
 };
 
 const fetchProfileData = async () => {
-  return client.fetch<MyPageForm>('/members/info', 'GET', { params: {} });
+  return client.fetch<MyPageForm>('/members/info', 'GET');
 };
 
 const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {

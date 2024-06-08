@@ -80,7 +80,7 @@
   "metaData": {
     "department": "Department",
     "course": "Course",
-    "interestingField": "Field of Interest",
+    "wantedField": "Field of Interest",
     "wantedPosition": "Position"
   },
   "button": {

@@ -38,7 +38,7 @@ type DepartmentLabelsProps = {
 };
 
 // 카드, 마이페이지, 글 상세 페이지에 활용 (조회에서 변환)
-export function useGetDepartmentLabel(departmentValue: string): string {
+export function useGetDepartmentLabel(departmentValue?: string): string {
   const { t } = useTranslation();
   const departmentLabels: DepartmentLabelsProps = {
     ALL: t('filters.departments.all'),

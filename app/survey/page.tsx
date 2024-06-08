@@ -18,7 +18,7 @@ const Survey = () => {
 
   useEffect(() => {
     client
-      .fetch<{ count: number }>('/statistics/all-user-count', 'GET', {})
+      .fetch<{ count: number }>('/statistics/all-user-count', 'GET')
       .then((response: { count: number }) => {
         totalUserCountRef.current = response.count;
         setIsLoading(false);

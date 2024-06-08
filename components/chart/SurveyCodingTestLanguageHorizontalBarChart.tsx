@@ -52,7 +52,7 @@ const SurveyCodingTestLanguageHorizontalBarChart = () => {
 
   useEffect(() => {
     client
-      .fetch<SurveyStatisticsResponse>('/statistics/coding-test', 'GET', {})
+      .fetch<SurveyStatisticsResponse>('/statistics/coding-test', 'GET')
       .then((response: SurveyStatisticsResponse) => {
         const fetchedData = response.statistics;
         const labels = fetchedData.map((item: SurveyDataItem) =>

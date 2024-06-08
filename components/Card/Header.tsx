@@ -57,7 +57,7 @@ export const InfoHeader = ({ projectType, projectId }: InfoHeaderProps) => {
 
 export const addBookmark = async (projectId: number) => {
   try {
-    const response = await client.fetch(`/bookmarks/${projectId}`, 'POST', {});
+    const response = await client.fetch(`/bookmarks/${projectId}`, 'POST');
     return response;
   } catch (error) {
     console.error('북마크 추가 실패:', error);
@@ -67,7 +67,7 @@ export const addBookmark = async (projectId: number) => {
 
 export const removeBookmark = async (projectId: number) => {
   try {
-    const response = await client.fetch(`/bookmarks/${projectId}`, 'DELETE', {});
+    const response = await client.fetch(`/bookmarks/${projectId}`, 'DELETE');
     return response;
   } catch (error) {
     console.error('북마크 삭제 실패:', error);

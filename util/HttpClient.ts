@@ -30,7 +30,7 @@ export class HttpClient {
   public async fetch<T>(
     path: string,
     method: HttpMethod,
-    { params = {}, body = {}, headers = {} }: FetchOptions
+    { params = {}, body = {}, headers = {} }: FetchOptions = {}
   ): Promise<T> {
     // baseUrl, path, 쿼리파람으로 url만들기
     console.log(this.options, path, params);
