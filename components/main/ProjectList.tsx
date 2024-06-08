@@ -37,8 +37,8 @@ const ProjectList = () => {
   const path = usePathname();
 
   let findType: string = '';
-  if (path === '/') findType = 'find-team';
-  if (path === '/team-members') findType = 'find-teammate';
+  if (path === '/') findType = 'find-teammate';
+  if (path === '/team-members') findType = 'find-team';
 
   const queryParams = {
     findType,
@@ -71,13 +71,6 @@ const ProjectList = () => {
       ),
     enabled: !!findType,
   });
-
-  // posts의 전체 길이에 대한 값도 주나?
-
-  // const lastPostIndex = currentPage * postsPerPage;
-  // const firstPostIndex = lastPostIndex - postsPerPage;
-  // const currentPosts = posts?.slice(firstPostIndex, lastPostIndex) ?? []; // 어차피 page size로 자를테니 차후 수정할 예정
-  // let totalPages = posts ? Math.ceil(posts.length / postsPerPage) : 1;
 
   const handleChangePage = (page: number): void => {
     setCurrentPage(page);
