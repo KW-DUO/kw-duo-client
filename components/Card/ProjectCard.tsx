@@ -10,7 +10,11 @@ type ProjectCardProps = {
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <li className="w-cardWidth h-cardHeight px-6 pt-5 border-2 border-gray rounded-3xl">
-      <Card.InfoHeader projectType={project.projectType} projectId={project.id} />
+      <Card.InfoHeader
+        projectType={project.projectType}
+        projectId={project.id}
+        bookmark={project.bookmark}
+      />
       <Card.PostDate createdAt={project.createdAt} />
       <Card.Title title={project.title} />
       <Card.MetaData

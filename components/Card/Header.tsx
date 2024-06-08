@@ -12,10 +12,12 @@ import { useAuthInfo } from '@/hooks/useMemberInfo';
 type InfoHeaderProps = {
   projectType: string;
   projectId: number;
+  bookmark: { isBookmarked: boolean };
 };
 
-export const InfoHeader = ({ projectType, projectId }: InfoHeaderProps) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+export const InfoHeader = ({ projectType, projectId, bookmark }: InfoHeaderProps) => {
+  const isBookmarked = bookmark.isBookmarked;
+  const [isChecked, setIsChecked] = useState<boolean>(isBookmarked);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const { t } = useTranslation();
   const { isLoggedIn } = useAuthInfo();
@@ -23,6 +25,7 @@ export const InfoHeader = ({ projectType, projectId }: InfoHeaderProps) => {
   const handleBookmarkClick = async (e: React.MouseEvent) => {
     e.preventDefault();
 
+    // 로그인 안될 시, 로그인 모달창
     if (!isLoggedIn) {
       setIsLoginModalOpen(true);
       return;
@@ -31,6 +34,7 @@ export const InfoHeader = ({ projectType, projectId }: InfoHeaderProps) => {
     try {
       if (isChecked) {
         await removeBookmark(projectId);
+        setIsChecked;
       } else {
         await addBookmark(projectId);
       }

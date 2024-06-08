@@ -49,8 +49,6 @@ const ProjectList = () => {
     currentPage,
   };
 
-  const queryKey = queryKeys.projects(queryParams);
-
   const { t } = useTranslation();
 
   const {
@@ -58,7 +56,7 @@ const ProjectList = () => {
     isLoading,
     error,
   } = useQuery<PostCard[]>({
-    queryKey: queryKey,
+    queryKey: queryKeys.projects(queryParams),
     queryFn: () =>
       fetchPosts(
         addQueryParams(apiUrl + `/posts/${findType}`, {
