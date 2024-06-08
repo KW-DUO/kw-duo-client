@@ -8,7 +8,7 @@ import { useForm, Controller, set } from 'react-hook-form';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { apiUrl } from '@/constant/api';
-import { useGetDepartmentLabel } from '@/constant/department';
+import { getDepartmentLabel, useGetDepartmentLabel } from '@/constant/department';
 import { UploadImage } from '@/types';
 import { queryKeys } from '@/queries/queryKeys';
 import { useQuery } from '@tanstack/react-query';
@@ -127,7 +127,7 @@ const Mypage = () => {
           <input
             type="text"
             disabled={true}
-            value={getPositionLabel(profileData?.position || '', t)}
+            value={getDepartmentLabel(profileData?.department || '', t)}
             className="border w-full py-3 px-3 rounded bg-gray"
           />
         </label>
