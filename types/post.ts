@@ -20,7 +20,7 @@ export type PostCard = {
   projectType: string;
   title: string;
   department?: string | null;
-  class?: string | null;
+  className?: string | null;
   wantedField?: string[] | null;
   wantedPosition: string[];
   author: PostCardAuthor;

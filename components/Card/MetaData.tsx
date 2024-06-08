@@ -30,18 +30,27 @@ export const MetaData = ({ department, course, wantedPosition, wantedField }: Me
       )}
       <div className="mb-2 text-overflow">
         {course!! ? t('metaData.course') : t('metaData.wantedField')}:
-        <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
-          {course!!
-            ? course
-            : wantedField?.map((field) => getInterestingFieldLabel(field)).join(', ')}
-        </span>
+        {course!! ? (
+          <span className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl">
+            {course}
+          </span>
+        ) : (
+          wantedField?.map((field) => (
+            <span
+              className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
+              key={field}
+            >
+              {getInterestingFieldLabel(field)}
+            </span>
+          ))
+        )}
       </div>
       <div className="mb-4 h-14 line-clamp-2">
         {t('metaData.wantedPosition')}:{' '}
-        {wantedPosition.map((pos, index) => (
+        {wantedPosition.map((pos) => (
           <span
-            className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px]"
-            key={index}
+            className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
+            key={pos}
           >
             {getPositionLabel(pos, t)}
           </span>
