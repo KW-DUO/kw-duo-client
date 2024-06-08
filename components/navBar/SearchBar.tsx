@@ -10,6 +10,7 @@ type Props = {
 export const SearchBar = ({ onValueChange }: Props) => {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState<string>('');
+  console.log(searchQuery);
 
   const debouncedQuery = useDebounce(searchQuery, 300);
 
@@ -19,6 +20,13 @@ export const SearchBar = ({ onValueChange }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onValueChange(searchQuery);
+    }
   };
 
   const deleteValue = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,6 +42,7 @@ export const SearchBar = ({ onValueChange }: Props) => {
         type="text"
         value={searchQuery}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder={t('filters.searchPlaceholder')}
         className="w-[200px] border-none ml-3 outline-none bg-transparent h-10"
       />
