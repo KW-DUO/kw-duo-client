@@ -26,7 +26,7 @@ import { useRouter } from 'next/navigation';
 type FormFields = {
   projectType: string;
   department?: string | null;
-  class?: string | null;
+  className?: string | null;
   interestingField?: string[] | [];
   wantedPosition: string[];
   techStack: string[];
@@ -42,7 +42,7 @@ type EditorMethods = {
 const DEFAULT_VALUES = {
   projectType: '',
   department: null,
-  class: null,
+  className: null,
   interestingField: [],
   wantedPosition: [],
   techStack: [],
@@ -65,7 +65,7 @@ const CreatePost = () => {
   // input 활성화 관리
   const [FormFieldsDisabled, setFormFieldsDisabled] = useState({
     department: true,
-    class: true,
+    className: true,
     interestingField: true,
     wantedPosition: true,
     techStack: true,
@@ -80,7 +80,7 @@ const CreatePost = () => {
       case 'CLASS_PROJECT':
         setFormFieldsDisabled({
           department: false,
-          class: false,
+          className: false,
           interestingField: true,
           wantedPosition: false,
           techStack: false,
@@ -90,7 +90,7 @@ const CreatePost = () => {
       case 'GRADUATION_PROJECT':
         setFormFieldsDisabled({
           department: false,
-          class: true,
+          className: true,
           interestingField: false,
           wantedPosition: false,
           techStack: false,
@@ -100,7 +100,7 @@ const CreatePost = () => {
       case 'SIDE_PROJECT':
         setFormFieldsDisabled({
           department: true,
-          class: true,
+          className: true,
           interestingField: false,
           wantedPosition: false,
           techStack: false,
@@ -110,7 +110,7 @@ const CreatePost = () => {
       default:
         setFormFieldsDisabled({
           department: true,
-          class: true,
+          className: true,
           interestingField: true,
           wantedPosition: true,
           techStack: true,
@@ -151,7 +151,7 @@ const CreatePost = () => {
     if (selectedprojectType === '') errorMessage += '프로젝트 구분을 선택해주세요.\n';
     if (!data.department && !FormFieldsDisabled.department)
       errorMessage += '학과를 선택해주세요.\n';
-    if (!data.class && !FormFieldsDisabled.class) errorMessage += '수업을 선택해주세요.\n';
+    if (!data.className && !FormFieldsDisabled.className) errorMessage += '수업을 선택해주세요.\n';
     if (data.interestingField?.length === 0 && !FormFieldsDisabled.interestingField)
       errorMessage += '관심 분야를 선택해주세요.\n';
     if (data.wantedPosition.length === 0 && !FormFieldsDisabled.wantedPosition)
@@ -181,7 +181,7 @@ const CreatePost = () => {
       });
 
       if (response) {
-        alert('포스트 생성이 완료되었습니다!');
+        // alert('글 생성이 완료되었습니다!');
         router.push(`/projects/${response.postId}`);
       }
     } catch (error: any) {
@@ -209,7 +209,7 @@ const CreatePost = () => {
                 handleProjectTypeChange('');
               }}
             >
-              {t('nav.findTeamMembers')}
+              {t('form.findTeammate')}
             </button>
             <button
               type="button"
@@ -219,7 +219,7 @@ const CreatePost = () => {
                 handleProjectTypeChange('');
               }}
             >
-              {t('nav.findTeam')}
+              {t('form.findTeam')}
             </button>
           </section>
 
@@ -251,9 +251,9 @@ const CreatePost = () => {
               <SelectField
                 control={control}
                 label={`3. ${t('form.classSelection')}`}
-                name="class"
+                name="className"
                 options={classesOptions}
-                isDisabled={FormFieldsDisabled.class}
+                isDisabled={FormFieldsDisabled.className}
                 placeholder={t('form.classPlaceholder')}
               />
 

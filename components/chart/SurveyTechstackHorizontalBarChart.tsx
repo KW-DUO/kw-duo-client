@@ -56,7 +56,7 @@ const SurveyTechstackHorizontalBarChart = () => {
 
   useEffect(() => {
     client
-      .fetch<SurveyStatisticsResponse>('/statistics/tech-stack', 'GET', {})
+      .fetch<SurveyStatisticsResponse>('/statistics/tech-stack', 'GET')
       .then((response) => {
         const fetchedData = (response as SurveyStatisticsResponse).statistics;
         const sortedData = fetchedData.sort((a, b) => b.count - a.count);

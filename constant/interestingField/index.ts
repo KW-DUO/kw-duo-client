@@ -24,7 +24,6 @@ export function useInterestingFieldOptions() {
 export function useInterestingFieldFilterOptions() {
   const { t } = useTranslation();
   const fieldLabels = createInterestingFieldLabels(t);
-  console.log(fieldLabels);
 
   return [
     { label: fieldLabels.ALL, value: '' },

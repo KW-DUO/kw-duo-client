@@ -19,6 +19,7 @@
     "logout": "Logout"
   },
   "filters": {
+    "projectType": "Project Type",
     "department": "Department",
     "course": "Course",
     "position": "Position",
@@ -80,7 +81,7 @@
   "metaData": {
     "department": "Department",
     "course": "Course",
-    "interestingField": "Field of Interest",
+    "wantedField": "Field of Interest",
     "wantedPosition": "Position"
   },
   "button": {
@@ -129,6 +130,8 @@
     "loading": "Loading..."
   },
   "form": {
+    "findTeammate": "Find Teammate",
+    "findTeam": "Find Team",
     "enterBasicInfo": "Enter basic information",
     "projectDescription": "Describe your project",
     "teamDescription": "Describe what kind of team you want",

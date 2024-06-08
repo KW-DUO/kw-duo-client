@@ -23,7 +23,7 @@ export const RecruitmentInfo = () => {
         <ul className="grid grid-cols-2 text-xl gap-y-8">
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500 w-" style={{ width: '140px' }}>
-              {t('filters.department')}
+              {t('filters.projectType')}
             </div>
             <div>
               {t(projectType.find((t) => t.value === post.projectType)?.label ?? 'Unknown')}
@@ -56,14 +56,17 @@ export const RecruitmentInfo = () => {
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '140px' }}>
-              {t('filters.fieldOfInterest')}
+              {/* 제네릭으로 할 수 있지 않나? */}
+              {post.projectType === 'CLASS_PROJECT' && t('filters.course')}
+              {/* 졸업, 사이드 프로젝트는 관심분야 보이도록*/}
+              {post.projectType !== 'CLASS_PROJECT' && t('filters.fieldOfInterest')}
             </div>
             <div>
-              {post.interestingField
-                ? post.interestingField
-                    .map((p) => t(interestingField.find((f) => f.value === p)?.label ?? 'Unknown'))
-                    .join(', ')
-                : post.className}
+              {post.projectType === 'CLASS_PROJECT' && post.className}
+              {post.projectType !== 'CLASS_PROJECT' &&
+                post.interestingField
+                  .map((p) => t(interestingField.find((f) => f.value === p)?.label ?? 'Unknown'))
+                  .join(', ')}
             </div>
           </li>
           <li className="flex font-bold items-center ">
