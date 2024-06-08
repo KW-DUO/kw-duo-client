@@ -1,4 +1,10 @@
 {
+  "main": {
+    "findTeam": "Find Team Members",
+    "findTeamMembers": "Recruit Team Members",
+    "findTeamDesc": "This page is for teams looking for members.",
+    "findTeamMembersDesc": "This page is for recruiting team members."
+  },
   "projectTypes": {
     "": "All",
     "classProject": "Class Project",
@@ -6,8 +12,8 @@
     "sideProject": "Side Project"
   },
   "nav": {
-    "findTeam": "Find Team",
-    "findTeamMembers": "Find Team Members",
+    "findTeam": "Find Team Members",
+    "findTeamMembers": "Recruit Team Members",
     "messages": "Messages",
     "notifications": "Notifications",
     "createPost": "Create Post",
@@ -130,8 +136,8 @@
     "loading": "Loading..."
   },
   "form": {
-    "findTeammate": "Find Teammate",
-    "findTeam": "Find Team",
+    "findTeammate": "Recruitment Post",
+    "findTeam": "Find Team Members Post",
     "enterBasicInfo": "Enter basic information",
     "projectDescription": "Describe your project",
     "teamDescription": "Describe what kind of team you want",

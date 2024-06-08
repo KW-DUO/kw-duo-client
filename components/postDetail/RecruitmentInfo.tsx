@@ -71,7 +71,7 @@ export const RecruitmentInfo = () => {
           </li>
           <li className="flex font-bold items-center ">
             <div className="w-[120px] mr-2 text-gray-500">{t('techStack')}</div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {post.techStack.map((stack) => (
                 <Image
                   key={stack}

@@ -1,4 +1,10 @@
 {
+  "main": {
+    "findTeam": "팀원 찾기",
+    "findTeamMembers": "팀원 모집",
+    "findTeamDesc": "팀원을 찾고 있는 팀들을 위한 페이지입니다.",
+    "findTeamMembersDesc": "팀원 모집을 위한 구인 페이지입니다."
+  },
   "projectTypes": {
     "": "전체",
     "classProject": "수업 프로젝트",
@@ -6,8 +12,8 @@
     "sideProject": "사이드 프로젝트"
   },
   "nav": {
-    "findTeam": "팀 찾기",
-    "findTeamMembers": "팀원 찾기",
+    "findTeam": "팀원 찾기",
+    "findTeamMembers": "팀원 모집",
     "messages": "메시지",
     "createPost": "새 글 쓰기",
     "resources": "자료",
@@ -129,8 +135,8 @@
     "loading": "로딩 중..."
   },
   "form": {
-    "findTeammate": "팀원 구하기",
-    "findTeam": "팀 구하기",
+    "findTeammate": "팀원 모집글",
+    "findTeam": "팀원 찾기글",
     "enterBasicInfo": "기본정보를 입력해주세요",
     "projectDescription": "프로젝트에 대해 소개해주세요",
     "teamDescription": "어떤 팀을 원하는지 작성해주세요",

@@ -13,7 +13,7 @@ import { useAuthInfo } from '@/hooks/useMemberInfo';
 const Navbar = () => {
   const { t } = useTranslation();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { isLoggedIn, revalidate } = useAuthInfo();
+  const { isLoggedIn } = useAuthInfo();
 
   const handleLoginButtonClick = () => {
     setIsLoginModalOpen(true);
@@ -30,9 +30,9 @@ const Navbar = () => {
           <Link href="/" className="text-2xl font-semibold">
             KW DUO
           </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/">{t('nav.findTeam')}</Link>
-            <Link href="/team-members">{t('nav.findTeamMembers')}</Link>
+          <div className="flex items-center gap-5">
+            <Link href="/">{t('nav.findTeamMembers')}</Link>
+            <Link href="/team-members">{t('nav.findTeam')}</Link>
             {isLoggedIn && <Link href="/messages">{t('nav.messages')}</Link>}
             {isLoggedIn && <Link href="/create-post">{t('nav.createPost')}</Link>}
             <ResourcesDropdown />

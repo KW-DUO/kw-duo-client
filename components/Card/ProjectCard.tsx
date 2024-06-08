@@ -19,7 +19,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       <Card.Title title={project.title} />
       <Card.MetaData
         department={project.department ?? undefined}
-        course={project.class ?? undefined}
+        course={project.className ?? undefined}
         wantedPosition={project.wantedPosition}
         wantedField={project.wantedField ?? undefined}
       />

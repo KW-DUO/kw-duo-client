@@ -17,11 +17,14 @@ import { client } from './../../util/HttpClient';
 
 type ApiResponse = {
   posts: PostCard[];
+  currentPage: number;
+  totalCount: number;
+  totalPage: number;
 };
 
-const fetchPosts = async (url: string): Promise<PostCard[]> => {
+const fetchPosts = async (url: string): Promise<ApiResponse> => {
   const data = await client.fetch<ApiResponse>(url, 'GET');
-  return data.posts;
+  return data;
 };
 
 const ProjectList = () => {
@@ -34,8 +37,8 @@ const ProjectList = () => {
   const path = usePathname();
 
   let findType: string = '';
-  if (path === '/') findType = 'find-team';
-  if (path === '/team-members') findType = 'find-teammate';
+  if (path === '/') findType = 'find-teammate';
+  if (path === '/team-members') findType = 'find-team';
 
   const queryParams = {
     findType,
@@ -51,11 +54,7 @@ const ProjectList = () => {
 
   const { t } = useTranslation();
 
-  const {
-    data: posts,
-    isLoading,
-    error,
-  } = useQuery<PostCard[]>({
+  const { data, isLoading, error } = useQuery<ApiResponse>({
     queryKey: queryKeys.projects(queryParams),
     queryFn: () =>
       fetchPosts(
@@ -73,13 +72,6 @@ const ProjectList = () => {
     enabled: !!findType,
   });
 
-  // posts의 전체 길이에 대한 값도 주나?
-
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = posts?.slice(firstPostIndex, lastPostIndex) ?? []; // 어차피 page size로 자를테니 차후 수정할 예정
-  let totalPages = posts ? Math.ceil(posts.length / postsPerPage) : 1;
-
   const handleChangePage = (page: number): void => {
     setCurrentPage(page);
   };
@@ -96,10 +88,13 @@ const ProjectList = () => {
     return <div className="text-center min-h-[800px]">{t('loadingError')}</div>;
   }
 
+  const posts = data?.posts ?? [];
+  const totalPages = data?.totalPage ?? 1;
+
   return (
     <>
       <div className="min-h-[800px]">
-        {currentPosts.length === 0 ? (
+        {posts.length === 0 ? (
           <div className="text-center flex flex-col items-center justify-center h-full text-3xl">
             <Image
               src="/images/write_image.jpg"
@@ -113,7 +108,7 @@ const ProjectList = () => {
         ) : (
           <>
             <ul className="max-w-maxWidth grid grid-cols-4 gap-7 ">
-              {currentPosts.map((post, index) => (
+              {posts.map((post, index) => (
                 <Link key={index} href={`/projects/${post.id}`}>
                   <ProjectCard project={post} />
                 </Link>

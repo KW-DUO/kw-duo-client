@@ -34,7 +34,7 @@ const Tiptap = ({ onChange, toggleState, initialValue }: TiptapProps) => {
         placeholder: getPlaceholderText(),
       }),
     ],
-    content: '',
+    content: '', // 초기값 설정
     editorProps: {
       attributes: {
         class:
@@ -48,7 +48,7 @@ const Tiptap = ({ onChange, toggleState, initialValue }: TiptapProps) => {
 
   // 초기값 변경 시 에디터 내용 업데이트
   useEffect(() => {
-    if (editor) {
+    if (editor && initialValue !== '') {
       editor.commands.setContent(initialValue);
     }
   }, [initialValue, editor]);
