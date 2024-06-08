@@ -55,7 +55,7 @@ export const Select = ({
           onValueChange?.(e.target.value);
         }}
         disabled={disabled}
-        className={`flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3 outline-none ${title} ${getTitleClass(title, language)} ${value !== '' && 'border-orange-400 text-orange-400'} ${disabled && 'bg-gray'}`}
+        className={`flex justify-between items-center border rounded-3xl px-2 pl-4 pr-3 outline-none ${getTitleClass(title, language)} ${value !== '' && !disabled ? 'border-orange-400 text-orange-400' : ''} ${disabled ? 'bg-gray' : ''}`}
       >
         {/* 선택 안한 값이 ALL */}
         {value === '' && (

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/navBar/Button';
 import { Select } from '@/components/navBar/Select';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useDepartmentsFilterOptions } from '@/constant/department';
 import { SearchBar } from '@/components/navBar/SearchBar';
 import { useWantedPositionFilterOptions } from '@/constant/wantedPosition';
@@ -41,6 +41,11 @@ const FiltersBar = () => {
     });
   };
 
+  useEffect(() => {
+    // 학과가 변경될 때 수업 필드를 초기화
+    setCourse('');
+  }, [department]);
+
   return (
     <>
       <form className="font-bold flex justify-between items-center text-silver mb-8">
@@ -59,7 +64,7 @@ const FiltersBar = () => {
             onValueChange={setCourse}
             disabled={department === ''}
           >
-            {department &&
+            {department !== '' &&
               departmentClasses({ department }, t).map(({ label, value }) => (
                 <Select.Option key={value} value={value}>
                   {label}
