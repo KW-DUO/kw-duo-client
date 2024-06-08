@@ -319,6 +319,7 @@ const EditPost = ({ params }: Props) => {
                 isDisabled={FormFieldsDisabled.interestingField}
                 placeholder={t('form.fieldOfInterestPlaceholder')}
                 isMulti={true}
+                closeMenuOnSelect={false}
               />
               <SelectField
                 control={control}
@@ -332,6 +333,7 @@ const EditPost = ({ params }: Props) => {
                 isDisabled={FormFieldsDisabled.wantedPosition}
                 placeholder={t('form.wantedPositionPlaceholder')}
                 isMulti={true}
+                closeMenuOnSelect={false}
               />
               <SelectField
                 control={control}
@@ -341,6 +343,7 @@ const EditPost = ({ params }: Props) => {
                 isDisabled={FormFieldsDisabled.techStack}
                 placeholder={t('form.techStackPlaceholder')}
                 isMulti={true}
+                closeMenuOnSelect={false}
               />
               {isTeamMemberSearch && (
                 <SelectField

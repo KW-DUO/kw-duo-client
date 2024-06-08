@@ -16,6 +16,7 @@ type SelectFieldProps = {
   isDisabled?: boolean;
   placeholder?: string;
   isMulti?: boolean;
+  closeMenuOnSelect?: boolean;
   handleProjectTypeChange?: (value: string) => void;
 };
 
@@ -26,7 +27,8 @@ const SelectField = ({
   options,
   isDisabled,
   placeholder,
-  isMulti = false,
+  isMulti = false, // 선택 여러개 가능
+  closeMenuOnSelect = true, // 선택할 때 모달창 닫아주기
   handleProjectTypeChange,
 }: SelectFieldProps) => {
   return (
@@ -69,6 +71,7 @@ const SelectField = ({
                 }
               }}
               isMulti={isMulti}
+              closeMenuOnSelect={closeMenuOnSelect}
               className="mt-2.5"
             />
           )}
