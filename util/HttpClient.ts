@@ -96,6 +96,8 @@ function createUrl(baseUrl: string | undefined, path: string, params: Record<str
 function addQueryParams(url: string, params: Record<string, any>) {
   const searchParams = new URLSearchParams(params);
   // return `${url}?${searchParams.toString()}`;
+
+  // 마지막 params 없는데 ? 추가 없앰
   const queryString = searchParams.toString();
   return queryString ? `${url}?${queryString}` : url;
 }
