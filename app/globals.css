@@ -104,13 +104,148 @@ body {
   height: 0;
 }
 
-.post-content h1 {
-  /* 예시: Tailwind 클래스를 사용해 h1 태그 스타일 지정 */
-  @apply text-2xl font-bold;
-}
-.post-content li {
-  /* 예시: Tailwind 클래스를 사용해 li 태그 스타일 지정 */
-  @apply list-decimal ml-4;
+/* 글 상세 페이지의 파싱한 글, 리셋 css 적용하기 */
+@layer components {
+  .custom-reset {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul,
+    ol,
+    li,
+    blockquote,
+    pre,
+    code,
+    img,
+    table,
+    strong,
+    em,
+    u,
+    s {
+      all: initial;
+      display: block;
+      font-family: 'Pretendard-Regular';
+    }
+
+    li {
+      font-size: 18px;
+      display: list-item;
+    }
+
+    strong {
+      font-size: 18px;
+      font-weight: bold; /* 굵은 글씨 */
+    }
+
+    em {
+      font-size: 18px;
+      font-style: italic; /* 기울임 글씨 */
+    }
+
+    u {
+      font-size: 18px;
+      text-decoration: underline; /* 밑줄 */
+    }
+
+    s {
+      font-size: 18px;
+      text-decoration: line-through; /* 취소선 */
+    }
+
+    h1 {
+      font-size: 2em; /* Tailwind text-2xl 크기 */
+      font-weight: bold; /* Tailwind font-bold */
+      color: inherit;
+    }
+
+    h2 {
+      font-size: 1.5em; /* Tailwind text-xl 크기 */
+      font-weight: bold; /* Tailwind font-bold */
+      color: inherit;
+    }
+
+    h3 {
+      font-size: 1.25em; /* Tailwind text-lg 크기 */
+      font-weight: bold; /* Tailwind font-bold */
+      color: inherit;
+    }
+
+    h4 {
+      font-size: 1.1em; /* Tailwind text-base 크기 */
+      font-weight: bold; /* Tailwind font-bold */
+      color: inherit;
+    }
+
+    h5 {
+      font-size: 1em; /* Tailwind text-sm 크기 */
+      font-weight: bold; /* Tailwind font-bold */
+      color: inherit;
+    }
+
+    h6 {
+      font-size: 0.875em; /* Tailwind text-xs 크기 */
+      font-weight: bold; /* Tailwind font-bold */
+      color: inherit;
+    }
+
+    p {
+      font-size: 18px; /* Tailwind text-base 크기 */
+      line-height: 1.5; /* Tailwind leading-relaxed */
+      color: inherit;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.5rem; /* Tailwind pl-6 */
+      margin: 0; /* 기본 마진 제거 */
+      list-style-position: outside; /* 리스트 아이템의 위치 설정 */
+    }
+
+    li {
+      height: 30px;
+      /* margin-bottom: 0.5rem; Tailwind mb-2 */
+      list-style-type: decimal; /* 기본 목록 스타일 설정 */
+    }
+
+    blockquote {
+      padding-left: 0.5rem; /* 패딩 */
+      padding-right: 0.5rem; /* 패딩 */
+      border-left: 4px solid gray; /* 왼쪽 테두리 */
+      margin: 0; /* 기본 마진 제거 */
+    }
+
+    pre {
+      background-color: #f5f5f5; /* 배경색 */
+      padding: 1rem; /* 패딩 */
+      overflow-x: auto; /* 가로 스크롤 */
+    }
+
+    code {
+      background-color: #f5f5f5; /* 배경색 */
+      padding: 0.2rem 0.4rem; /* 패딩 */
+      border-radius: 4px; /* 둥근 모서리 */
+    }
+
+    img {
+      display: inline-block; /* 이미지 블록 디스플레이 */
+      max-width: 100%; /* 최대 너비 100% */
+    }
+
+    table {
+      width: 100%; /* 테이블 너비 100% */
+      border-collapse: collapse; /* 테두리 겹치지 않게 */
+    }
+
+    th,
+    td {
+      border: 1px solid black; /* 테두리 스타일 */
+      padding: 0.5rem; /* 패딩 */
+    }
+  }
 }
 
 dialog::backdrop {
