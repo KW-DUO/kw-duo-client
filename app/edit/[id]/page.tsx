@@ -18,6 +18,7 @@ import { apiUrl } from '@/constant/api';
 import SelectField from '@/components/createPost/SelectField';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { client } from './../../../util/HttpClient';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -25,7 +26,7 @@ import { useTranslation } from 'react-i18next';
 type FormFields = {
   projectType: string;
   department?: string | null;
-  class?: string | null;
+  className?: string | null;
   interestingField?: string[] | [];
   wantedPosition: string[];
   techStack: string[];
@@ -41,7 +42,7 @@ type EditorMethods = {
 const DEFAULT_VALUES = {
   projectType: '',
   department: null,
-  class: null,
+  className: null,
   interestingField: [],
   wantedPosition: [],
   techStack: [],
@@ -67,12 +68,13 @@ const EditPost = ({ params }: Props) => {
   // input 활성화 관리
   const [FormFieldsDisabled, setFormFieldsDisabled] = useState({
     department: true,
-    class: true,
+    className: true,
     interestingField: true,
     wantedPosition: true,
     techStack: true,
     recruitNumber: true,
   });
+  const postId = params.id; // postId 값 URL로 가져오기
 
   const { t } = useTranslation();
 
@@ -82,7 +84,7 @@ const EditPost = ({ params }: Props) => {
       case 'CLASS_PROJECT':
         setFormFieldsDisabled({
           department: false,
-          class: false,
+          className: false,
           interestingField: true,
           wantedPosition: false,
           techStack: false,
@@ -92,7 +94,7 @@ const EditPost = ({ params }: Props) => {
       case 'GRADUATION_PROJECT':
         setFormFieldsDisabled({
           department: false,
-          class: true,
+          className: true,
           interestingField: false,
           wantedPosition: false,
           techStack: false,
@@ -102,7 +104,7 @@ const EditPost = ({ params }: Props) => {
       case 'SIDE_PROJECT':
         setFormFieldsDisabled({
           department: true,
-          class: true,
+          className: true,
           interestingField: false,
           wantedPosition: false,
           techStack: false,
@@ -112,7 +114,7 @@ const EditPost = ({ params }: Props) => {
       default:
         setFormFieldsDisabled({
           department: true,
-          class: true,
+          className: true,
           interestingField: true,
           wantedPosition: true,
           techStack: true,
@@ -153,7 +155,7 @@ const EditPost = ({ params }: Props) => {
     if (selectedprojectType === '') errorMessage += '프로젝트 구분을 선택해주세요.\n';
     if (!data.department && !FormFieldsDisabled.department)
       errorMessage += '학과를 선택해주세요.\n';
-    if (!data.class && !FormFieldsDisabled.class) errorMessage += '수업을 선택해주세요.\n';
+    if (!data.className && !FormFieldsDisabled.className) errorMessage += '수업을 선택해주세요.\n';
     if (data.interestingField?.length === 0 && !FormFieldsDisabled.interestingField)
       errorMessage += '관심 분야를 선택해주세요.\n';
     if (data.wantedPosition.length === 0 && !FormFieldsDisabled.wantedPosition)
@@ -172,56 +174,75 @@ const EditPost = ({ params }: Props) => {
       return;
     }
 
-    let postURL;
-    if (isTeamMemberSearch) {
-      postURL = apiUrl + `/posts/find-teammate`;
-    } else {
-      postURL = apiUrl + '/posts/find-team';
-    }
+    let postURL = isTeamMemberSearch ? '/posts/find-teammate' : '/posts/find-team';
 
     try {
-      // const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-      const response = await fetch(postURL, {
-        method: 'POST',
+      const response = await client.fetch<{ postId: number }>(`${postURL}/${postId}`, 'PUT', {
+        body: data,
         headers: {
           'Content-type': 'application/json',
-          // 'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
       });
 
-      const responsData = await response.json();
-      if (response.ok) {
-        alert('글 수정이 완료되었어요!');
-        router.push(`/projects/${params.id}`);
+      if (response) {
+        // alert('글 수정이 완료되었어요!');
+        router.push(`/projects/${postId}`);
       } else {
-        throw new Error(responsData.message || '수정 요청 실패');
+        throw new Error(response || '수정 요청 실패');
       }
     } catch (error: any) {
       console.error('네트워크 수정 실패:', error.message);
     }
   };
 
+  type FetchDataProps = {
+    id: number;
+    postType: string;
+    projectType: string;
+    title: string;
+    content: string;
+    department: string;
+    className: string | null;
+    wantedPosition: string[];
+    interestingField: string[];
+    recruitNumber: number;
+    techStack: string[];
+    createdAt: string;
+    author: {
+      id: number;
+      nickname: string;
+    };
+    bookmark: {
+      isBookmarked: boolean;
+    };
+  };
+
   // 해당 글 정보 GET 요청
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/posts/${params.id}`);
-        if (!response.ok) {
+        const response = await client.fetch<FetchDataProps>(`/posts/${postId}`, 'GET');
+        if (!response) {
           throw new Error('글 상세페이지 값 요청 실패');
         }
-        const data = await response.json();
-        if (data.postType === 'FIND_TEAMMATE') setIsTeamMemberSearch(false);
-        if (data.postType === 'FIND_TEAM') setIsTeamMemberSearch(false);
-        setSelectedProjectType(data.projectType); // 프로젝트 타입 선택 적용
-        reset(data);
+        if (response.postType === 'FIND_TEAMMATE') setIsTeamMemberSearch(true);
+        if (response.postType === 'FIND_TEAM') setIsTeamMemberSearch(false);
+        setSelectedProjectType(response.projectType); // 프로젝트 타입 선택 적용
+        console.log('#', response);
+        const {
+          id, // 제거할 값
+          author, // 제거할 값
+          bookmark, // 제거할 값
+          ...rest // 나머지 값
+        } = response;
+        reset(rest);
       } catch (error: any) {
         console.error('네트워크 실패', error.message);
       }
     };
 
     fetchData();
-  }, [params.id, reset]);
+  }, [postId, reset]);
 
   const projectTypeOptions = useGetProjectTypeOptions();
   const departmentOptions = useGetDepartmentOptions();
@@ -242,7 +263,7 @@ const EditPost = ({ params }: Props) => {
                   setIsTeamMemberSearch(true);
                 }}
               >
-                팀원 구하기
+                {t('form.findTeammate')}
               </div>
             ) : (
               <div
@@ -251,7 +272,7 @@ const EditPost = ({ params }: Props) => {
                   setIsTeamMemberSearch(false);
                 }}
               >
-                팀 구하기
+                {t('form.findTeam')}
               </div>
             )}
           </section>
@@ -284,9 +305,9 @@ const EditPost = ({ params }: Props) => {
               <SelectField
                 control={control}
                 label={`3. ${t('form.classSelection')}`}
-                name="class"
+                name="className"
                 options={classesOptions}
-                isDisabled={FormFieldsDisabled.class}
+                isDisabled={FormFieldsDisabled.className}
                 placeholder={t('form.classPlaceholder')}
               />
 

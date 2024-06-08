@@ -130,6 +130,8 @@
     "loading": "Loading..."
   },
   "form": {
+    "findTeammate": "Find Teammate",
+    "findTeam": "Find Team",
     "enterBasicInfo": "Enter basic information",
     "projectDescription": "Describe your project",
     "teamDescription": "Describe what kind of team you want",

@@ -181,7 +181,8 @@ const CreatePost = () => {
       });
 
       if (response) {
-        alert('포스트 생성이 완료되었습니다!');
+        // alert('글 생성이 완료되었습니다!');
+        // console.log(response);
         router.push(`/projects/${response.postId}`);
       }
     } catch (error: any) {
@@ -209,7 +210,7 @@ const CreatePost = () => {
                 handleProjectTypeChange('');
               }}
             >
-              {t('nav.findTeamMembers')}
+              {t('form.findTeammate')}
             </button>
             <button
               type="button"
@@ -219,7 +220,7 @@ const CreatePost = () => {
                 handleProjectTypeChange('');
               }}
             >
-              {t('nav.findTeam')}
+              {t('form.findTeam')}
             </button>
           </section>
 

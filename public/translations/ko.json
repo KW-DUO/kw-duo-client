@@ -129,6 +129,8 @@
     "loading": "로딩 중..."
   },
   "form": {
+    "findTeammate": "팀원 구하기",
+    "findTeam": "팀 구하기",
     "enterBasicInfo": "기본정보를 입력해주세요",
     "projectDescription": "프로젝트에 대해 소개해주세요",
     "teamDescription": "어떤 팀을 원하는지 작성해주세요",
