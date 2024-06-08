@@ -19,6 +19,7 @@ import SelectField from '@/components/createPost/SelectField';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { client } from './../../../util/HttpClient';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -217,8 +218,10 @@ const EditPost = ({ params }: Props) => {
     };
   };
 
+  const [isLoading, setIsLoading] = useState(true);
   // 해당 글 정보 GET 요청
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await client.fetch<FetchDataProps>(`/posts/${postId}`, 'GET');
@@ -236,8 +239,10 @@ const EditPost = ({ params }: Props) => {
           ...rest // 나머지 값
         } = response;
         reset(rest);
+        setIsLoading(false);
       } catch (error: any) {
         console.error('네트워크 실패', error.message);
+        setIsLoading(false);
       }
     };
 
@@ -251,146 +256,155 @@ const EditPost = ({ params }: Props) => {
   const recruitNumberOptions = useGetRecruitNumberOptions();
 
   return (
-    <main className="w-[1024px] mx-auto pt-24 pb-16">
-      {/* 토글 버튼 */}
-      {isMounted ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <section className="flex gap-5 font-bold text-white mb-8 text-center">
-            {isTeamMemberSearch ? (
-              <div
-                className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-                onClick={() => {
-                  setIsTeamMemberSearch(true);
-                }}
-              >
-                {t('form.findTeammate')}
-              </div>
-            ) : (
-              <div
-                className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
-                onClick={() => {
-                  setIsTeamMemberSearch(false);
-                }}
-              >
-                {t('form.findTeam')}
-              </div>
-            )}
-          </section>
-
-          {/* 기본정보 입력 */}
-
-          <section className="text-black mb-14">
-            <h1 className="py-4 text-2xl font-bold">{t('form.enterBasicInfo')}</h1>
-            <div className="border-t-2"></div>
-            <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
-              <SelectField
-                control={control}
-                label={`1. ${t('form.projectType')}`}
-                name="projectType"
-                options={projectTypeOptions}
-                isDisabled={false}
-                placeholder={t('form.projectTypePlaceholder')}
-                handleProjectTypeChange={handleProjectTypeChange}
-              />
-              {/* label 로 감싸보기 */}
-              <SelectField
-                control={control}
-                label={`2. ${t('form.departmentSelection')}`}
-                name="department"
-                options={departmentOptions}
-                isDisabled={FormFieldsDisabled.department}
-                placeholder={t('form.departmentPlaceholder')}
-              />
-              {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
-              <SelectField
-                control={control}
-                label={`3. ${t('form.classSelection')}`}
-                name="className"
-                options={classesOptions}
-                isDisabled={FormFieldsDisabled.className}
-                placeholder={t('form.classPlaceholder')}
-              />
-
-              <SelectField
-                control={control}
-                label={`4. ${t('form.fieldOfInterestSelection')}`}
-                name="interestingField"
-                options={interestingFieldOptions}
-                isDisabled={FormFieldsDisabled.interestingField}
-                placeholder={t('form.fieldOfInterestPlaceholder')}
-                isMulti={true}
-                closeMenuOnSelect={false}
-              />
-              <SelectField
-                control={control}
-                label={
-                  isTeamMemberSearch
-                    ? `5. ${t('form.wantedPositionSelectionRecruit')}`
-                    : `5. ${t('form.wantedPositionSelectionApply')}`
-                }
-                name="wantedPosition"
-                options={wantedPositionOptions}
-                isDisabled={FormFieldsDisabled.wantedPosition}
-                placeholder={t('form.wantedPositionPlaceholder')}
-                isMulti={true}
-                closeMenuOnSelect={false}
-              />
-              <SelectField
-                control={control}
-                label={`6. ${t('form.techStackSelection')}`}
-                name="techStack"
-                options={techStack}
-                isDisabled={FormFieldsDisabled.techStack}
-                placeholder={t('form.techStackPlaceholder')}
-                isMulti={true}
-                closeMenuOnSelect={false}
-              />
-              {isTeamMemberSearch && (
-                <SelectField
-                  control={control}
-                  label={`7. ${t('form.recruitNumberSelection')}`}
-                  name="recruitNumber"
-                  options={recruitNumberOptions}
-                  isDisabled={FormFieldsDisabled.recruitNumber}
-                  placeholder={t('form.recruitNumberPlaceholder')}
-                />
-              )}
-            </ul>
-          </section>
-          {/* 프로젝트 소개 */}
-          <section className="text-black">
-            <h1 className="text-2xl font-bold mb-4">
-              {isTeamMemberSearch ? t('form.projectDescription') : t('form.teamDescription')}
-            </h1>
-            <div className="border-t-2"></div>
-            <section className="mt-5 mb-2">
-              <input
-                {...register('title')}
-                placeholder={t('form.titlePlaceholder')}
-                type="text"
-                className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
-              />
-              <Controller
-                control={control}
-                name="content"
-                render={({ field }) => (
-                  <Editor
-                    {...field}
-                    toggleState={isTeamMemberSearch}
-                    onChange={(newContent) => field.onChange(newContent)}
-                  />
+    <>
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && (
+        <main className="w-[1024px] mx-auto pt-24 pb-16">
+          {/* 토글 버튼 */}
+          {isMounted ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <section className="flex gap-5 font-bold text-white mb-8 text-center">
+                {isTeamMemberSearch ? (
+                  <div
+                    className={`py-3 rounded-3xl w-[200px] ${isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+                    onClick={() => {
+                      setIsTeamMemberSearch(true);
+                    }}
+                  >
+                    {t('form.findTeammate')}
+                  </div>
+                ) : (
+                  <div
+                    className={`py-3 rounded-3xl w-[200px] ${!isTeamMemberSearch ? 'bg-secondary' : 'bg-[#d9d9d9]'}`}
+                    onClick={() => {
+                      setIsTeamMemberSearch(false);
+                    }}
+                  >
+                    {t('form.findTeam')}
+                  </div>
                 )}
-              />
-            </section>
+              </section>
 
-            {/* 제출 버튼 */}
-            <button type="submit" className="bg-secondary text-white w-full h-16 font-bold rounded">
-              {t('button.submit')}
-            </button>
-          </section>
-        </form>
-      ) : null}
-    </main>
+              {/* 기본정보 입력 */}
+
+              <section className="text-black mb-14">
+                <h1 className="py-4 text-2xl font-bold">{t('form.enterBasicInfo')}</h1>
+                <div className="border-t-2"></div>
+                <ul className="grid grid-cols-2 gap-10 mt-4 mb-5">
+                  <SelectField
+                    control={control}
+                    label={`1. ${t('form.projectType')}`}
+                    name="projectType"
+                    options={projectTypeOptions}
+                    isDisabled={false}
+                    placeholder={t('form.projectTypePlaceholder')}
+                    handleProjectTypeChange={handleProjectTypeChange}
+                  />
+                  {/* label 로 감싸보기 */}
+                  <SelectField
+                    control={control}
+                    label={`2. ${t('form.departmentSelection')}`}
+                    name="department"
+                    options={departmentOptions}
+                    isDisabled={FormFieldsDisabled.department}
+                    placeholder={t('form.departmentPlaceholder')}
+                  />
+                  {/* label은 id 설정할 필요없이 태그만 이동하면되니 label로 적용시킴 -> 단점: 태그를 감싸니 font-bold 가 상속됨 */}
+                  <SelectField
+                    control={control}
+                    label={`3. ${t('form.classSelection')}`}
+                    name="className"
+                    options={classesOptions}
+                    isDisabled={FormFieldsDisabled.className}
+                    placeholder={t('form.classPlaceholder')}
+                  />
+
+                  <SelectField
+                    control={control}
+                    label={`4. ${t('form.fieldOfInterestSelection')}`}
+                    name="interestingField"
+                    options={interestingFieldOptions}
+                    isDisabled={FormFieldsDisabled.interestingField}
+                    placeholder={t('form.fieldOfInterestPlaceholder')}
+                    isMulti={true}
+                    closeMenuOnSelect={false}
+                  />
+                  <SelectField
+                    control={control}
+                    label={
+                      isTeamMemberSearch
+                        ? `5. ${t('form.wantedPositionSelectionRecruit')}`
+                        : `5. ${t('form.wantedPositionSelectionApply')}`
+                    }
+                    name="wantedPosition"
+                    options={wantedPositionOptions}
+                    isDisabled={FormFieldsDisabled.wantedPosition}
+                    placeholder={t('form.wantedPositionPlaceholder')}
+                    isMulti={true}
+                    closeMenuOnSelect={false}
+                  />
+                  <SelectField
+                    control={control}
+                    label={`6. ${t('form.techStackSelection')}`}
+                    name="techStack"
+                    options={techStack}
+                    isDisabled={FormFieldsDisabled.techStack}
+                    placeholder={t('form.techStackPlaceholder')}
+                    isMulti={true}
+                    closeMenuOnSelect={false}
+                  />
+                  {isTeamMemberSearch && (
+                    <SelectField
+                      control={control}
+                      label={`7. ${t('form.recruitNumberSelection')}`}
+                      name="recruitNumber"
+                      options={recruitNumberOptions}
+                      isDisabled={FormFieldsDisabled.recruitNumber}
+                      placeholder={t('form.recruitNumberPlaceholder')}
+                    />
+                  )}
+                </ul>
+              </section>
+              {/* 프로젝트 소개 */}
+              <section className="text-black">
+                <h1 className="text-2xl font-bold mb-4">
+                  {isTeamMemberSearch ? t('form.projectDescription') : t('form.teamDescription')}
+                </h1>
+                <div className="border-t-2"></div>
+                <section className="mt-5 mb-2">
+                  <input
+                    {...register('title')}
+                    placeholder={t('form.titlePlaceholder')}
+                    type="text"
+                    className="rounded w-full h-14 mb-2 font-bold outline-none text-2xl"
+                  />
+                  <Controller
+                    control={control}
+                    name="content"
+                    render={({ field }) => (
+                      <Editor
+                        {...field}
+                        toggleState={isTeamMemberSearch}
+                        value={field.value}
+                        onChange={(newContent) => field.onChange(newContent)}
+                      />
+                    )}
+                  />
+                </section>
+
+                {/* 제출 버튼 */}
+                <button
+                  type="submit"
+                  className="bg-secondary text-white w-full h-16 font-bold rounded"
+                >
+                  {t('button.submit')}
+                </button>
+              </section>
+            </form>
+          ) : null}
+        </main>
+      )}
+    </>
   );
 };
 
