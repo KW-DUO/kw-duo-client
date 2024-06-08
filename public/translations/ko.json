@@ -18,6 +18,7 @@
     "logout": "로그아웃"
   },
   "filters": {
+    "projectType": "프로젝트 구분",
     "department": "학과",
     "course": "수업",
     "position": "포지션",

@@ -23,7 +23,7 @@ export const RecruitmentInfo = () => {
         <ul className="grid grid-cols-2 text-xl gap-y-8">
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500 w-" style={{ width: '140px' }}>
-              {t('filters.department')}
+              {t('filters.projectType')}
             </div>
             <div>
               {t(projectType.find((t) => t.value === post.projectType)?.label ?? 'Unknown')}

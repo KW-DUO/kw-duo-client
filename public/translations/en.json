@@ -19,6 +19,7 @@
     "logout": "Logout"
   },
   "filters": {
+    "projectType": "Project Type",
     "department": "Department",
     "course": "Course",
     "position": "Position",
