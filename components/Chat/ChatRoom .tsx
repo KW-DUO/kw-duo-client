@@ -20,7 +20,6 @@ export const ChatRoom = ({ userId, roomId }: Props) => {
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태를 관리하는 상태
   const containerRef = useRef<HTMLDivElement>(null); // 채팅 메시지 컨테이너의 참조를 저장하는 ref
 
-  roomId = 2;
   const stompClient = useRef<CompatClient | null>(null);
 
   const { register, handleSubmit, reset, watch } = useForm<{ message: string }>();

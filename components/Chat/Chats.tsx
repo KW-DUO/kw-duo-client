@@ -15,10 +15,7 @@ export const Chats = ({ roomId }: ChatsProps) => {
   return (
     <section className="w-full flex flex-col min-w-[600px]">
       {/* 현재 채팅방 */}
-      {/* 차후 userId를 받아야함 */}
       <ChatRoom userId={memberId!!} roomId={roomId} />
-
-      {/* <InputField sendChat={sendChat} /> */}
     </section>
   );
 };
