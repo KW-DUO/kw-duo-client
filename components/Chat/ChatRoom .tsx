@@ -20,6 +20,7 @@ export const ChatRoom = ({ userId, roomId }: Props) => {
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태를 관리하는 상태
   const containerRef = useRef<HTMLDivElement>(null); // 채팅 메시지 컨테이너의 참조를 저장하는 ref
 
+  roomId = 2;
   const stompClient = useRef<CompatClient | null>(null);
 
   const { register, handleSubmit, reset, watch } = useForm<{ message: string }>();
@@ -39,7 +40,7 @@ export const ChatRoom = ({ userId, roomId }: Props) => {
     });
   }
 
-  // 채팅 메시지 전송 함수
+  // 채팅 메시지 전송 함수(폼 제출)
   function sendChat(data: { message: string }) {
     if (stompClient.current && stompClient.current.connected) {
       stompClient.current.send(
@@ -115,20 +116,35 @@ export const ChatRoom = ({ userId, roomId }: Props) => {
     );
   };
 
-  // 현재 메시지와 다음 메시지가 같은 날에 보내졌는지 확인하여 타임스탬프 표시 여부 결정하는 함수
+  // 현재 메시지와 이전 메시지의 시간 차이를 확인하여 타임스탬프 표시 여부를 결정하는 함수
   const shouldShowTimestamp = (index: number): boolean => {
     const currentChat = chatHistory[index];
-    const nextChat = chatHistory[index + 1];
-    if (nextChat && currentChat.member.id === nextChat.member.id) {
-      const currentDate = new Date(currentChat.createdAt).toDateString();
-      const nextDate = new Date(nextChat.createdAt).toDateString();
-      if (currentDate === nextDate) {
-        return false;
-      }
-    }
-    return true;
-  };
+    const previousChat = chatHistory[index - 1];
 
+    if (!previousChat) {
+      // 첫 번째 메시지인 경우 타임스탬프를 표시
+      return true;
+    }
+
+    const currentTime = new Date(currentChat.createdAt).getTime();
+    const previousTime = new Date(previousChat.createdAt).getTime();
+    const timeDifference = (currentTime - previousTime) / 1000;
+
+    // 시간 차이가 1분 이상인 경우 타임스탬프를 표시
+    if (timeDifference >= 60) {
+      return true;
+    }
+
+    // 다른 날짜에 보낸 메시지이거나, 다른 사용자가 보낸 메시지일 경우 타임스탬프를 표시
+    const currentDate = new Date(currentChat.createdAt).toDateString();
+    const previousDate = new Date(previousChat.createdAt).toDateString();
+
+    if (currentDate !== previousDate || currentChat.member.id !== previousChat.member.id) {
+      return true;
+    }
+
+    return false;
+  };
   // 타임스탬프를 렌더링하는 함수
   const renderTimestamp = (index: number) => {
     if (shouldShowTimestamp(index)) {
@@ -150,7 +166,10 @@ export const ChatRoom = ({ userId, roomId }: Props) => {
   // 채팅 메시지 목록을 렌더링
   return (
     <>
-      <div ref={containerRef} className="flex-1 overflow-y-auto flex flex-col gap-5 p-5">
+      <div
+        ref={containerRef}
+        className="flex-1 overflow-y-auto flex flex-col gap-5 p-5 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full scrollbar-track-gray-200"
+      >
         {chatHistory.map((chat, index) => (
           <div
             key={chat.id}
