@@ -4,7 +4,7 @@ import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
-import ChatRoomItem from './ChatRoomItem';
+import ChatRoomItem from './ChatRoomList';
 import { client } from '@/util/HttpClient';
 import LoadingSpinner from '../loading/LoadingSpinner';
 
