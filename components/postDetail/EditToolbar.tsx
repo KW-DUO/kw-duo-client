@@ -5,23 +5,16 @@ import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmationModal from './../modal/ConfirmationModal';
+import { client } from './../../util/HttpClient';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/queries/queryKeys';
 
 export const EditToolbar = () => {
   const post = useContext(PostDetailContext);
   const router = useRouter();
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const getApiUrl = (postType: string, postId: number) => {
-    switch (postType) {
-      case 'FIND_TEAMMATE':
-        return `${apiUrl}/posts/find-teammate/${postId}`;
-      case 'FIND_TEAM':
-        return `${apiUrl}/posts/find-team/${postId}`;
-      default:
-        throw new Error('Unknown post type');
-    }
-  };
+  const queryClient = useQueryClient();
 
   if (!post) {
     return <div>{t('editToolbar.loading')}</div>;
@@ -32,12 +25,30 @@ export const EditToolbar = () => {
       throw new Error('post 데이터 없음');
     }
 
-    const url = `${apiUrl}/posts/${post.id}`;
-
     try {
-      const response = await fetch(url, { method: 'DELETE' });
-      if (!response.ok) {
+      const response = await client.fetch(`/posts/${post.id}`, 'DELETE');
+      if (!response) {
         throw new Error('post 삭제 요청 실패');
+      }
+      // queryKey 배열을 사용하여 쿼리 캐시 무효화
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.projects({
+          findType: post.postType,
+          q: '',
+          projectType: '',
+          department: '',
+          course: '',
+          position: '',
+          wantedField: '',
+          isBookmarkOnly: false,
+          currentPage: 1,
+        }),
+      });
+      if (post?.postType === 'FIND_TEAMMATE') {
+        router.push(`/`);
+      }
+      if (post?.postType === 'FIND_TEAM') {
+        router.push(`/team-members`);
       }
     } catch (error: any) {
       console.error('post 삭제 요청 실패', error.message);
