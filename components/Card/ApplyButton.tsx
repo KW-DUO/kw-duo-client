@@ -1,5 +1,5 @@
 import useRequireAuth from '@/hooks/useRequireAuth';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { useAuthInfo } from '@/hooks/useAuthInfo';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

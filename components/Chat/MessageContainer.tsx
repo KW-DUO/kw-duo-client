@@ -40,6 +40,11 @@ export const MessageContainer = ({ userId, roomId }: Props) => {
       fetchChats();
     }
   }, [roomId, page]);
+  
+  // 새 채팅 구독, 기존 구독 끊어주기
+  
+  // 구독하는 함수 부분
+  // 전송할때 함수( 구독이 되어있을때 쏘기 해당 URL로 바디는 저렇게 )
 
   const getFormattedDate = (isoDate: string) => {
     const date = new Date(isoDate);

@@ -10,6 +10,7 @@ import LoadingSpinner from '../loading/LoadingSpinner';
 
 type ChatSidebarProps = {
   onChangeRoomId: (id: number) => void;
+  onStatusChange: (status: string) => void; // 로딩 상태
 };
 
 type ChatRoomResponse = {
@@ -17,7 +18,7 @@ type ChatRoomResponse = {
   hasMore: boolean;
 };
 
-export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
+export const ChatSidebar = ({ onChangeRoomId, onStatusChange }: ChatSidebarProps) => {
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
 
   const { ref, inView } = useInView(); // ref가 연결된 요소가 뷰포트에 들어오면 inView true값으로 변함 -> 변할때 fetchNextPage 호출
@@ -49,13 +50,9 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (status === 'pending') {
-    return (
-      <div className="text-center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  useEffect(() => {
+    onStatusChange(status); // status를 부모 컴포넌트에 전달
+  }, [status, onStatusChange]);
 
   if (status === 'error') {
     return <p>Error: {error.message}</p>;
@@ -68,7 +65,7 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
   };
 
   return (
-    <div className="min-w-[280px] border ">
+    <div className="min-w-[280px] w-[280px] border ">
       <label className="flex items-center border h-14 py-4 px-5 bg-white">
         <input type="text" placeholder="검색어를 입력하세요." className="outline-none" />
         <Search className="cursor-pointer" />

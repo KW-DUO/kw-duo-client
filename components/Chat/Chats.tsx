@@ -2,7 +2,7 @@
 
 import { MessageContainer } from './MessageContainer';
 import { InputField } from './InputField';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { useAuthInfo } from '@/hooks/useAuthInfo';
 
 type ChatsProps = {
   roomId: number | null;

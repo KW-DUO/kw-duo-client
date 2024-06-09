@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../multiLanguage/LanguageSwitcher';
 import Dropdown from './Dropdown';
 import { useRouter } from 'next/navigation';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { useAuthInfo } from '@/hooks/useAuthInfo';
 
 const Navbar = () => {
   const { t } = useTranslation();

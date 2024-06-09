@@ -9,7 +9,7 @@ import { useUserStore } from '@/store/userStore';
 import { client, getCookie, HttpClient } from '@/util/HttpClient';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { queryKeys } from '@/queries/queryKeys';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { useAuthInfo } from '@/hooks/useAuthInfo';
 import { MyPageForm } from '@/types/mypageFormTypes';
 
 // todo

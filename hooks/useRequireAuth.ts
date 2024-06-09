@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { useAuthInfo } from '@/hooks/useAuthInfo';
 
 const useRequireAuth = () => {
   const { isLoggedIn } = useAuthInfo();
