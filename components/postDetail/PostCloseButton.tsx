@@ -37,19 +37,19 @@ export const PostCloseButton = () => {
       await postClose();
 
       // queryKey 배열을 사용하여 쿼리 캐시 무효화
-      queryClient.invalidateQueries(
-        queryKeys.projects({
-          findType: post.postType,
-          q: '',
-          projectType: '',
-          department: '',
-          course: '',
-          position: '',
-          wantedField: '',
-          isBookmarkOnly: false,
-          currentPage: 1,
-        })
-      );
+      // queryClient.invalidateQueries(
+      //   queryKeys.projects({
+      //     findType: post.postType,
+      //     q: '',
+      //     projectType: '',
+      //     department: '',
+      //     course: '',
+      //     position: '',
+      //     wantedField: '',
+      //     isBookmarkOnly: false,
+      //     currentPage: 1,
+      //   })
+      // );
       alert(t('button.postClosed', { postId: post.id }));
       setIsModalOpen(false);
 
