@@ -1,8 +1,7 @@
 'use client';
 
-import { MessageContainer } from './MessageContainer';
-import { InputField } from './InputField';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { ChatRoom } from './ChatRoom ';
+import { useAuthInfo } from '@/hooks/useAuthInfo';
 
 type ChatsProps = {
   roomId: number | null;
@@ -16,11 +15,7 @@ export const Chats = ({ roomId }: ChatsProps) => {
   return (
     <section className="w-full flex flex-col min-w-[600px]">
       {/* 현재 채팅방 */}
-      {/* 차후 userId를 받아야함 */}
-      <MessageContainer userId={memberId!!} roomId={roomId} />
-
-      {/* 채팅 밑 */}
-      <InputField userId={memberId!!} />
+      <ChatRoom userId={memberId!!} roomId={roomId} />
     </section>
   );
 };

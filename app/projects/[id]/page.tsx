@@ -6,7 +6,7 @@ import { queryKeys } from '@/queries/queryKeys';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import { client, HttpClient } from '@/util/HttpClient';
 import { PostDetail as PostDetailType } from '@/types';
-import { useAuthInfo } from '@/hooks/useMemberInfo';
+import { useAuthInfo } from '@/hooks/useAuthInfo';
 
 type Props = {
   params: { id: number };

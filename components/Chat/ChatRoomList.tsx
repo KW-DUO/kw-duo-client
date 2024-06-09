@@ -5,13 +5,13 @@ import Image from 'next/image';
 import { userImageURL } from '@/constant/images';
 import algorithmTierImages from '../algorithmTierImages/AlgorithmTierImages';
 
-type ChatRoomItemProps = {
+type ChatRoomListProps = {
   room: ChatRoom;
   onClick: () => void;
   isSelected: boolean;
 };
 
-const ChatRoomItem = ({ room, onClick, isSelected }: ChatRoomItemProps) => {
+const ChatRoomList = ({ room, onClick, isSelected }: ChatRoomListProps) => {
   return (
     <li
       className={`p-5 h-[100px] flex items-center border ${isSelected ? 'bg-gray' : 'hover:bg-gray bg-white'}`}
@@ -51,4 +51,4 @@ const ChatRoomItem = ({ room, onClick, isSelected }: ChatRoomItemProps) => {
   );
 };
 
-export default ChatRoomItem;
+export default ChatRoomList;

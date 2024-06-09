@@ -10,6 +10,7 @@ import { formatDate } from '@/util/formatDate';
 import { ChatSidebar } from '@/components/Chat/ChatSidebar';
 import * as Chat from '@/components/Chat';
 import { ChatRoom } from '@/types';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 
 const userImageURL = '/icons/user_card_icon.svg';
 

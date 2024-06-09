@@ -4,9 +4,10 @@ import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
-import ChatRoomItem from './ChatRoomItem';
+import ChatRoomItem from './ChatRoomList';
 import { client } from '@/util/HttpClient';
 import LoadingSpinner from '../loading/LoadingSpinner';
+import { useDebounce } from '@/hooks/useDebounce';
 
 type ChatSidebarProps = {
   onChangeRoomId: (id: number) => void;
@@ -19,6 +20,9 @@ type ChatRoomResponse = {
 
 export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+  const [query, setQuery] = useState<string>('');
+  const [searchInput, setSearchInput] = useState<string>('');
+  const debouncedQuery = useDebounce(query, 300);
 
   const { ref, inView } = useInView(); // ref가 연결된 요소가 뷰포트에 들어오면 inView true값으로 변함 -> 변할때 fetchNextPage 호출
 
@@ -34,7 +38,7 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
   };
 
   const { data, status, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ['chatRoomList'],
+    queryKey: ['chatRoomList', debouncedQuery],
     queryFn: () => fetchChatRooms({}),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPage) => {
@@ -49,10 +53,39 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+  // 채팅방 클릭 이벤트
+  const handleRoomClick = (room: ChatRoom) => {
+    setSelectedRoomId(room.id); // 선택된 채팅방 ID 상태 업데이트
+    onChangeRoomId(room.lastChat.id); // 채팅방 변경 콜백 호출
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    setQuery(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setQuery(searchInput);
+    }
+  };
+
+  // 로딩 스피너를 부모 기준으로 중앙에 배치하는 경우
   if (status === 'pending') {
     return (
-      <div className="text-center">
-        <LoadingSpinner />
+      <div className="min-w-[280px] w-[280px]">
+        <label className="flex items-center border h-14 py-4 px-5 bg-white">
+          <input
+            type="text"
+            placeholder="검색어를 입력하세요."
+            className="outline-none"
+            value={searchInput}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+          />
+          <Search className="cursor-pointer" />
+        </label>
+        <LoadingSpinner height="h-[650px]" />
       </div>
     );
   }
@@ -61,16 +94,17 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
     return <p>Error: {error.message}</p>;
   }
 
-  // 채팅방 클릭 이벤트
-  const handleRoomClick = (room: ChatRoom) => {
-    setSelectedRoomId(room.id); // 선택된 채팅방 ID 상태 업데이트
-    onChangeRoomId(room.lastChat.id); // 채팅방 변경 콜백 호출
-  };
-
   return (
-    <div className="min-w-[280px] border ">
+    <div className="min-w-[280px] w-[280px] border ">
       <label className="flex items-center border h-14 py-4 px-5 bg-white">
-        <input type="text" placeholder="검색어를 입력하세요." className="outline-none" />
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요."
+          className="outline-none"
+          value={searchInput}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+        />
         <Search className="cursor-pointer" />
       </label>
 
