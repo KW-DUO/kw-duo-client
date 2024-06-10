@@ -10,7 +10,7 @@ import useRequireAuth from '@/hooks/useRequireAuth';
 import LoginStep from '../Login/LoginStep/LoginStep';
 import useRoomStore from '@/store/roomStore';
 
-const postApply = async (postId: number): Promise<any> => {
+export const postApply = async (postId: number): Promise<any> => {
   const response = await client.fetch(`/apply/${postId}`, 'POST');
   return response;
 };
@@ -28,7 +28,6 @@ export const ApplicationButton = () => {
       return;
     }
     const { roomId } = await postApply(post?.id);
-    console.log(roomId);
     setRoomId(roomId);
     router.push(`/messages`);
   };
