@@ -33,6 +33,7 @@ const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }:
           </li>
         ))}
       </ul>
+
       <button className="w-full h-10 bg-secondary rounded-lg text-white mt-5">
         {t('applicantList.applicantCard.sendMessage')}
       </button>

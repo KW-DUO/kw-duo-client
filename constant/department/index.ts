@@ -60,6 +60,7 @@ export const departments = [
   },
   { label: 'filters.departments.software', value: 'SOFTWARE' },
   { label: 'filters.departments.informationConvergence', value: 'INFORMATION_CONVERGENCE' },
+  { label: 'filters.departments.unknown', value: 'Unknown' },
 ] as const;
 
 export const departmentsFilterOptions = [
