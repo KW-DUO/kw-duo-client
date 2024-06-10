@@ -11,23 +11,22 @@ import { ChatSidebar } from '@/components/Chat/ChatSidebar';
 import * as Chat from '@/components/Chat';
 import { ChatRoom } from '@/types';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
+import useRoomStore from '@/store/roomStore';
 
 const userImageURL = '/icons/user_card_icon.svg';
 
 const Chatting = () => {
-  const [roomId, setRoomId] = useState<number | null>(null); // 채팅방 Id
+  // const [roomId, setRoomId] = useState<number | null>(null); // 채팅방 Id
+  const { roomId, setRoomId } = useRoomStore(); // 채팅방 Id
 
-  // sidebar에 클릭한 채팅방 id 변경
-  const handleChangeRoomId = (id: number) => {
-    setRoomId(id);
-  };
+  console.log(roomId);
 
   return (
     <>
       <main className="max-w-[1300px] py-10 mx-auto">
         <section className="border border-gray flex flex-1 h-[80vh] bg-[#fffbfb]">
           {/* 왼쪽 채팅방 */}
-          <Chat.ChatSidebar onChangeRoomId={handleChangeRoomId} />
+          <Chat.ChatSidebar />
           <Chat.Chats roomId={roomId} />
         </section>
       </main>

@@ -23,6 +23,7 @@ export const techStack = [
   { label: 'Kotlin', value: 'KOTLIN' },
   { label: 'Swift', value: 'SWIFT' },
   { label: 'Flutter', value: 'FLUTTER' },
+  { label: 'React Native', value: 'REACT_NATIVE' },
 
   // 머신러닝 기술 스택
   { label: 'Python', value: 'PYTHON' },

@@ -10,6 +10,7 @@ type ChatsProps = {
 // 채팅 관련 컴포넌트 (채팅글, 채팅 입력)
 export const Chats = ({ roomId }: ChatsProps) => {
   const { memberId } = useAuthInfo(); // ##차후 로그인 구현후 수정필요
+  console.log('#', roomId);
 
   if (!roomId) return;
   return (

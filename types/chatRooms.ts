@@ -15,5 +15,5 @@ type LastChat = {
 export type ChatRoom = {
   id: number;
   member: Member;
-  lastChat: LastChat;
+  lastChat?: LastChat | null;
 };

@@ -3,6 +3,12 @@ import { Applicant } from '@/types/Applicant';
 import { useGetDepartmentLabel } from '@/constant/department';
 import { userImageURL } from '@/constant/images';
 import { useTranslation } from 'react-i18next';
+import { techStack } from '@/constant/techStack';
+
+const getTechStackLabel = (value: string) => {
+  const stack = techStack.find((stack) => stack.value === value);
+  return stack ? stack.label : value;
+};
 
 const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }: Applicant) => {
   const { t } = useTranslation();
@@ -21,9 +27,9 @@ const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }:
         {techStack.map((stack) => (
           <li
             key={stack}
-            className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px]"
+            className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px] h-8"
           >
-            {stack}
+            {getTechStackLabel(stack)}
           </li>
         ))}
       </ul>

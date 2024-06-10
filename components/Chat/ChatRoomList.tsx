@@ -40,11 +40,11 @@ const ChatRoomList = ({ room, onClick, isSelected }: ChatRoomListProps) => {
             )}
           </div>
           <span className="text-xs font-normal text-silver">
-            {formatDate(room.lastChat.createdAt)}
+            {room.lastChat && formatDate(room.lastChat.createdAt)}
           </span>
         </div>
         <h5 className="line-clamp-1">
-          <span>{room.lastChat.message}</span>
+          <span>{room.lastChat?.message}</span>
         </h5>
       </div>
     </li>
