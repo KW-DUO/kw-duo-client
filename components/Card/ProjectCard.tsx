@@ -29,7 +29,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
       <div className="mt-4 flex justify-between items-center">
         <Card.AuthorInfo nickname={project.author.nickname} />
-        <Card.ApplyButton />
+        <Card.ApplyButton authorId={project.author.id} />
       </div>
     </li>
   );
