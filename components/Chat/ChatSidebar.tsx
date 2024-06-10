@@ -108,14 +108,17 @@ export const ChatSidebar = () => {
       <div className="overflow-y-auto">
         <ul>
           {data?.pages.map((page: ChatRoomResponse) =>
-            page.room.map((room: ChatRoom) => (
-              <ChatRoomItem
-                key={room.id}
-                room={room}
-                onClick={() => handleRoomClick(room)}
-                isSelected={room.id === roomId}
-              />
-            ))
+            page.room
+              .slice()
+              .reverse()
+              .map((room: ChatRoom) => (
+                <ChatRoomItem
+                  key={room.id}
+                  room={room}
+                  onClick={() => handleRoomClick(room)}
+                  isSelected={room.id === roomId}
+                />
+              ))
           )}
         </ul>
 
