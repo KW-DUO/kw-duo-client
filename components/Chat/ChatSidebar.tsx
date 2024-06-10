@@ -8,21 +8,18 @@ import ChatRoomItem from './ChatRoomList';
 import { client } from '@/util/HttpClient';
 import LoadingSpinner from '../loading/LoadingSpinner';
 import { useDebounce } from '@/hooks/useDebounce';
-
-type ChatSidebarProps = {
-  onChangeRoomId: (id: number) => void;
-};
+import useRoomStore from './../../store/roomStore';
 
 type ChatRoomResponse = {
   room: ChatRoom[];
   hasMore: boolean;
 };
 
-export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
-  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+export const ChatSidebar = () => {
   const [query, setQuery] = useState<string>('');
   const [searchInput, setSearchInput] = useState<string>('');
   const debouncedQuery = useDebounce(query, 300);
+  const { roomId, setRoomId } = useRoomStore();
 
   const { ref, inView } = useInView(); // ref가 연결된 요소가 뷰포트에 들어오면 inView true값으로 변함 -> 변할때 fetchNextPage 호출
 
@@ -55,8 +52,7 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
 
   // 채팅방 클릭 이벤트
   const handleRoomClick = (room: ChatRoom) => {
-    setSelectedRoomId(room.id); // 선택된 채팅방 ID 상태 업데이트
-    onChangeRoomId(room.id); // 채팅방 변경 콜백 호출
+    setRoomId(room.id); // 채팅방 변경 콜백 호출,
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,7 +113,7 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
                 key={room.id}
                 room={room}
                 onClick={() => handleRoomClick(room)}
-                isSelected={room.id === selectedRoomId}
+                isSelected={room.id === roomId}
               />
             ))
           )}

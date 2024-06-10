@@ -8,9 +8,11 @@ import { useTranslation } from 'react-i18next';
 import { client } from './../../util/HttpClient';
 import useRequireAuth from '@/hooks/useRequireAuth';
 import LoginStep from '../Login/LoginStep/LoginStep';
+import useRoomStore from '@/store/roomStore';
 
-const postApply = async (postId: number) => {
-  return await client.fetch(`/apply/${postId}`, 'POST');
+const postApply = async (postId: number): Promise<any> => {
+  const response = await client.fetch(`/apply/${postId}`, 'POST');
+  return response;
 };
 
 export const ApplicationButton = () => {
@@ -18,13 +20,16 @@ export const ApplicationButton = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { requireAuth, isLoginModalOpen, handleCloseModal } = useRequireAuth();
+  const setRoomId = useRoomStore((state) => state.setRoomId);
 
   const onClickApply = async () => {
     if (!post) {
       alert(t('button.loadingPost'));
       return;
     }
-    await postApply(post?.id);
+    const { roomId } = await postApply(post?.id);
+    console.log(roomId);
+    setRoomId(roomId);
     router.push(`/messages`);
   };
 
