@@ -35,7 +35,8 @@
       "all": "전체",
       "computerInformationEngineering": "컴퓨터정보공학부",
       "software": "소프트웨어학과",
-      "informationConvergence": "정보융합학부"
+      "informationConvergence": "정보융합학부",
+      "unknown": "상관없음"
     },
     "courses": {
       "softwareEngineering": "소프트웨어공학",

@@ -36,7 +36,8 @@
       "all": "All",
       "computerInformationEngineering": "Computer and Information Engineering",
       "software": "Software",
-      "informationConvergence": "Information Convergence"
+      "informationConvergence": "Information Convergence",
+      "unknown": "상관없음"
     },
     "courses": {
       "softwareEngineering": "Software Engineering",
