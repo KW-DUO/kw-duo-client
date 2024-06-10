@@ -62,7 +62,7 @@ const ProjectList = () => {
           q: q ?? '',
           projectType: projectType ?? '',
           department: department ?? '',
-          class: course ?? '',
+          className: course ?? '',
           position: position ?? '',
           wantedField: wantedField ?? '',
           bookmarkOnly: isBookmarkOnly.toString(),

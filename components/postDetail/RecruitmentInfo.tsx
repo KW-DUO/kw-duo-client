@@ -3,7 +3,7 @@ import Image from 'next/image';
 import techStackImages from '../techStackImages/TechStackImages';
 import { PostDetailContext } from '@/components/postDetail/store';
 import { useContext } from 'react';
-import { departments } from '@/constant/department';
+import { departmentsForPostDetail } from '@/constant/department';
 import { projectType } from '@/constant/projectType';
 import { positions } from '@/constant/position';
 import { interestingField } from '@/constant/interestingField';
@@ -43,7 +43,12 @@ export const RecruitmentInfo = () => {
             <div className="mr-2 text-gray-500" style={{ width: '140px' }}>
               {t('filters.department')}
             </div>
-            <div>{t(departments.find((d) => d.value === post.department)?.label ?? 'Unknown')}</div>
+            <div>
+              {t(
+                departmentsForPostDetail.find((d) => d.value === post.department)?.label ??
+                  'Unknown'
+              )}
+            </div>
           </li>
           <li className="flex font-bold items-center">
             <div className="mr-2 text-gray-500" style={{ width: '120px' }}>
