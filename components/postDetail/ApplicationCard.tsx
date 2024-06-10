@@ -21,7 +21,7 @@ const ApplicationCard = ({ id, nickname, profileImgUrl, department, techStack }:
         {techStack.map((stack) => (
           <li
             key={stack}
-            className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px]"
+            className="bg-gray text-dark-gray font-bold px-2.5 py-0.5 rounded-2xl mr-1 leading-[30px] h-8"
           >
             {stack}
           </li>

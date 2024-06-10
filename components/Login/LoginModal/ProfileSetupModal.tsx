@@ -41,24 +41,23 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
       data.githubUrl = data.githubUrl === '' ? null : data.githubUrl;
       data.baekjoonId = data.baekjoonId === '' ? null : data.baekjoonId;
 
-      const response = await fetch(`${apiUrl}/members/join`, {
-        method: 'POST',
+      const response = await client.fetch(`/members/join`, 'POST', {
+        body: data,
         headers: {
           'Content-type': 'application/json',
         },
-        body: JSON.stringify(data),
       });
 
       // 응답 본문이 비어 있는지 확인
-      const text = await response.text();
-      const responseData = text ? JSON.parse(text) : {};
+      // const text = await response.text();
+      // const responseData = text ? JSON.parse(text) : {};
 
-      if (response.ok) {
+      if (response) {
         alert(t('login.profileSetup.submitSuccess'));
         const data = await fetchProfileData();
         onClose();
       } else {
-        throw new Error(responseData.message ?? '회원가입 POST 실패');
+        throw new Error('회원가입 POST 실패');
         alert('서버 응답 에러');
       }
     } catch (error: any) {

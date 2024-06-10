@@ -19,6 +19,8 @@ import { apiUrl } from '@/constant/api';
 import { useTranslation } from 'react-i18next';
 import { client, getCookie, HttpClient } from '@/util/HttpClient';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/queries/queryKeys';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -61,6 +63,7 @@ const CreatePost = () => {
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
 
   const router = useRouter();
+  const queryClient = useQueryClient(); // react-query 사용
 
   // input 활성화 관리
   const [FormFieldsDisabled, setFormFieldsDisabled] = useState({
@@ -182,6 +185,19 @@ const CreatePost = () => {
 
       if (response) {
         // alert('글 생성이 완료되었습니다!');
+        // queryClient.invalidateQueries(
+        //   queryKeys.projects({
+        //     findType: isTeamMemberSearch ? 'find-teammate' : 'find-team',
+        //     q: '',
+        //     projectType: '',
+        //     department: '',
+        //     course: '',
+        //     position: '',
+        //     wantedField: '',
+        //     isBookmarkOnly: false,
+        //     currentPage: 1,
+        //   })
+        // ); // 캐시된 데이터를 무효화하여 새 데이터 가져오기
         router.push(`/projects/${response.postId}`);
       }
     } catch (error: any) {

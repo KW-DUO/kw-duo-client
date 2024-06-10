@@ -56,7 +56,7 @@ export const ChatSidebar = ({ onChangeRoomId }: ChatSidebarProps) => {
   // 채팅방 클릭 이벤트
   const handleRoomClick = (room: ChatRoom) => {
     setSelectedRoomId(room.id); // 선택된 채팅방 ID 상태 업데이트
-    onChangeRoomId(room.lastChat.id); // 채팅방 변경 콜백 호출
+    onChangeRoomId(room.id); // 채팅방 변경 콜백 호출
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
