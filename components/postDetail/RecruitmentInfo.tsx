@@ -46,7 +46,7 @@ export const RecruitmentInfo = () => {
             <div>
               {t(
                 departmentsForPostDetail.find((d) => d.value === post.department)?.label ??
-                  'Unknown'
+                  '상관없음'
               )}
             </div>
           </li>
