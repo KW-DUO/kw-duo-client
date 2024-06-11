@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Bell, UserIcon } from 'lucide-react';
+import { Bell, MessageSquareCodeIcon, MessagesSquare, UserIcon } from 'lucide-react';
 import { useState } from 'react';
 import LoginStep from '../Login/LoginStep/LoginStep';
 import { useTranslation } from 'react-i18next';
@@ -33,9 +33,14 @@ const Navbar = () => {
           <div className="flex items-center gap-5">
             <Link href="/">{t('nav.findTeamMembers')}</Link>
             <Link href="/team-members">{t('nav.findTeam')}</Link>
-            {isLoggedIn && <Link href="/messages">{t('nav.messages')}</Link>}
+            {/* {isLoggedIn && <Link href="/messages">{t('nav.messages')}</Link>} */}
             {isLoggedIn && <Link href="/create-post">{t('nav.createPost')}</Link>}
             <ResourcesDropdown />
+            {isLoggedIn && (
+              <Link href="/messages">
+                <MessagesSquare />
+              </Link>
+            )}
             {isLoggedIn && <NotificationsDropdown />}
             {isLoggedIn ? (
               <UserDropdown />
@@ -64,7 +69,7 @@ const ResourcesDropdown = () => {
 };
 
 const NotificationsDropdown = () => {
-  const dropdownItems = [{ title: '알람', path: '#' }];
+  const dropdownItems = [{ title: '알림', path: '#' }];
 
   return <Dropdown trigger={<Bell />} items={dropdownItems} />;
 };

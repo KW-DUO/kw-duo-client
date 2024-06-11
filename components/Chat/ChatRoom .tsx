@@ -91,15 +91,22 @@ export const ChatRoom = ({ userId, roomId }: Props) => {
     }
   }, [roomId, page]);
 
+  // UTC 날짜를 KST로 변환하는 함수
+  const convertToKST = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const kstOffset = 9 * 60 * 60000; // 9 hours in milliseconds
+    return new Date(date.getTime() + kstOffset);
+  };
+
   // 날짜를 'YYYY-MM-DD' 형식으로 변환하는 함수
   const getFormattedDate = (isoDate: string) => {
-    const date = new Date(isoDate);
+    const date = convertToKST(isoDate);
     return toYYYYMMDD(date);
   };
 
   // 시간을 'HH:MM AM/PM' 형식으로 변환하는 함수
   const getFormattedTime = (isoDate: string) => {
-    const date = new Date(isoDate);
+    const date = convertToKST(isoDate);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
@@ -144,6 +151,7 @@ export const ChatRoom = ({ userId, roomId }: Props) => {
 
     return false;
   };
+
   // 타임스탬프를 렌더링하는 함수
   const renderTimestamp = (index: number) => {
     if (shouldShowTimestamp(index)) {
