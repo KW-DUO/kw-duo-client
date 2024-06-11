@@ -49,6 +49,7 @@ const Tiptap = ({ onChange, toggleState, initialValue }: TiptapProps) => {
   // 초기값 변경 시 에디터 내용 업데이트
   useEffect(() => {
     if (editor && initialValue !== '') {
+      console.log('initVal', initialValue);
       editor.commands.setContent(initialValue);
     }
   }, [initialValue, editor]);

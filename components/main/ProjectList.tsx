@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { apiUrl } from '@/constant/api';
 import ProjectCard from '../Card/ProjectCard';
 import { PostCard } from '@/types';
@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../loading/LoadingSpinner';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
-import { client } from './../../util/HttpClient';
+import { client } from '@/util/HttpClient';
 
 type ApiResponse = {
   posts: PostCard[];
@@ -22,14 +22,8 @@ type ApiResponse = {
   totalPage: number;
 };
 
-const fetchPosts = async (url: string): Promise<ApiResponse> => {
-  const data = await client.fetch<ApiResponse>(url, 'GET');
-  return data;
-};
-
 const ProjectList = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [postsPerPage, setPostsPerPage] = useState<number>(20);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   const { projectType, department, course, position, wantedField, q, isBookmarkOnly } =
     useProject();
@@ -57,18 +51,18 @@ const ProjectList = () => {
   const { data, isLoading, error } = useQuery<ApiResponse>({
     queryKey: queryKeys.projects(queryParams),
     queryFn: () =>
-      fetchPosts(
-        addQueryParams(apiUrl + `/posts/${findType}`, {
-          q: q ?? '',
-          projectType: projectType ?? '',
-          department: department ?? '',
-          className: course ?? '',
-          position: position ?? '',
-          wantedField: wantedField ?? '',
-          bookmarkOnly: isBookmarkOnly.toString(),
-          page: (currentPage - 1).toString(),
-        })
-      ),
+      client.fetch(`/posts/${findType}`, 'GET', {
+        params: {
+          q,
+          projectType,
+          department,
+          className: course,
+          position,
+          wantedField,
+          bookmarkOnly: isBookmarkOnly,
+          page: currentPage,
+        },
+      }),
     enabled: !!findType,
   });
 
@@ -114,7 +108,6 @@ const ProjectList = () => {
                 </Link>
               ))}
             </ul>
-            {/*페이지 네이션 */}
             <Pagination
               className="mt-8 mb-8 flex justify-center"
               count={totalPages}

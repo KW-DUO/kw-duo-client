@@ -4,11 +4,8 @@ import { LoginStepProps } from '../LoginStep/LoginStep';
 import { GoogleLoginButton } from '../LoginButton';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
-import { apiUrl } from '@/constant/api';
 import { useUserStore } from '@/store/userStore';
-import { client, getCookie, HttpClient } from '@/util/HttpClient';
-import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { queryKeys } from '@/queries/queryKeys';
+import { client } from '@/util/HttpClient';
 import { useAuthInfo } from '@/hooks/useAuthInfo';
 import { MyPageForm } from '@/types/mypageFormTypes';
 

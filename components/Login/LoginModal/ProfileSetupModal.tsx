@@ -6,11 +6,10 @@ import { useForm } from 'react-hook-form';
 import { UserProfileSetupInfo } from '@/types';
 import FormField from './FormField';
 import FormFieldSelect from './FormFieldSelect';
-import { apiUrl } from '@/constant/api';
 import { useTranslation } from 'react-i18next';
 import { useCodingTestOptions } from '@/constant/codingTestLanguages';
 import { useUserStore } from '@/store/userStore';
-import { client, getCookie, HttpClient } from '@/util/HttpClient';
+import { client } from '@/util/HttpClient';
 import { MyPageForm } from '@/types/mypageFormTypes';
 
 type ProfileSetupModalProps = {
@@ -33,16 +32,16 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
 
   // POST 요청
   const onSubmit = async (data: UserProfileSetupInfo) => {
-    try {
-      if (userInfo && userInfo.oAuthId) {
-        data.oAuthId = userInfo.oAuthId;
-      }
-      data.email = 'test@kw.ac.kr';
-      data.githubUrl = data.githubUrl === '' ? null : data.githubUrl;
-      data.baekjoonId = data.baekjoonId === '' ? null : data.baekjoonId;
+    const responseData = {
+      oAuthId: userInfo?.oAuthId,
+      email: userInfo?.email,
+      githubUrl: data.githubUrl === '' ? null : data.githubUrl,
+      baekjoonId: data.baekjoonId === '' ? null : data.baekjoonId,
+    };
 
+    try {
       const response = await client.fetch(`/members/join`, 'POST', {
-        body: data,
+        body: responseData,
         headers: {
           'Content-type': 'application/json',
         },
@@ -54,7 +53,7 @@ const ProfileSetupModal = ({ onClose }: ProfileSetupModalProps) => {
 
       if (response) {
         alert(t('login.profileSetup.submitSuccess'));
-        const data = await fetchProfileData();
+        await fetchProfileData();
         onClose();
       } else {
         throw new Error('회원가입 POST 실패');

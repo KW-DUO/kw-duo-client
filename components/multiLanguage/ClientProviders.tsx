@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '@/util/i18n';
 import { googleClientID } from '@/constant/api';
+import React from 'react';
 
 const googleClientId = googleClientID ?? '';
 

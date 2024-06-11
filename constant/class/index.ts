@@ -82,7 +82,7 @@ export const courseLabels = {
 type CourseKey = keyof typeof courseLabels;
 
 export function useGetCourseLabel(courseValue?: string): string {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   if (!courseValue || !(courseValue in courseLabels)) return '';
 

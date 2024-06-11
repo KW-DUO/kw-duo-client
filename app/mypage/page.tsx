@@ -1,27 +1,20 @@
 'use client';
-import { getPositionLabel, usePositionOptions } from '@/constant/position';
+import { usePositionOptions } from '@/constant/position';
 import { techStack } from '@/constant/techStack';
 import { MyPageForm } from '@/types/mypageFormTypes';
 import { userImageURL } from '@/constant/images';
-import React, { useEffect, useState, useRef } from 'react';
-import { useForm, Controller, set } from 'react-hook-form';
-import Select from 'react-select';
+import React, { useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import makeAnimated from 'react-select/animated';
-import { apiUrl } from '@/constant/api';
-import { getDepartmentLabel, useGetDepartmentLabel } from '@/constant/department';
-import { UploadImage } from '@/types';
+import { getDepartmentLabel } from '@/constant/department';
 import { queryKeys } from '@/queries/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import SelectField from '@/components/createPost/SelectField';
-import { client, getCookie, HttpClient } from '@/util/HttpClient';
+import { client } from '@/util/HttpClient';
 
 const animatedComponents = makeAnimated();
-
-const fetchProfileData = async () => {
-  return client.fetch<MyPageForm>('/members/info', 'GET');
-};
 
 const Mypage = () => {
   const {
@@ -41,7 +34,9 @@ const Mypage = () => {
     isLoading,
   } = useQuery<MyPageForm>({
     queryKey: queryKeys.profileData(),
-    queryFn: fetchProfileData,
+    queryFn: () => {
+      return client.fetch<MyPageForm>('/members/info', 'GET');
+    },
   });
 
   const positionOptions = usePositionOptions();

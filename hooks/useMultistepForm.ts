@@ -1,8 +1,4 @@
-import { createContext, ReactElement, useContext, useState } from 'react';
-
-const MultistepFormContext = createContext(null);
-
-export const useMultistepFormContext = () => useContext(MultistepFormContext);
+import { ReactElement, useState } from 'react';
 
 export function useMultistepForm(steps: ReactElement[]) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);

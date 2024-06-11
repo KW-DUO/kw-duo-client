@@ -8,7 +8,7 @@ import Editor from '@/components/Editor/Editor';
 
 // CONSTANTS
 import { useWantedPositionOptions } from '@/constant/wantedPosition';
-import { useGetInterestingFieldOptions } from '@/constant/interestingField/index';
+import { useGetInterestingFieldOptions } from '@/constant/interestingField';
 import { useGetProjectTypeOptions } from '@/constant/projectType';
 import { useGetDepartmentOptions } from '@/constant/department';
 import { useGetRecruitNumberOptions } from '@/constant/recruitNumber';
@@ -17,6 +17,7 @@ import SelectField from '@/components/createPost/SelectField';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { client } from '@/util/HttpClient';
+import { PostDetail } from '@/types';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -31,6 +32,7 @@ type FormFields = {
   recruitNumber?: number | null;
   title: string;
   content: string;
+  initialContent?: string;
 };
 
 type EditorMethods = {
@@ -54,9 +56,7 @@ type Props = {
 };
 
 const EditPost = ({ params }: Props) => {
-  const id = Date.now().toString();
   const [isMounted, setIsMounted] = useState(false);
-  // https://github.com/JedWatson/react-select/issues/5459 에러 해결
   const router = useRouter();
 
   // 팀원 구하기(true)와 팀 구하기(false) 간의 토글 상태를 관리
@@ -133,7 +133,7 @@ const EditPost = ({ params }: Props) => {
   useEffect(() => setIsMounted(true), []);
 
   // react-hook-form
-  const { control, handleSubmit, watch, reset, register } = useForm<FormFields>({
+  const { control, handleSubmit, watch, setValue, reset, register } = useForm<FormFields>({
     defaultValues: DEFAULT_VALUES,
   });
 
@@ -147,35 +147,11 @@ const EditPost = ({ params }: Props) => {
   const selectedDepartment = watch('department');
   const classesOptions = departmentClasses({ department: selectedDepartment }, t);
 
-  type FetchDataProps = {
-    id: number;
-    postType: string;
-    projectType: string;
-    title: string;
-    content: string;
-    department: string;
-    className: string | null;
-    wantedPosition: string[];
-    interestingField: string[];
-    recruitNumber: number;
-    techStack: string[];
-    createdAt: string;
-    author: {
-      id: number;
-      nickname: string;
-    };
-    bookmark: {
-      isBookmarked: boolean;
-    };
-  };
-
-  const [isLoading, setIsLoading] = useState(true);
   // 해당 글 정보 GET 요청
   useEffect(() => {
-    setIsLoading(true);
     const fetchData = async () => {
       try {
-        const data = await client.fetch<FetchDataProps>(`/posts/${postId}`, 'GET');
+        const data = await client.fetch<PostDetail>(`/posts/${postId}`, 'GET');
         if (!data) {
           throw new Error('글 상세페이지 값 요청 실패');
         }
@@ -191,6 +167,7 @@ const EditPost = ({ params }: Props) => {
           ...rest // 나머지 값
         } = data;
         reset(rest);
+        setValue('initialContent', rest.content);
       } catch (error: any) {
         console.error('네트워크 실패', error.message);
       }
@@ -388,6 +365,7 @@ const EditPost = ({ params }: Props) => {
                     {...field}
                     toggleState={isTeamMemberSearch}
                     onChange={(newContent) => field.onChange(newContent)}
+                    initialValue={watch('initialContent')}
                   />
                 )}
               />

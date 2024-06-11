@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 // COMPONENTS
@@ -9,18 +9,15 @@ import SelectField from './../../components/createPost/SelectField';
 
 // CONSTANTS
 import { useWantedPositionOptions } from '@/constant/wantedPosition';
-import { useGetInterestingFieldOptions } from '@/constant/interestingField/index';
+import { useGetInterestingFieldOptions } from '@/constant/interestingField';
 import { useGetProjectTypeOptions } from '@/constant/projectType';
 import { useGetDepartmentOptions } from '@/constant/department';
 import { techStack } from '@/constant/techStack';
 import { useGetRecruitNumberOptions } from '@/constant/recruitNumber';
 import { departmentClasses } from '@/constant/class';
-import { apiUrl } from '@/constant/api';
 import { useTranslation } from 'react-i18next';
-import { client, getCookie, HttpClient } from '@/util/HttpClient';
+import { client } from '@/util/HttpClient';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
-import { queryKeys } from '@/queries/queryKeys';
 
 // todo:
 // - 넣지 않는 부분에 alert 띄우고 스크롤 이벤트와 focus로 찾아주기
@@ -29,7 +26,7 @@ type FormFields = {
   projectType: string;
   department?: string | null;
   className?: string | null;
-  interestingField?: string[] | [];
+  interestingField?: string[];
   wantedPosition: string[];
   techStack: string[];
   recruitNumber?: number | null;
@@ -54,7 +51,6 @@ const DEFAULT_VALUES = {
 };
 
 const CreatePost = () => {
-  const id = Date.now().toString();
   const [isMounted, setIsMounted] = useState(false);
   // https://github.com/JedWatson/react-select/issues/5459 에러 해결
 
@@ -63,7 +59,6 @@ const CreatePost = () => {
   const [selectedProjectType, setSelectedProjectType] = useState<string | undefined>();
 
   const router = useRouter();
-  const queryClient = useQueryClient(); // react-query 사용
 
   // input 활성화 관리
   const [FormFieldsDisabled, setFormFieldsDisabled] = useState({
@@ -149,6 +144,7 @@ const CreatePost = () => {
 
   // POST 요청
   const onSubmit = async (data: FormFields) => {
+    debugger;
     // 필수 필드가 비어 있는지 확인
     let errorMessage = '';
     if (selectedprojectType === '') errorMessage += '프로젝트 구분을 선택해주세요.\n';

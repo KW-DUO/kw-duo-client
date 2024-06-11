@@ -1,4 +1,5 @@
 import { apiUrl } from '@/constant/api';
+import { addQueryParams } from '@/util/addQueryParams';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD';
 
@@ -24,7 +25,7 @@ type FetchOptions = {
   headers?: Record<string, string>;
 };
 
-export class HttpClient {
+class HttpClient {
   constructor(private readonly options: ClientOptions) {}
 
   public async fetch<T>(
@@ -91,23 +92,6 @@ export class HttpClient {
 
 function createUrl(baseUrl: string | undefined, path: string, params: Record<string, any>) {
   return new URL(addQueryParams(path, params), baseUrl).toString();
-}
-
-function addQueryParams(url: string, params: Record<string, any>) {
-  const searchParams = new URLSearchParams(params);
-  // return `${url}?${searchParams.toString()}`;
-
-  // 마지막 params 없는데 ? 추가 없앰
-  const queryString = searchParams.toString();
-  return queryString ? `${url}?${queryString}` : url;
-}
-
-export function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  if (match) {
-    return match[2];
-  }
-  return null;
 }
 
 export const client = new HttpClient({

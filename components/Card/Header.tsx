@@ -1,8 +1,7 @@
 'use client';
 
-import { apiUrl } from '@/constant/api';
 import { getProjectTypeLabel } from '@/constant/projectType';
-import { client, getCookie, HttpClient } from '@/util/HttpClient';
+import { client } from '@/util/HttpClient';
 import { Heart } from 'lucide-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';

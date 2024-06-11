@@ -1,21 +1,14 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef } from 'react';
 import Tiptap from './Tiptap';
 
 type EditorProps = {
   onChange: (content: string) => void;
   toggleState: boolean;
-  value?: string;
+  initialValue?: string;
 };
 
-const Editor = forwardRef(({ onChange, value, toggleState }: EditorProps, ref) => {
-  const [content, setContent] = useState<string>('');
-
-  useEffect(() => {
-    setContent(value ?? '');
-  }, [value]);
-
+const Editor = forwardRef(({ onChange, toggleState, initialValue }: EditorProps) => {
   const handleContentChange = (newValue: string) => {
-    setContent(newValue);
     onChange(newValue);
   };
 
@@ -23,7 +16,7 @@ const Editor = forwardRef(({ onChange, value, toggleState }: EditorProps, ref) =
     <Tiptap
       onChange={(newContent) => handleContentChange(newContent)}
       toggleState={toggleState}
-      initialValue={content}
+      initialValue={initialValue ?? ''}
     />
   );
 });
